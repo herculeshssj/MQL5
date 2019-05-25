@@ -1,0 +1,17 @@
+EABmfForex - Lista de tarefas
+
+========== Tarefas em andamento ==========
+
+
+
+========== Novas tarefas ==========
+
+#1 - Tirar um dia de folga do MetaTrader
+     Fiquei uma semana inteira programando no MetaTrader. Tirar um dia de folga onde eu não use a ferramenta e nem me preocupe com o mercado.
+
+#2 - Parametrizar o timeframe do método temNovaBarra()
+     Atualmente o método está com um timeframe fixo de M1. Parametrizar este timeframes de modo a poder escolher um mais adequado para o gráfico selecionado.
+
+#3 - 
+
+========== Tarefas concluídas ==========
