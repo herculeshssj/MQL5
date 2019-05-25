@@ -6,12 +6,16 @@ EABmfForex - Lista de tarefas
 
 ========== Novas tarefas ==========
 
-#1 - Tirar um dia de folga do MetaTrader
-     Fiquei uma semana inteira programando no MetaTrader. Tirar um dia de folga onde eu não use a ferramenta e nem me preocupe com o mercado.
-
-#2 - Parametrizar o timeframe do método temNovaBarra()
-     Atualmente o método está com um timeframe fixo de M1. Parametrizar este timeframes de modo a poder escolher um mais adequado para o gráfico selecionado.
-
+#2 - Encapsulamento de estratégias
+     Encapsular a lógica contida no método sinalNegociacao() em um método em particular, ou até mesmo em uma classe no arquivo HStrategy, e também implementar os sinais de mudança de tendência da MA longa e encapsular em HStrategy. Incluir
+     um parâmetro no EA para poder escolher qual estratégia será usada para aquele ativo.
+     
 #3 - 
 
 ========== Tarefas concluídas ==========
+
+v1.01:
+
+#1 - Parametrizar o timeframe do método temNovaBarra()
+     Atualmente o método está com um timeframe fixo de M1. Parametrizar este timeframes de modo a poder escolher um mais adequado para o gráfico selecionado.
+     Colocar o enum de períodos para o usuário poder selecionar.
