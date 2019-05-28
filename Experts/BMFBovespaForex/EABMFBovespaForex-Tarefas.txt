@@ -18,7 +18,17 @@ EABmfForex - Lista de tarefas
      Para corrigir os erros de invalid stop, estudar a fundo este artigo: https://www.mql5.com/pt/articles/2555. Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
      as verificações da conta.
      
-#6 -      
+#6 - Operar em mais de um gráfico
+     Testar e validar a execução do EA em mais de um gráfico, fazendo todos os ajustes necessários para não haver equívocos no fechamento das ordens.
+     
+#7 - Implementar o sinal de negociação MACD
+     A partir dos estudos feitos sobre o indicador MACD, implementar os sinais de negociação desse indicador. Analisar os seguintes pontos de compra/venda e ver qual possui melhor desempenho nos pares USD, EUR, CHF, GBP, AUS, CAD e NZD:
+     * Linha de sinal (9 períodos) ultrapassa a linha MACD;
+     * Quando a linha de sinal (9 períodos) se afasta dos histogramas;
+     * Quando a linha de sinal começa a reverter sua direção.
+     Avaliar também um sinal composto por duas ou todas as opções indicadas acima, e também usar a convergência/divergência como sinal de confirmação e/ou sinal de negociação.   
+     
+#8 -      
 
 ========== Tarefas concluídas ==========
 
