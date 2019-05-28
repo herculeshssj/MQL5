@@ -6,16 +6,12 @@ EABmfForex - Lista de tarefas
 
 ========== Novas tarefas ==========
 
-#3 - Obter dinamicamente o tipo de preenchimento da ordem
-     Na Bovespa BM&F e no servidor Forex da MetaQuote o ORDER_FILLING_FOK funciona sem problemas. Já na XM, Pepperstore e ICMarkets só aceita o ORDER_FILLING_IOC. Tentar detectar automaticamente o tipo de preenchimento para evitar criar
-     mais um parâmetro no EA.
-     
 #4 - Testar o EA em todas as contas abertas
      Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
      para as contas que foram abertas.
      
 #5 - Corrigir problema com invalid stops
-     Para corrigir os erros de invalid stop, estudar a fundo este artigo: https://www.mql5.com/pt/articles/2555. Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
+     Para corrigir os erros de invalid stop, estudar a fundo este artigo: "https://www.mql5.com/pt/articles/2555". Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
      as verificações da conta.
      
 #6 - Operar em mais de um gráfico
@@ -41,3 +37,9 @@ v1.01:
 #2 - Encapsulamento de estratégias
      Encapsular a lógica contida no método sinalNegociacao() em um método em particular, ou até mesmo em uma classe no arquivo HStrategy, e também implementar os sinais de mudança de tendência da MA longa e encapsular em HStrategy. Incluir
      um parâmetro no EA para poder escolher qual estratégia será usada para aquele ativo.     
+     
+#3 - Obter dinamicamente o tipo de preenchimento da ordem
+     Na Bovespa BM&F e no servidor Forex da MetaQuote o ORDER_FILLING_FOK funciona sem problemas. Já na XM, Pepperstore e ICMarkets só aceita o ORDER_FILLING_IOC. Tentar detectar automaticamente o tipo de preenchimento para evitar criar
+     mais um parâmetro no EA.
+     Solução adotada: incluir um novo parâmetro, pois a mensagem de erro é registrada direto no diário de log do terminal pois é um erro de execução enviado pelo servidor, e não pelo terminal. Para pegar detalhes sobre esse erro preciso
+                      abrir o diário e ver qual foi a última mensagem de falha. É impraticável quando tem vários EAs rodando em gráficos diferentes.     
