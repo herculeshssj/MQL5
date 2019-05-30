@@ -2,8 +2,7 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#6 - Operar em mais de um gráfico
-     Testar e validar a execução do EA em mais de um gráfico, fazendo todos os ajustes necessários para não haver equívocos no fechamento das ordens.
+
 
 ========== Novas tarefas ==========
 
@@ -18,7 +17,23 @@ EABmfForex - Lista de tarefas
      * Quando a linha de sinal começa a reverter sua direção.
      Avaliar também um sinal composto por duas ou todas as opções indicadas acima, e também usar a convergência/divergência como sinal de confirmação e/ou sinal de negociação.   
      
-#8 -    
+#8 - Separar as lógicas de nova abertura, trailing stop e checagem de prejuízo
+     Atualmente as lógicas para abertura de novas posições, efetuar o trailing stop, e a verificação do prejuízo acumulado estão todas misturadas dentro do mesmo if no método OnTick(). Separar essas lógicas de modo que as três possam
+     trabalhar de forma harmônica, sem poluir muito o código.
+     
+#9 - Separar a lógica de nova abertura de posições
+     Baseado nas informações da tarefa #8, colocar a lógica de abertura de posições (verificação de barra, sinal a confirmar) a parte.
+     
+#10 - Separar a lógica de trailing stop
+      Baseado nas informações da tarefa #8, colocar a lógica de trailing stop separada do método OnTick().
+      
+#11 - Separar a lógica de cálculo de lucro/prejuízo
+      Baseado nas informações da tarefa #8, colocar a lógica de verificação de lucro/prejuízo separa do método OnTick().      
+      
+#12 - Estudo de artigo
+      Estudar o artigo "https://www.mql5.com/pt/articles/2555" para poder fazer as verificações necessárias ao realizar um trailing stop.
+      
+#13 -       
 
 ========== Tarefas concluídas ==========
 
@@ -29,6 +44,9 @@ v1.02:
      para as contas que foram abertas.
      Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
      projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.02.
+
+#6 - Operar em mais de um gráfico
+     Testar e validar a execução do EA em mais de um gráfico, fazendo todos os ajustes necessários para não haver equívocos no fechamento das ordens.     
 
 v1.01:
 
