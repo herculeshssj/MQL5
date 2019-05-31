@@ -33,7 +33,19 @@ EABmfForex - Lista de tarefas
 #12 - Estudo de artigo
       Estudar o artigo "https://www.mql5.com/pt/articles/2555" para poder fazer as verificações necessárias ao realizar um trailing stop.
       
-#13 -       
+#13 - BUG - abrindo mais de uma posição para o mesmo símbolo
+      Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
+      
+#16 - Envio de notificações via push
+      Usar o recurso de notificação via push descrito na seguinte página do manual: "https://www.mql5.com/pt/docs/network/sendnotification". Realizar a notificação push somente de itens que são realmente importantes, como lucro e prejuízo
+      máximos atingidos. As informações mais importantes para enviar via push são informações sobre o saldo da conta quando uma posição aberta está preste a zerá-la.
+      
+#17 - Delay de acordo com o status do ping do terminal
+      Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
+      negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
+      
+#18 -       
+      
 
 ========== Tarefas concluídas ==========
 
@@ -47,6 +59,12 @@ v1.02:
 
 #6 - Operar em mais de um gráfico
      Testar e validar a execução do EA em mais de um gráfico, fazendo todos os ajustes necessários para não haver equívocos no fechamento das ordens.     
+     
+#14 - Introduzir delay entre negociações
+      Introduzir um delay entre os envios de ordem de compra e venda, a fim de diminuir a possibilidade de abertura de uma posição sem antes a anterior ter sido fechada.     
+      
+#15 - Dupla verificação ao abrir novas ordens
+      Ao solicitar o fechamento das posições, verificar depois de um certo delay se ainda existe posições abertas. Pode ter ocorrido um erro na operação anterior e se não for verificado uma nova ordem é aberta sem necessidade.      
 
 v1.01:
 
