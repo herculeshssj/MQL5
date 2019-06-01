@@ -10,7 +10,7 @@ EABmfForex - Lista de tarefas
      Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
      para as contas que foram abertas.
      Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
-     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.02.
+     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.03.
 
 #5 - Corrigir problema com invalid stops
      Para corrigir os erros de invalid stop, estudar a fundo este artigo: "https://www.mql5.com/pt/articles/2555". Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
@@ -64,6 +64,10 @@ EABmfForex - Lista de tarefas
       
 
 ========== Tarefas concluídas ==========
+
+v1.03:
+
+
 
 v1.02:
 
