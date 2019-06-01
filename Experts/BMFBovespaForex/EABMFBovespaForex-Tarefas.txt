@@ -6,6 +6,12 @@ EABmfForex - Lista de tarefas
 
 ========== Novas tarefas ==========
 
+#4 - Testar o EA em todas as contas abertas
+     Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
+     para as contas que foram abertas.
+     Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
+     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.02.
+
 #5 - Corrigir problema com invalid stops
      Para corrigir os erros de invalid stop, estudar a fundo este artigo: "https://www.mql5.com/pt/articles/2555". Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
      as verificações da conta.
@@ -44,18 +50,22 @@ EABmfForex - Lista de tarefas
       Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
       negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
       
-#18 -       
+#18 - Reduzir as mensagens de log
+      Reduzir o número de mensagens que vai para o log do terminal e também para o log do EA. Os logs que são incluídos no código são interessantes em ambiente de desenvolvimento e testes, mas nem um pouco úteis em ambiente de produção.
+      Tentar criar um método onde centralize todas as mensagens do código, e só exiba se o EA estiver em modo debugger.
+      
+#19 - Estratégia Tendência MA Longa com rompimento
+      Implementar a seguinte estratégia: quando se estiver usando a tendência da MA longa com 15 períodos simples, criar um ponto de saída para as posições lucrativas. Assim que o método para obtenção de sinal é chamado, verifica-se se a
+      posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
+      linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
+      
+#20 -       
+       
       
 
 ========== Tarefas concluídas ==========
 
 v1.02:
-
-#4 - Testar o EA em todas as contas abertas
-     Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
-     para as contas que foram abertas.
-     Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
-     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.02.
 
 #6 - Operar em mais de um gráfico
      Testar e validar a execução do EA em mais de um gráfico, fazendo todos os ajustes necessários para não haver equívocos no fechamento das ordens.     
