@@ -6,9 +6,10 @@ EABmfForex - Lista de tarefas
       Usar o recurso de notificação via push descrito na seguinte página do manual: "https://www.mql5.com/pt/docs/network/sendnotification". Realizar a notificação push somente de itens que são realmente importantes, como lucro e prejuízo
       máximos atingidos. As informações mais importantes para enviar via push são informações sobre o saldo da conta quando uma posição aberta está preste a zerá-la.
 
-#18 - Reduzir as mensagens de log
-      Reduzir o número de mensagens que vai para o log do terminal e também para o log do EA. Os logs que são incluídos no código são interessantes em ambiente de desenvolvimento e testes, mas nem um pouco úteis em ambiente de produção.
-      Tentar criar um método onde centralize todas as mensagens do código, e só exiba se o EA estiver em modo debugger.
+#19 - Estratégia Tendência MA Longa com rompimento
+      Implementar a seguinte estratégia: quando se estiver usando a tendência da MA longa com 15 períodos simples, criar um ponto de saída para as posições lucrativas. Assim que o método para obtenção de sinal é chamado, verifica-se se a
+      posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
+      linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
 
 ========== Novas tarefas ==========
 
@@ -52,11 +53,6 @@ EABmfForex - Lista de tarefas
       Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
       negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
       
-#19 - Estratégia Tendência MA Longa com rompimento
-      Implementar a seguinte estratégia: quando se estiver usando a tendência da MA longa com 15 períodos simples, criar um ponto de saída para as posições lucrativas. Assim que o método para obtenção de sinal é chamado, verifica-se se a
-      posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
-      linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
-      
 #20 - Reimplementar a classe para trailing stop
       Reimplementar a classe para stop móvel de acordo com o artigo "https://www.mql5.com/pt/articles/134". Desta vez esta classe ficará vinculada ao EA, não sendo compartilhada para outros EAs, e também sem os recursos para trabalhar com
       objetos nos gráficos.
@@ -76,7 +72,12 @@ EABmfForex - Lista de tarefas
 
 v1.03:
 
-
+#18 - Reduzir as mensagens de log
+      Reduzir o número de mensagens que vai para o log do terminal e também para o log do EA. Os logs que são incluídos no código são interessantes em ambiente de desenvolvimento e testes, mas nem um pouco úteis em ambiente de produção.
+      Tentar criar um método onde centralize todas as mensagens do código, e só exiba se o EA estiver em modo debugger.
+      Solução adotada: a exibição das mensagens do EA foram redirecionadas para um método que mostra somente quando o terminal está em modo de teste e debug.
+      
+      
 
 v1.02:
 
