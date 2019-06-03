@@ -59,7 +59,18 @@ EABmfForex - Lista de tarefas
       posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
       linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
       
-#20 -       
+#20 - Reimplementar a classe para trailing stop
+      Reimplementar a classe para stop móvel de acordo com o artigo "https://www.mql5.com/pt/articles/134". Desta vez esta classe ficará vinculada ao EA, não sendo compartilhada para outros EAs, e também sem os recursos para trabalhar com
+      objetos nos gráficos.
+      
+#21 - Exibir detalhes da conta ao carregar
+      Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
+      
+#22 - Estudo de gerenciamento financeiro
+      Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
+      posições.
+      
+#23 -       
        
       
 
