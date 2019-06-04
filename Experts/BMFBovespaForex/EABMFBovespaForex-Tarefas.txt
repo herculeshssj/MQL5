@@ -6,11 +6,6 @@ EABmfForex - Lista de tarefas
       Usar o recurso de notificação via push descrito na seguinte página do manual: "https://www.mql5.com/pt/docs/network/sendnotification". Realizar a notificação push somente de itens que são realmente importantes, como lucro e prejuízo
       máximos atingidos. As informações mais importantes para enviar via push são informações sobre o saldo da conta quando uma posição aberta está preste a zerá-la.
 
-#19 - Estratégia Tendência MA Longa com rompimento
-      Implementar a seguinte estratégia: quando se estiver usando a tendência da MA longa com 15 períodos simples, criar um ponto de saída para as posições lucrativas. Assim que o método para obtenção de sinal é chamado, verifica-se se a
-      posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
-      linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
-
 ========== Novas tarefas ==========
 
 #4 - Testar o EA em todas as contas abertas
@@ -77,7 +72,11 @@ v1.03:
       Tentar criar um método onde centralize todas as mensagens do código, e só exiba se o EA estiver em modo debugger.
       Solução adotada: a exibição das mensagens do EA foram redirecionadas para um método que mostra somente quando o terminal está em modo de teste e debug.
       
-      
+#19 - Estratégia Tendência MA Longa com rompimento
+      Implementar a seguinte estratégia: quando se estiver usando a tendência da MA longa com 15 períodos simples, criar um ponto de saída para as posições lucrativas. Assim que o método para obtenção de sinal é chamado, verifica-se se a
+      posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
+      linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
+      Solução adotada: parametrizar o período e o tipo de suavização da MA para poder trabalhar melhor com o rompimento. Foi parametrizado também o fechamento quando o rompimento ocorrer.      
 
 v1.02:
 
