@@ -52,7 +52,10 @@ EABmfForex - Lista de tarefas
       Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
       posições.
             
-#25 -       
+#25 - Notificar quando não houver mais margem livre
+      Notificar via PUSH (obrigatoriamente) a falta de margem para operar. Útil quando se estiver operando com mais de um gráfico e com um lote alto.
+      
+#26 -       
       
 
 ========== Tarefas concluídas ==========
