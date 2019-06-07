@@ -51,9 +51,6 @@ EABmfForex - Lista de tarefas
 #22 - Estudo de gerenciamento financeiro
       Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
       posições.
-            
-#25 - Notificar quando não houver mais margem livre
-      Notificar via PUSH (obrigatoriamente) a falta de margem para operar. Útil quando se estiver operando com mais de um gráfico e com um lote alto.
       
 #26 -       
       
@@ -90,6 +87,9 @@ Liberação: 09/06/2019
 #24 - Revisar os parâmetros do EA
       Dar uma revisada nos parâmetros do EA para evitar ter uma lista muito extensa de configuração.      
       Solução adotada: somente os parâmetros que são classificados como definitivos estão indo para o set de configurações do EA. Um comentário foi incluído no código para marcar o trecho dos parâmetros defitividos.      
+      
+#25 - Notificar quando não houver mais margem livre
+      Notificar via PUSH (obrigatoriamente) a falta de margem para operar. Útil quando se estiver operando com mais de um gráfico e com um lote alto.      
 
 v1.02:
 
