@@ -2,11 +2,15 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#11 - Separar a lógica de cálculo de lucro/prejuízo
-      Baseado nas informações da tarefa #8, colocar a lógica de verificação de lucro/prejuízo separado do método OnTick().
-      
-#24 - Revisar os parâmetros do EA
-      Dar uma revisada nos parâmetros do EA para evitar ter uma lista muito extensa de configuração.      
+#8 - Separar as lógicas de nova abertura, trailing stop e checagem de prejuízo
+     Atualmente as lógicas para abertura de novas posições, efetuar o trailing stop, e a verificação do prejuízo acumulado estão todas misturadas dentro do mesmo if no método OnTick(). Separar essas lógicas de modo que as três possam
+     trabalhar de forma harmônica, sem poluir muito o código.
+     
+#9 - Separar a lógica de nova abertura de posições
+     Baseado nas informações da tarefa #8, colocar a lógica de abertura de posições (verificação de barra, sinal a confirmar) a parte.
+     
+#10 - Separar a lógica de trailing stop
+      Baseado nas informações da tarefa #8, colocar a lógica de trailing stop separada do método OnTick().
 
 ========== Novas tarefas ==========
 
@@ -26,16 +30,6 @@ EABmfForex - Lista de tarefas
      * Quando a linha de sinal (9 períodos) se afasta dos histogramas;
      * Quando a linha de sinal começa a reverter sua direção.
      Avaliar também um sinal composto por duas ou todas as opções indicadas acima, e também usar a convergência/divergência como sinal de confirmação e/ou sinal de negociação.   
-     
-#8 - Separar as lógicas de nova abertura, trailing stop e checagem de prejuízo
-     Atualmente as lógicas para abertura de novas posições, efetuar o trailing stop, e a verificação do prejuízo acumulado estão todas misturadas dentro do mesmo if no método OnTick(). Separar essas lógicas de modo que as três possam
-     trabalhar de forma harmônica, sem poluir muito o código.
-     
-#9 - Separar a lógica de nova abertura de posições
-     Baseado nas informações da tarefa #8, colocar a lógica de abertura de posições (verificação de barra, sinal a confirmar) a parte.
-     
-#10 - Separar a lógica de trailing stop
-      Baseado nas informações da tarefa #8, colocar a lógica de trailing stop separada do método OnTick().
             
 #12 - Estudo de artigo
       Estudar o artigo "https://www.mql5.com/pt/articles/2555" para poder fazer as verificações necessárias ao realizar um trailing stop.
@@ -66,6 +60,11 @@ EABmfForex - Lista de tarefas
 v1.03:
 Liberação: 09/06/2019
 
+#11 - Separar a lógica de cálculo de lucro/prejuízo
+      Baseado nas informações da tarefa #8, colocar a lógica de verificação de lucro/prejuízo separado do método OnTick().
+      Solução adotada: a lógica do cálculo do lucro foi desmembrada e foi incluído no método OnTimer() uma notificação do lucro obtido com todas as posições abertas. Em momento posterior será criado uma lógica para determinar o prejuízo
+      máximo, junto com uma medida preventiva para evitar estouro da margem.
+
 #16 - Envio de notificações via push
       Usar o recurso de notificação via push descrito na seguinte página do manual: "https://www.mql5.com/pt/docs/network/sendnotification". Realizar a notificação push somente de itens que são realmente importantes, como lucro e prejuízo
       máximos atingidos. As informações mais importantes para enviar via push são informações sobre o saldo da conta quando uma posição aberta está preste a zerá-la.
@@ -84,6 +83,10 @@ Liberação: 09/06/2019
 #23 - Implementar o sinal de negociação baseado no indicador Tabajara
       Detalhes de como obter os sinais do indicador, olhar no código fonte do mesmo. O indicador foi implementado por outro desenvolvedor, portanto não posso mudar o nome do arquivo e nem mexer nos créditos. O indicador encontra-se na
       pasta Indicators\Downloads      
+      
+#24 - Revisar os parâmetros do EA
+      Dar uma revisada nos parâmetros do EA para evitar ter uma lista muito extensa de configuração.      
+      Solução adotada: somente os parâmetros que são classificados como definitivos estão indo para o set de configurações do EA. Um comentário foi incluído no código para marcar o trecho dos parâmetros defitividos.      
 
 v1.02:
 
