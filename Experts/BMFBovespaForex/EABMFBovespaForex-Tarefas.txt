@@ -4,6 +4,9 @@ EABmfForex - Lista de tarefas
 
 #11 - Separar a lógica de cálculo de lucro/prejuízo
       Baseado nas informações da tarefa #8, colocar a lógica de verificação de lucro/prejuízo separado do método OnTick().
+      
+#24 - Revisar os parâmetros do EA
+      Dar uma revisada nos parâmetros do EA para evitar ter uma lista muito extensa de configuração.      
 
 ========== Novas tarefas ==========
 
@@ -54,14 +57,14 @@ EABmfForex - Lista de tarefas
 #22 - Estudo de gerenciamento financeiro
       Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
       posições.
-      
-#23 -       
-       
+            
+#25 -       
       
 
 ========== Tarefas concluídas ==========
 
 v1.03:
+Liberação: 09/06/2019
 
 #16 - Envio de notificações via push
       Usar o recurso de notificação via push descrito na seguinte página do manual: "https://www.mql5.com/pt/docs/network/sendnotification". Realizar a notificação push somente de itens que são realmente importantes, como lucro e prejuízo
@@ -77,6 +80,10 @@ v1.03:
       posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
       linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
       Solução adotada: parametrizar o período e o tipo de suavização da MA para poder trabalhar melhor com o rompimento. Foi parametrizado também o fechamento quando o rompimento ocorrer.      
+      
+#23 - Implementar o sinal de negociação baseado no indicador Tabajara
+      Detalhes de como obter os sinais do indicador, olhar no código fonte do mesmo. O indicador foi implementado por outro desenvolvedor, portanto não posso mudar o nome do arquivo e nem mexer nos créditos. O indicador encontra-se na
+      pasta Indicators\Downloads      
 
 v1.02:
 
