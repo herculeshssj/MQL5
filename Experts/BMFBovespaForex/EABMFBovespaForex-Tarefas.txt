@@ -2,12 +2,6 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#8 - Separar as lógicas de nova abertura, trailing stop e checagem de prejuízo
-     Atualmente as lógicas para abertura de novas posições, efetuar o trailing stop, e a verificação do prejuízo acumulado estão todas misturadas dentro do mesmo if no método OnTick(). Separar essas lógicas de modo que as três possam
-     trabalhar de forma harmônica, sem poluir muito o código.
-     
-#9 - Separar a lógica de nova abertura de posições
-     Baseado nas informações da tarefa #8, colocar a lógica de abertura de posições (verificação de barra, sinal a confirmar) a parte.
      
 
 ========== Novas tarefas ==========
@@ -56,6 +50,14 @@ Liberação: 09/06/2019
      Para corrigir os erros de invalid stop, estudar a fundo este artigo: "https://www.mql5.com/pt/articles/2555". Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
      as verificações da conta.
      Solução adotada: foi usado a minha classe HTrailingStop que já faz algumas verificações citadas no artigo
+
+#8 - Separar as lógicas de nova abertura, trailing stop e checagem de prejuízo
+     Atualmente as lógicas para abertura de novas posições, efetuar o trailing stop, e a verificação do prejuízo acumulado estão todas misturadas dentro do mesmo if no método OnTick(). Separar essas lógicas de modo que as três possam
+     trabalhar de forma harmônica, sem poluir muito o código.
+     
+#9 - Separar a lógica de nova abertura de posições
+     Baseado nas informações da tarefa #8, colocar a lógica de abertura de posições (verificação de barra, sinal a confirmar) a parte.
+     Solução adotada: a lógica de negociação encontra-se no meu próprio método, não poluindo o método OnTick().
 
 #10 - Separar a lógica de trailing stop
       Baseado nas informações da tarefa #8, colocar a lógica de trailing stop separada do método OnTick().
