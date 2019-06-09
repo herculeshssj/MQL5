@@ -2,7 +2,9 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-     
+#22 - Estudo de gerenciamento financeiro
+      Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
+      posições.     
 
 ========== Novas tarefas ==========
 
@@ -12,12 +14,7 @@ EABmfForex - Lista de tarefas
      Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
      projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.03.
 
-#7 - Implementar o sinal de negociação MACD
-     A partir dos estudos feitos sobre o indicador MACD, implementar os sinais de negociação desse indicador. Analisar os seguintes pontos de compra/venda e ver qual possui melhor desempenho nos pares USD, EUR, CHF, GBP, AUS, CAD e NZD:
-     * Linha de sinal (9 períodos) ultrapassa a linha MACD;
-     * Quando a linha de sinal (9 períodos) se afasta dos histogramas;
-     * Quando a linha de sinal começa a reverter sua direção.
-     Avaliar também um sinal composto por duas ou todas as opções indicadas acima, e também usar a convergência/divergência como sinal de confirmação e/ou sinal de negociação.   
+#7 - 
       
 #13 - BUG - abrindo mais de uma posição para o mesmo símbolo
       Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
@@ -28,10 +25,6 @@ EABmfForex - Lista de tarefas
       
 #21 - Exibir detalhes da conta ao carregar
       Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
-      
-#22 - Estudo de gerenciamento financeiro
-      Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
-      posições.
       
 #26 -       
       
