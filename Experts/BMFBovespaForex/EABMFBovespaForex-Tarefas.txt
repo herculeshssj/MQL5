@@ -14,7 +14,10 @@ EABmfForex - Lista de tarefas
      Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
      projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.03.
 
-#7 - 
+#7 - Entrada errada no início do pregão
+     O EA se baseia nos sinais da MA simples de 20 períodos do indicador Tabajara. Ocorre que na abertura do pregão quase sempre temos um gap que gera um sinal errado de compra/venda para o EA, assim gerando um grande prejuízo nas
+     primeiras horas do dia. É necessário esperar a formação de algumas barras para se determinar com mais clareza a tendência ou oscilação do mercado.
+     A ideia é criar um mecanismo que consiga operar nessas primeiras horas do pregão, evite que o EA se baseie nos sinais do indicador Tabajara, até obter um número razoável de barras (entre 6 e 24 barras).
       
 #13 - BUG - abrindo mais de uma posição para o mesmo símbolo
       Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
@@ -26,8 +29,15 @@ EABmfForex - Lista de tarefas
 #21 - Exibir detalhes da conta ao carregar
       Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
       
-#26 -       
+#26 - Reversão da tendência
+      Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
+      mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
+
+#27 - Otimizar o EA com o profile
+      Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
+      gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
       
+#28 -       
 
 ========== Tarefas concluídas ==========
 
