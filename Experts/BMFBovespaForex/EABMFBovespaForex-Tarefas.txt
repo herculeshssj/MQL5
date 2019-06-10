@@ -37,7 +37,12 @@ EABmfForex - Lista de tarefas
       Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
       gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
       
-#28 -       
+#28 - Incluir novamente controle de prejuízo máximo
+      Para evitar acabar com toda a margem disponível, voltar com o parâmetro para estabelecer o prejuízo máximo permitido para as posições abertas. Tentar determinar quão distante a posição se encontra do seu stop loss: se estiver muito
+      distante, fecha logo as posições; caso esteja próximo, deixar alcançar o stop loss. Esse controle só deve ser acionado quando os sinais de tendência indicarem que a posição realmente está contrária a tendência, e não há sinais de 
+      imediatos de reversão da tendência.
+      
+#29 -             
 
 ========== Tarefas concluídas ==========
 
