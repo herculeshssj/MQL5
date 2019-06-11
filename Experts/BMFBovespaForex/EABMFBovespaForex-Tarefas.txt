@@ -5,6 +5,8 @@ EABmfForex - Lista de tarefas
 #22 - Estudo de gerenciamento financeiro
       Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
       posições.     
+      
+
 
 ========== Novas tarefas ==========
 
@@ -42,14 +44,19 @@ EABmfForex - Lista de tarefas
       distante, fecha logo as posições; caso esteja próximo, deixar alcançar o stop loss. Esse controle só deve ser acionado quando os sinais de tendência indicarem que a posição realmente está contrária a tendência, e não há sinais de 
       imediatos de reversão da tendência.
       
-#29 -             
+#31 -       
 
 ========== Tarefas concluídas ==========
 
 v1.04:
 Liberação: 16/06/2019
 
-
+#29 - Mercado a operar
+      Remover a definição de horário de operação, e mudar para um parâmetro que defina qual mercado o EA está operando. Mercado BM&FBovespa o horário padrão é de 10h às 17h. Para o mercado Forex, o horário padrão é 01h de segunda até 23h 
+      de sexta. Estas definições são para poder aproveitar ao máximo o período aberto dos pregões.      
+      
+#30 - Obter o tipo de preenchimento do símbolo
+      Cada símbolo possui seu tipo de preenchimento (tudo/nada, retornar, tudo/parcial). Remover esse parâmetro do EA e obter esta informação direto do símbolo que o EA está trabalhando.        
 
 v1.03:
 Liberação: 09/06/2019
