@@ -48,8 +48,13 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas concluídas ==========
 
+v1.05:
+Liberação: 01/07/2019
+
+
+
 v1.04:
-Liberação: 16/06/2019
+Liberação: 13/06/2019
 
 #29 - Mercado a operar
       Remover a definição de horário de operação, e mudar para um parâmetro que defina qual mercado o EA está operando. Mercado BM&FBovespa o horário padrão é de 10h às 17h. Para o mercado Forex, o horário padrão é 01h de segunda até 23h 
