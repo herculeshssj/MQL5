@@ -2,10 +2,6 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#22 - Estudo de gerenciamento financeiro
-      Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
-      posições.     
-      
 
 
 ========== Novas tarefas ==========
@@ -28,9 +24,6 @@ EABmfForex - Lista de tarefas
       Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
       negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
       
-#21 - Exibir detalhes da conta ao carregar
-      Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
-      
 #26 - Reversão da tendência
       Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
       mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
@@ -50,6 +43,14 @@ EABmfForex - Lista de tarefas
 
 v1.05:
 Liberação: 01/07/2019
+
+#21 - Exibir detalhes da conta ao carregar
+      Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
+      
+#22 - Estudo de gerenciamento financeiro
+      Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
+      posições.
+      Solução adotada: incluído uma verificação de margem livre antes da abertura de novas posições, conforme orientado no artigo.           
 
 #31 - Implementar o sinal de confirmação
       Usando as ideias do artigo "https://www.mql5.com/pt/articles/136", usar o ADX e médias móveis para obter os sinais de confirmação da tendência para abertura de novas posições.
