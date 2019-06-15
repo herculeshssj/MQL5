@@ -40,6 +40,9 @@ EABmfForex - Lista de tarefas
 #32 - Não deixar o stop loss vazio
       Após realizar backtesting com o EA identificou que caso uma posição seja aberta em período de grande agressividade do mercado, pode ocorrer grandes perdas financeiras por conta da auseência de um stop loss. Ver uma rotina que insira
       um ponto de parada para as posições abertas, mesmo que o parâmetro seja setado como zero. Caso o cálculo do stop loss seja automatizado, remover o parâmetro, e também o take profit, que ultimamente está sendo pouco usado.
+      Uma alternativa viável é definir o valor da média móvel de 20 ou 50 períodos para a ordem que não tiver stop loss. Identificar quais das duas médias é a menor e atribuir para a ordem.
+      Uma segunda alternativa é verificar a perda financeira para as posições sem stop loss. Com o timer posso analisar minuto a minuto as condições da posição, e encerrá-la se ela não for mais favorável. Para esta estratégia preciso de
+      um indicador que me diga a pressão de compra/venda do mercado para sinalizar uma possível saída da posição.      
        
 #33 -                   
 
