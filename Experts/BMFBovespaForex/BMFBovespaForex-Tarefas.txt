@@ -37,7 +37,16 @@ EABmfForex - Lista de tarefas
       distante, fecha logo as posições; caso esteja próximo, deixar alcançar o stop loss. Esse controle só deve ser acionado quando os sinais de tendência indicarem que a posição realmente está contrária a tendência, e não há sinais de 
       imediatos de reversão da tendência.
        
-#33 -                   
+#33 - Estudo: mais proteções financeiras para a conta
+      Baseado nas informações constantes no artigo "https://www.mql5.com/pt/articles/22", implementar mais proteções financeiras para não zerar a conta e não trabalhar no limite da margem disponível para negociação. Esse artigo pode ajudar
+      também a determinar o nível adequado de stop loss após o cálculo do trailing stop.
+      
+#34 - Notificação do ambiente de produção
+      Implementar sinais de alerta quando o EA identificar que as condições do terminal ou do SO não são favoráveis para operar, como por exemplo falta de espaço em disco e pouco memória RAM.
+      Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
+      recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
+      
+#35 - 
 
 ========== Tarefas concluídas ==========
 
