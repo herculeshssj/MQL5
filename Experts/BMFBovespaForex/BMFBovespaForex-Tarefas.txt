@@ -2,12 +2,7 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#32 - Não deixar o stop loss vazio
-      Após realizar backtesting com o EA identificou que caso uma posição seja aberta em período de grande agressividade do mercado, pode ocorrer grandes perdas financeiras por conta da auseência de um stop loss. Ver uma rotina que insira
-      um ponto de parada para as posições abertas, mesmo que o parâmetro seja setado como zero. Caso o cálculo do stop loss seja automatizado, remover o parâmetro, e também o take profit, que ultimamente está sendo pouco usado.
-      Uma alternativa viável é definir o valor da média móvel de 20 ou 50 períodos para a ordem que não tiver stop loss. Identificar quais das duas médias é a menor e atribuir para a ordem.
-      Uma segunda alternativa é verificar a perda financeira para as posições sem stop loss. Com o timer posso analisar minuto a minuto as condições da posição, e encerrá-la se ela não for mais favorável. Para esta estratégia preciso de
-      um indicador que me diga a pressão de compra/venda do mercado para sinalizar uma possível saída da posição.      
+
 
 ========== Novas tarefas ==========
 
@@ -46,8 +41,13 @@ EABmfForex - Lista de tarefas
 
 ========== Tarefas concluídas ==========
 
-v1.05:
+v1.06:
 Liberação: 01/07/2019
+
+
+
+v1.05:
+Liberação: 16/06/2019
 
 #21 - Exibir detalhes da conta ao carregar
       Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
@@ -61,7 +61,13 @@ Liberação: 01/07/2019
       Usando as ideias do artigo "https://www.mql5.com/pt/articles/136", usar o ADX e médias móveis para obter os sinais de confirmação da tendência para abertura de novas posições.
       Solução adotada: será usado a confirmação de 3 médias móveis. 
       
-      
+#32 - Não deixar o stop loss vazio
+      Após realizar backtesting com o EA identificou que caso uma posição seja aberta em período de grande agressividade do mercado, pode ocorrer grandes perdas financeiras por conta da auseência de um stop loss. Ver uma rotina que insira
+      um ponto de parada para as posições abertas, mesmo que o parâmetro seja setado como zero. Caso o cálculo do stop loss seja automatizado, remover o parâmetro, e também o take profit, que ultimamente está sendo pouco usado.
+      Uma alternativa viável é definir o valor da média móvel de 20 ou 50 períodos para a ordem que não tiver stop loss. Identificar quais das duas médias é a menor e atribuir para a ordem.
+      Uma segunda alternativa é verificar a perda financeira para as posições sem stop loss. Com o timer posso analisar minuto a minuto as condições da posição, e encerrá-la se ela não for mais favorável. Para esta estratégia preciso de
+      um indicador que me diga a pressão de compra/venda do mercado para sinalizar uma possível saída da posição.      
+      Solução adotada: foi substituído o sinal de confirmação de média móvel para os sinais de tendência do NRTR. Os problemas com o stop loss zerado foram minimizados consideravelmente.      
 
 v1.04:
 Liberação: 13/06/2019
