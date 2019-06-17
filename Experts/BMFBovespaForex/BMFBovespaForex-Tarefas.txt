@@ -1,27 +1,14 @@
-EABmfForex - Lista de tarefas
+BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#4 - Testar o EA em todas as contas abertas
-     Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
-     para as contas que foram abertas.
-     Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
-     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.03.
+
 
 ========== Novas tarefas ==========
-
-#7 - Entrada errada no início do pregão
-     O EA se baseia nos sinais da MA simples de 20 períodos do indicador Tabajara. Ocorre que na abertura do pregão quase sempre temos um gap que gera um sinal errado de compra/venda para o EA, assim gerando um grande prejuízo nas
-     primeiras horas do dia. É necessário esperar a formação de algumas barras para se determinar com mais clareza a tendência ou oscilação do mercado.
-     A ideia é criar um mecanismo que consiga operar nessas primeiras horas do pregão, evite que o EA se baseie nos sinais do indicador Tabajara, até obter um número razoável de barras (entre 6 e 24 barras).
       
 #13 - BUG - abrindo mais de uma posição para o mesmo símbolo
       Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
-      
-#17 - Delay de acordo com o status do ping do terminal
-      Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
-      negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
-      
+            
 #26 - Reversão da tendência
       Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
       mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
@@ -29,12 +16,7 @@ EABmfForex - Lista de tarefas
 #27 - Otimizar o EA com o profile
       Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
       gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
-      
-#28 - Incluir novamente controle de prejuízo máximo
-      Para evitar acabar com toda a margem disponível, voltar com o parâmetro para estabelecer o prejuízo máximo permitido para as posições abertas. Tentar determinar quão distante a posição se encontra do seu stop loss: se estiver muito
-      distante, fecha logo as posições; caso esteja próximo, deixar alcançar o stop loss. Esse controle só deve ser acionado quando os sinais de tendência indicarem que a posição realmente está contrária a tendência, e não há sinais de 
-      imediatos de reversão da tendência.
-       
+             
 #33 - Estudo: mais proteções financeiras para a conta
       Baseado nas informações constantes no artigo "https://www.mql5.com/pt/articles/22", implementar mais proteções financeiras para não zerar a conta e não trabalhar no limite da margem disponível para negociação. Esse artigo pode ajudar
       também a determinar o nível adequado de stop loss após o cálculo do trailing stop.
@@ -56,6 +38,25 @@ Liberação: 01/07/2019
 v1.05:
 Liberação: 16/06/2019
 
+#4 - Testar o EA em todas as contas abertas
+     Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
+     para as contas que foram abertas.
+     Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
+     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.03.
+     Solução adotada: o EA está funcionando corretamente em todas as contas abertas. Agora é testar o EA com símbolos diferentes e mercados diferentes, e realizar as devidas adaptações.
+
+#7 - Entrada errada no início do pregão
+     O EA se baseia nos sinais da MA simples de 20 períodos do indicador Tabajara. Ocorre que na abertura do pregão quase sempre temos um gap que gera um sinal errado de compra/venda para o EA, assim gerando um grande prejuízo nas
+     primeiras horas do dia. É necessário esperar a formação de algumas barras para se determinar com mais clareza a tendência ou oscilação do mercado.
+     A ideia é criar um mecanismo que consiga operar nessas primeiras horas do pregão, evite que o EA se baseie nos sinais do indicador Tabajara, até obter um número razoável de barras (entre 6 e 24 barras).
+     Solução adotada: a estrutura de confirmação de sinal com NRTR, o uso do stop móvel usando o mesmo indicado, e a adoção do cruzamento de MA exponencial de 5 e 20 períodos reduziu os problemas com entradas contrárias a tendência.
+
+#17 - Delay de acordo com o status do ping do terminal
+      Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
+      negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
+      Solução adotada: com a adoção de cruzamento de MA como estratégia de negociação, não há necessidade de grandes preocupações com conectividade. Além disso será implementado um conjunto de verificações para garantir o EA operar em uma
+      infraestrutura estável, evitando assim perdas financeiras.
+
 #21 - Exibir detalhes da conta ao carregar
       Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
       
@@ -63,6 +64,12 @@ Liberação: 16/06/2019
       Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
       posições.
       Solução adotada: incluído uma verificação de margem livre antes da abertura de novas posições, conforme orientado no artigo.           
+
+#28 - Incluir novamente controle de prejuízo máximo
+      Para evitar acabar com toda a margem disponível, voltar com o parâmetro para estabelecer o prejuízo máximo permitido para as posições abertas. Tentar determinar quão distante a posição se encontra do seu stop loss: se estiver muito
+      distante, fecha logo as posições; caso esteja próximo, deixar alcançar o stop loss. Esse controle só deve ser acionado quando os sinais de tendência indicarem que a posição realmente está contrária a tendência, e não há sinais de 
+      imediatos de reversão da tendência.
+      Solução adotada: não há necessidade, pois o stop móvel está funcionando adequadamente, e no futuro será implementado mais proteções contra perdas financeiras.
 
 #31 - Implementar o sinal de confirmação
       Usando as ideias do artigo "https://www.mql5.com/pt/articles/136", usar o ADX e médias móveis para obter os sinais de confirmação da tendência para abertura de novas posições.
