@@ -33,8 +33,13 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas concluídas ==========
 
-v1.06:
+v1.07:
 Liberação: 01/07/2019
+
+
+
+v1.06:
+Liberação: 18/06/2019
 
 #35 - BUG - posições sendo fechadas às 23h
       Corrigir bug na lógica de verificação do horário do pregão Forex, pois todas as ordens continuam fechando às 23h todos os dias, e não somentes às sextas 23h.
