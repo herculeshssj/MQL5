@@ -26,7 +26,10 @@ BMFBovespaForex - Lista de tarefas
       Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
       recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
       
-#36 -       
+#36 - Definir um stop loss ao abrir posição
+      Hoje em dia o EA abre novas posições sem stop loss definido. A ideia é usar o valor do NRTR e definir um stop loss para a posição que foi aberta, assim evitando grandes perdas financeiras.      
+      
+#37 -       
 
 ========== Tarefas concluídas ==========
 
