@@ -2,7 +2,13 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-
+#40 - Aumentar o volume de novas ordens automaticamente
+      Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
+      sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
+      conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
+      
+#42 - Identificar automaticamente o mercado que estou operando
+      Identificar qual o mercado que estou operando (Bovespa ou Forex) a partir do ativo selecionado.      
 
 ========== Novas tarefas ==========
             
@@ -34,16 +40,8 @@ BMFBovespaForex - Lista de tarefas
       lucro chegou em $ 10, é setado na posição um take profit correspondente ao lucro de $ 8; caso suba $ 20, é garantido 80% ($ 16), e assim por diante.
       Após de implementado o trailing gain, avaliar qual o melhor lugar para adicioná-lo: a cada minuto, no método OnTimer(), ou a cada tick, no método OnTick().
       
-#40 - Aumentar o volume de novas ordens automaticamente
-      Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
-      sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
-      conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
-      
 #41 - Avaliar ponto de abertura para novas posições
       Avaliar qual é o melhor ponto para realizar a abertura de novas posições usando o cruzamento de MA: nova barra, OnTick ou OnTimer. Esta avaliação e eventual mudança é exclusiva para Forex.      
-      
-#42 - Identificar automaticamente o mercado que estou operando
-      Identificar qual o mercado que estou operando (Bovespa ou Forex) a partir do ativo selecionado.
 
 #43 -       
 
