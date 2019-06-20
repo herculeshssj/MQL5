@@ -32,6 +32,7 @@ BMFBovespaForex - Lista de tarefas
       Implementar a seguinte estratégia para gain móvel: toda vez que se obter o lucro alvo (implementado no trecho de código que envia as notificações de mensagens), é definito um take profit de 80% do valor na posição. Por exemplo: o 
       lucro chegou em $ 10, é setado na posição um take profit correspondente ao lucro de $ 8; caso suba $ 20, é garantido 80% ($ 16), e assim por diante.
       Após de implementado o trailing gain, avaliar qual o melhor lugar para adicioná-lo: a cada minuto, no método OnTimer(), ou a cada tick, no método OnTick().
+      Dar uma lida neste artigo para ajudar: "https://www.mql5.com/pt/articles/3621"
 
 #40 - Aumentar o volume de novas ordens automaticamente
       Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
