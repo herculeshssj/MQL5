@@ -29,10 +29,6 @@ BMFBovespaForex - Lista de tarefas
       O magic number deverá ser gerado a partir da data atual que ele foi carregado pela primeira vez no gráfico, no formato YYYYMMDD.
       O nome do arquivo será: MAGICNUMBER_SIMBOLO.bin
 
-#38 - Determinar stop loss e take profit automaticamente
-      Usar os valores fornecidos pelo NRTR para setar os stop loss e take profit das ordens automaticamente. A ideia é obter os valores de suporte e resistência do indicador, e setar esses valores na ordem, garantindo assim pontos de 
-      parada caso o EA perca a conexão com o servidor da corretora.
-
 #39 - Trailing gain para garantir ganhos
       Implementar a seguinte estratégia para gain móvel: toda vez que se obter o lucro alvo (implementado no trecho de código que envia as notificações de mensagens), é definito um take profit de 80% do valor na posição. Por exemplo: o 
       lucro chegou em $ 10, é setado na posição um take profit correspondente ao lucro de $ 8; caso suba $ 20, é garantido 80% ($ 16), e assim por diante.
@@ -62,6 +58,10 @@ Liberação: 01/07/2019
       
 #36 - Definir um stop loss ao abrir posição
       Hoje em dia o EA abre novas posições sem stop loss definido. A ideia é usar o valor do NRTR e definir um stop loss para a posição que foi aberta, assim evitando grandes perdas financeiras.      
+      
+#38 - Determinar stop loss e take profit automaticamente
+      Usar os valores fornecidos pelo NRTR para setar os stop loss e take profit das ordens automaticamente. A ideia é obter os valores de suporte e resistência do indicador, e setar esses valores na ordem, garantindo assim pontos de 
+      parada caso o EA perca a conexão com o servidor da corretora.      
 
 v1.06:
 Liberação: 18/06/2019
