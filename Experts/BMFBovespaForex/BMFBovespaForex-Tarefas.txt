@@ -5,9 +5,6 @@ BMFBovespaForex - Lista de tarefas
 
 
 ========== Novas tarefas ==========
-      
-#13 - BUG - abrindo mais de uma posição para o mesmo símbolo
-      Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
             
 #26 - Reversão da tendência
       Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
@@ -25,9 +22,6 @@ BMFBovespaForex - Lista de tarefas
       Implementar sinais de alerta quando o EA identificar que as condições do terminal ou do SO não são favoráveis para operar, como por exemplo falta de espaço em disco e pouco memória RAM.
       Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
       recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
-      
-#36 - Definir um stop loss ao abrir posição
-      Hoje em dia o EA abre novas posições sem stop loss definido. A ideia é usar o valor do NRTR e definir um stop loss para a posição que foi aberta, assim evitando grandes perdas financeiras.      
       
 #37 - Salvar os parâmetros do EA em arquivo
       Usando as funções disponíveis em "https://www.mql5.com/pt/docs/files", salvar os parâmetros do EA em arquivo, mais especificamente o magic number do EA, pois o mesmo precisa ser único por ativo.
@@ -52,14 +46,22 @@ BMFBovespaForex - Lista de tarefas
 #41 - Avaliar ponto de abertura para novas posições
       Avaliar qual é o melhor ponto para realizar a abertura de novas posições usando o cruzamento de MA: nova barra, OnTick ou OnTimer. Esta avaliação e eventual mudança é exclusiva para Forex.      
       
-#42 -       
+#42 - Identificar automaticamente o mercado que estou operando
+      Identificar qual o mercado que estou operando (Bovespa ou Forex) a partir do ativo selecionado.
+
+#43 -       
 
 ========== Tarefas concluídas ==========
 
 v1.07:
 Liberação: 01/07/2019
 
-
+#13 - BUG - abrindo mais de uma posição para o mesmo símbolo
+      Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
+      Solução adotada: depois das últimas mudanças realizadas, não foi mais detectado esse bug.
+      
+#36 - Definir um stop loss ao abrir posição
+      Hoje em dia o EA abre novas posições sem stop loss definido. A ideia é usar o valor do NRTR e definir um stop loss para a posição que foi aberta, assim evitando grandes perdas financeiras.      
 
 v1.06:
 Liberação: 18/06/2019
