@@ -2,11 +2,7 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#37 - Salvar os parâmetros do EA em arquivo
-      Usando as funções disponíveis em "https://www.mql5.com/pt/docs/files", salvar os parâmetros do EA em arquivo, mais especificamente o magic number do EA, pois o mesmo precisa ser único por ativo.
-      Lembrar de versionar a pasta MQL5\Files, onde ficará as configurações para cada gráfico.
-      O magic number deverá ser gerado a partir da data atual que ele foi carregado pela primeira vez no gráfico, no formato YYYYMMDD.
-      O nome do arquivo será: MAGICNUMBER_SIMBOLO.bin
+
 
 ========== Novas tarefas ==========
             
@@ -55,6 +51,12 @@ Liberação: 01/07/2019
 #36 - Definir um stop loss ao abrir posição
       Hoje em dia o EA abre novas posições sem stop loss definido. A ideia é usar o valor do NRTR e definir um stop loss para a posição que foi aberta, assim evitando grandes perdas financeiras.      
       
+#37 - Salvar os parâmetros do EA em arquivo
+      Usando as funções disponíveis em "https://www.mql5.com/pt/docs/files", salvar os parâmetros do EA em arquivo, mais especificamente o magic number do EA, pois o mesmo precisa ser único por ativo.
+      Lembrar de versionar a pasta MQL5\Files, onde ficará as configurações para cada gráfico.
+      O magic number deverá ser gerado a partir da data atual que ele foi carregado pela primeira vez no gráfico, no formato YYYYMMDD.
+      O nome do arquivo será: MAGICNUMBER_SIMBOLO.bin
+
 #38 - Determinar stop loss e take profit automaticamente
       Usar os valores fornecidos pelo NRTR para setar os stop loss e take profit das ordens automaticamente. A ideia é obter os valores de suporte e resistência do indicador, e setar esses valores na ordem, garantindo assim pontos de 
       parada caso o EA perca a conexão com o servidor da corretora.      
