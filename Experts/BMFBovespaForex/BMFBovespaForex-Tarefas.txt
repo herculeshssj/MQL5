@@ -27,7 +27,6 @@ BMFBovespaForex - Lista de tarefas
       Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
       recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
       
-
 #39 - Trailing gain para garantir ganhos
       Implementar a seguinte estratégia para gain móvel: toda vez que se obter o lucro alvo (implementado no trecho de código que envia as notificações de mensagens), é definito um take profit de 80% do valor na posição. Por exemplo: o 
       lucro chegou em $ 10, é setado na posição um take profit correspondente ao lucro de $ 8; caso suba $ 20, é garantido 80% ($ 16), e assim por diante.
@@ -59,7 +58,6 @@ Liberação: 01/07/2019
 #38 - Determinar stop loss e take profit automaticamente
       Usar os valores fornecidos pelo NRTR para setar os stop loss e take profit das ordens automaticamente. A ideia é obter os valores de suporte e resistência do indicador, e setar esses valores na ordem, garantindo assim pontos de 
       parada caso o EA perca a conexão com o servidor da corretora.      
-      Observação: na corretora XMGlobal não consegui definir ordens SELL com stop loss. Por alguma razão que ainda desconheço o stop loss que defino é inválido, e o stop loss do trailing stop é aceito sem problemas.
       
 #42 - Identificar automaticamente o mercado que estou operando
       Identificar qual o mercado que estou operando (Bovespa ou Forex) a partir do ativo selecionado.            
