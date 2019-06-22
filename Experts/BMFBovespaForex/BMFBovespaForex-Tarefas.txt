@@ -65,6 +65,7 @@ Liberação: 21/06/2019
       lucro chegou em $ 10, é setado na posição um take profit correspondente ao lucro de $ 8; caso suba $ 20, é garantido 80% ($ 16), e assim por diante.
       Após de implementado o trailing gain, avaliar qual o melhor lugar para adicioná-lo: a cada minuto, no método OnTimer(), ou a cada tick, no método OnTick().
       Dar uma lida neste artigo para ajudar: "https://www.mql5.com/pt/articles/3621"      
+      Observação: o contador criado foi substituído por porcentagem. O incremento ocorre a cada 20% do lucro garantido.
       
 #42 - Identificar automaticamente o mercado que estou operando
       Identificar qual o mercado que estou operando (Bovespa ou Forex) a partir do ativo selecionado.            
