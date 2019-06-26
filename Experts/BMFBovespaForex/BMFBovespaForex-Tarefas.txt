@@ -2,7 +2,10 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-
+#43 - Estratégia com osciladores
+      Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
+      MetaTrader 5.
+      Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
 
 ========== Novas tarefas ==========
             
@@ -28,17 +31,16 @@ BMFBovespaForex - Lista de tarefas
       sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
       conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
       
-#41 - Avaliar ponto de abertura para novas posições
-      Avaliar qual é o melhor ponto para realizar a abertura de novas posições usando o cruzamento de MA: nova barra, OnTick ou OnTimer. Esta avaliação e eventual mudança é exclusiva para Forex.      
-
-#43 -       
+#44 -       
 
 ========== Tarefas concluídas ==========
 
 v1.08:
 Liberação: 01/07/2019
 
-
+#41 - Avaliar ponto de abertura para novas posições
+      Avaliar qual é o melhor ponto para realizar a abertura de novas posições usando o cruzamento de MA: nova barra, OnTick ou OnTimer. Esta avaliação e eventual mudança é exclusiva para Forex.
+      Solução adotada: nos testes feitos realizar a abertura de novas posições após a formação de uma nova barra é a melhor opção. Abrir de outras formas não é tão efetivo.
 
 v1.07:
 Liberação: 21/06/2019
