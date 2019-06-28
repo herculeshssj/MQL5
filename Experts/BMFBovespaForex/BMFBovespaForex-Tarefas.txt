@@ -10,6 +10,15 @@ BMFBovespaForex - Lista de tarefas
       Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
       MetaTrader 5.
       Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
+      
+#45 - Interface para estratégias
+      Elaborar uma interface para implementar as estratégias de negociação. A interface terá os seguintes métodos:
+      - init() -> inicializa as variáveis e indicadores utilizado pela estratégia
+      - release() -> desaloca todas as variáveis e indicadores utilizado pela estratégia
+      - sinalNegociacao() -> sinal para efetuar a compra/venda
+      - sinalConfirmacao() -> sinal que confirma o sinal de compra/venda
+      - sinalSaidaNegociacao() -> sinal que é disparado quando uma condição de fechamento da posição é satisfeita
+      No código do EA tem que prever que a estratégia pode ser disparada no evento OnTick() ou no OnTimer(), e também na abertura de novas barras.      
 
 ========== Novas tarefas ==========
             
@@ -35,12 +44,12 @@ BMFBovespaForex - Lista de tarefas
       sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
       conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
       
-#45 -       
+#46 -             
 
 ========== Tarefas concluídas ==========
 
 v1.09:
-Liberação: 01/08/2019
+Liberação: 06/07/2019
 
 
 
