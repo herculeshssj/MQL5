@@ -43,9 +43,7 @@ BMFBovespaForex - Lista de tarefas
 v1.10:
 Liberação: 01/08/2019
 
-#48 - Acerto na confirmação do sinal do NRTR
-      O sinal do NRTR não é confirmado a partir da posição da barra anterior em relação a MA 20. Atualmente essa confirmação está ocorrendo para todos os sinais.
-      Solução adotada: introduzido um novo sinal de negociação específico para o NRTR.      
+
 
 v1.09:
 Liberação: 30/06/2019
@@ -69,6 +67,10 @@ Liberação: 30/06/2019
       tendência. Testar a estratégia em todos os ativos operados até o presente momento.      
       Solução adotada: implementação estratégia onde obtém o sinal de confirmação do cruzamento de MA, estocástico e do NRTR, com confirmação do NRTR e posição da barra anterior em relação a MA 20, de modo que nos testes preliminares
       foi possível obter uma grande quantidade de operações com lucro no AUDUSD.      
+      
+#48 - Acerto na confirmação do sinal do NRTR
+      O sinal do NRTR não é confirmado a partir da posição da barra anterior em relação a MA 20. Atualmente essa confirmação está ocorrendo para todos os sinais.
+      Solução adotada: introduzido um novo sinal de negociação específico para o NRTR.            
 
 v1.08:
 Liberação: 26/06/2019
