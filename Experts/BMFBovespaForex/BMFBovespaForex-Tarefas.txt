@@ -12,14 +12,12 @@ BMFBovespaForex - Lista de tarefas
 #49 - Redução de perdas
       Avaliar uma forma de reduzir as perdas financeiras quando novas posições são abertas na direção contrárias a tendência, ou numa eventual mudança de tendência. Aplicar os resultados da análise na estratégia ForexXAU, que nos 
       backtestings está gerando perdas financeiras acima de AU$ 100.      
+      Obs1: Para minicontratos foi estabelecido via código um limite de R$ 50 para perdas. Nos backtesting realizados até o momento o resultado foi satisfatório.
       
 #50 - Gestão financeira para minicontrato
       Implementar recursos de gestão financeira adequados para operar com minicontrato de índice. Verificar se a estratégia de gestão financeira funciona bem com contratos cheios.      
       Obs: por hora foi incluído uma verificação para poder garantir parte do lucro em minicontrato e contrato cheio.
-      
-#52 - BUG - Invalid prices ao fechar posições
-      Tem momentos que as classes nativas do MetaTrader não conseguem encerrar as posições abertas pois o preço de mercado está incorreto. O problema ocorre especificamente com minicontratos e contratos cheios de índice. Tentar encontrar
-      uma alternativa para este problema.      
+      Obs2: para minicontratos foi estabelecido via código um limite de R$ 50 para perdas. Nos backtesting realizados até o momento o resultado foi satisfatório.
 
 ========== Novas tarefas ==========
             
@@ -44,27 +42,32 @@ BMFBovespaForex - Lista de tarefas
       Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
       sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
       conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
-      
-#51 - Habilitar operar com CFD
-      Ao tentar operar com CFD de criptomoedas não é gerado nenhum sinal de negociação. Fazer os ajustes necessários para poder operar adequadamente esta categoria de ativos.
             
 #53 -                  
 
 ========== Tarefas concluídas ==========
 
 v1.11:
-Liberação: 01/09/2019
+Liberação: 01/08/2019
 
 
 
 
 v1.10:
-Liberação: 04/07/2019
+Liberação: 05/07/2019
 
 #47 - Testar a estratégiao BMFBovespaForex com outros ativos
       Testar a estratégiao BMFBovespaForex com outros ativos, e fazer os ajustes necessários para evitar grandes perdas financeiras.
       Avaliar também quais ativos seguem tendência ao longo do tempo, e quais aqueles que oscilam muito.
       Solução adotada: a estratégia funciona bem com ativos que seguem tendências definidas. Os ativos que oscilam muito ou são muito laterais geram muitos sinais falsos. Conclusão, a estratégia só funciona com ativos que estão em tendência.
+
+#51 - Habilitar operar com CFD
+      Ao tentar operar com CFD de criptomoedas não é gerado nenhum sinal de negociação. Fazer os ajustes necessários para poder operar adequadamente esta categoria de ativos.
+      
+#52 - BUG - Invalid prices ao fechar posições
+      Tem momentos que as classes nativas do MetaTrader não conseguem encerrar as posições abertas pois o preço de mercado está incorreto. O problema ocorre especificamente com minicontratos e contratos cheios de índice. Tentar encontrar
+      uma alternativa para este problema.
+      Solução adotada: implementado um método em COrder para fechar as posições abertas.            
 
 v1.09:
 Liberação: 30/06/2019
