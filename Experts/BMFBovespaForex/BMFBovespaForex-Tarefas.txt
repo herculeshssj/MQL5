@@ -7,6 +7,7 @@ BMFBovespaForex - Lista de tarefas
       MetaTrader 5.
       Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
       Obs1: os indicadores do artigo foram implementados.
+      Obs2: contratos cheios de índice funcionam bem com osciladores, mais especificamente o INDQ19 com estocástico nas configurações padrão.
 
 #49 - Redução de perdas
       Avaliar uma forma de reduzir as perdas financeiras quando novas posições são abertas na direção contrárias a tendência, ou numa eventual mudança de tendência. Aplicar os resultados da análise na estratégia ForexXAU, que nos 
@@ -15,6 +16,10 @@ BMFBovespaForex - Lista de tarefas
 #50 - Gestão financeira para minicontrato
       Implementar recursos de gestão financeira adequados para operar com minicontrato de índice. Verificar se a estratégia de gestão financeira funciona bem com contratos cheios.      
       Obs: por hora foi incluído uma verificação para poder garantir parte do lucro em minicontrato e contrato cheio.
+      
+#52 - BUG - Invalid prices ao fechar posições
+      Tem momentos que as classes nativas do MetaTrader não conseguem encerrar as posições abertas pois o preço de mercado está incorreto. O problema ocorre especificamente com minicontratos e contratos cheios de índice. Tentar encontrar
+      uma alternativa para este problema.      
 
 ========== Novas tarefas ==========
             
@@ -42,8 +47,8 @@ BMFBovespaForex - Lista de tarefas
       
 #51 - Habilitar operar com CFD
       Ao tentar operar com CFD de criptomoedas não é gerado nenhum sinal de negociação. Fazer os ajustes necessários para poder operar adequadamente esta categoria de ativos.
-      
-#52 -            
+            
+#53 -                  
 
 ========== Tarefas concluídas ==========
 
