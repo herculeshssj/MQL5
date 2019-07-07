@@ -54,7 +54,11 @@ BMFBovespaForex - Lista de tarefas
 #60 - Estratégia padrão
       Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
       
-#61 -                   
+#61 - Rever os horários de negociação
+      Com a inclusão do Bitcoin operando no timeframe H4, é necessário rever o método que controla os horários das negociações, para poder garantir que as novas posições sejam abertas na segunda após a 1h da manhã, e encerradas às 23h de 
+      sexta, independente do timeframe que o ativo está operando.
+      
+#62 -                         
 
 ========== Tarefas concluídas ==========
 
