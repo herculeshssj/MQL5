@@ -58,7 +58,16 @@ BMFBovespaForex - Lista de tarefas
       Com a inclusão do Bitcoin operando no timeframe H4, é necessário rever o método que controla os horários das negociações, para poder garantir que as novas posições sejam abertas na segunda após a 1h da manhã, e encerradas às 23h de 
       sexta, independente do timeframe que o ativo está operando.
       
-#62 -                         
+#62 - Montar ambiente de testes
+      Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
+      partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
+      Ideia de fluxo:
+      1º - fazer todos os testes em ambiente local, para validar as implementações realizadas;
+      2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
+      3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
+      4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
+      
+#63 -       
 
 ========== Tarefas concluídas ==========
 
