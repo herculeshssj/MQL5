@@ -67,7 +67,10 @@ BMFBovespaForex - Lista de tarefas
       3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
       4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
       
-#63 -       
+#63 - Ativos que funcionam com BMFBovespaForex
+      Dentre todos os pares disponíveis para as moedas USD, CAD, AUD, EUR, GBP, NZD, CHF e JPY, vê quais pares funcionam bem com a estratégia BMFBovespaForex, de modo a gerar poucos perdas e algum lucro ao longo do tempo.
+      
+#64 -            
 
 ========== Tarefas concluídas ==========
 
