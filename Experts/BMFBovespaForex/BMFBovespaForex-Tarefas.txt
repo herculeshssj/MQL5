@@ -2,20 +2,7 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#43 - Estratégia com osciladores
-      Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
-      MetaTrader 5.
-      Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
-      Obs1: os indicadores do artigo foram implementados.
-      Obs2: contratos cheios de índice funcionam bem com osciladores, mais especificamente o INDQ19 no timeframe M5 com estocástico nas configurações padrão.
-      
-#63 - Ativos que funcionam com BMFBovespaForex
-      Dentre todos os pares disponíveis para as moedas USD, CAD, AUD, EUR, GBP, NZD, CHF e JPY, vê quais pares funcionam bem com a estratégia BMFBovespaForex, de modo a gerar poucos perdas e algum lucro ao longo do tempo.      
-      
-#64 - BMFBovespaForex - limitar perdas
-      O ativo XAUAUD trabalham bem com a estratégia BMFBovespaForex, contudo gera muitas perdas. Implementar um limite de perdas máximas para poder gerar o sinal de saída das posições. Avaliar quais valores ficam legais: 
-      20, 25, 30, 35, 40, 45 ou 50.
-      Solução adotada: as perdas foram fixadas em 50. Ainda não se chegou a uma conclusão para XAUAUD.      
+
 
 ========== Novas tarefas ==========
             
@@ -40,6 +27,13 @@ BMFBovespaForex - Lista de tarefas
       Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
       sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
       conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
+
+#43 - Estratégia com osciladores
+      Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
+      MetaTrader 5.
+      Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
+      Obs1: os indicadores do artigo foram implementados.
+      Obs2: contratos cheios de índice funcionam bem com osciladores, mais especificamente o INDQ19 no timeframe M5 com estocástico nas configurações padrão.
 
 #54 - Artigo: negociação com inside bar
       Artigo que explica os padrões inside bar e elabora um EA para trabalhar com esta estratégia. Link: "https://www.mql5.com/pt/articles/1771". Atenção: o código do EA foi escrito usando MQL4, será necessário adaptar o código.
@@ -75,9 +69,12 @@ BMFBovespaForex - Lista de tarefas
       3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
       4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
       
-
-
-#65 -       
+#65 - Estratégia Dunnigan + NRTR + MA (20 ou 50)      
+      Estratégia de negociação onde os sinais de negociação são disparados por Dunnigan e confirmados pelo NRTR. A média móvel exponencial de 20 e 50 períodos será usada como guia, para poder avaliar a tendência atual do ativo.
+      Avaliar a melhor saída de negociação: quando o candle cruzar a MA de 20 ou 50 períodos, ou por lucro/prejuízos máximos alcançados.
+      Avaliar também se vale a pena gerar sinais de negociação com o NRTR e a MA. À princípio não será necessário pois Dunnigan é um indicador muito rápido, e sempre tentará abrir novas posições após a formação de uma nova barra.
+      
+#66 -       
 
 ========== Tarefas concluídas ==========
 
@@ -89,7 +86,14 @@ Liberação: 01/08/2019
 v1.11:
 Liberação: 13/07/2019
 
+#63 - Ativos que funcionam com BMFBovespaForex
+      Dentre todos os pares disponíveis para as moedas USD, CAD, AUD, EUR, GBP, NZD, CHF e JPY, vê quais pares funcionam bem com a estratégia BMFBovespaForex, de modo a gerar poucos perdas e algum lucro ao longo do tempo.
+      Solução adotada: todos os pares das moedas citadas serão usadas para avaliar novas estratégias daqui pra frente.
 
+#64 - BMFBovespaForex - limitar perdas
+      O ativo XAUAUD trabalham bem com a estratégia BMFBovespaForex, contudo gera muitas perdas. Implementar um limite de perdas máximas para poder gerar o sinal de saída das posições. Avaliar quais valores ficam legais: 
+      20, 25, 30, 35, 40, 45 ou 50.
+      Solução adotada: as perdas foram fixadas em 50. Ainda não se chegou a uma conclusão para XAUAUD.      
 
 v1.10:
 Liberação: 07/07/2019
