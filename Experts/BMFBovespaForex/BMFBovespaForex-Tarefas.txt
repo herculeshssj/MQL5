@@ -2,10 +2,7 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#65 - Estratégia Dunnigan + NRTR + MA (20 ou 50)      
-      Estratégia de negociação onde os sinais de negociação são disparados por Dunnigan e confirmados pelo NRTR. A média móvel exponencial de 20 e 50 períodos será usada como guia, para poder avaliar a tendência atual do ativo.
-      Avaliar a melhor saída de negociação: quando o candle cruzar a MA de 20 ou 50 períodos, ou por lucro/prejuízos máximos alcançados.
-      Avaliar também se vale a pena gerar sinais de negociação com o NRTR e a MA. À princípio não será necessário pois Dunnigan é um indicador muito rápido, e sempre tentará abrir novas posições após a formação de uma nova barra.
+
 
 ========== Novas tarefas ==========
             
@@ -53,15 +50,8 @@ BMFBovespaForex - Lista de tarefas
 #58 - Estratégias indicadores adaptativos
       Implementar estratégias para os indicadores adaptativos.
       
-#59 - Estratégia Dunnigan
-      Recuperar no código fonte dos demais EAs o código de sinal de negociação do Dunnigan. 
-      
 #60 - Estratégia padrão
       Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
-      
-#61 - Rever os horários de negociação
-      Com a inclusão do Bitcoin operando no timeframe H4, é necessário rever o método que controla os horários das negociações, para poder garantir que as novas posições sejam abertas na segunda após a 1h da manhã, e encerradas às 23h de 
-      sexta, independente do timeframe que o ativo está operando.
       
 #62 - Montar ambiente de testes
       Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
@@ -71,8 +61,6 @@ BMFBovespaForex - Lista de tarefas
       2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
       3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
       4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
-      
-
       
 #66 -       
 
@@ -86,6 +74,13 @@ Liberação: 01/08/2019
 v1.11:
 Liberação: 13/07/2019
 
+#59 - Estratégia Dunnigan
+      Recuperar no código fonte dos demais EAs o código de sinal de negociação do Dunnigan. 
+
+#61 - Rever os horários de negociação
+      Com a inclusão do Bitcoin operando no timeframe H4, é necessário rever o método que controla os horários das negociações, para poder garantir que as novas posições sejam abertas na segunda após a 1h da manhã, e encerradas às 23h de 
+      sexta, independente do timeframe que o ativo está operando.
+
 #63 - Ativos que funcionam com BMFBovespaForex
       Dentre todos os pares disponíveis para as moedas USD, CAD, AUD, EUR, GBP, NZD, CHF e JPY, vê quais pares funcionam bem com a estratégia BMFBovespaForex, de modo a gerar poucos perdas e algum lucro ao longo do tempo.
       Solução adotada: todos os pares das moedas citadas serão usadas para avaliar novas estratégias daqui pra frente.
@@ -94,7 +89,13 @@ Liberação: 13/07/2019
       O ativo XAUAUD trabalham bem com a estratégia BMFBovespaForex, contudo gera muitas perdas. Implementar um limite de perdas máximas para poder gerar o sinal de saída das posições. Avaliar quais valores ficam legais: 
       20, 25, 30, 35, 40, 45 ou 50.
       Solução adotada: as perdas foram fixadas em 50. Ainda não se chegou a uma conclusão para XAUAUD.      
-
+      
+#65 - Estratégia Dunnigan + NRTR + MA (20 ou 50)      
+      Estratégia de negociação onde os sinais de negociação são disparados por Dunnigan e confirmados pelo NRTR. A média móvel exponencial de 20 e 50 períodos será usada como guia, para poder avaliar a tendência atual do ativo.
+      Avaliar a melhor saída de negociação: quando o candle cruzar a MA de 20 ou 50 períodos, ou por lucro/prejuízos máximos alcançados.
+      Avaliar também se vale a pena gerar sinais de negociação com o NRTR e a MA. À princípio não será necessário pois Dunnigan é um indicador muito rápido, e sempre tentará abrir novas posições após a formação de uma nova barra.
+      Solução adotada: implementado uma estratégia somente para Dunnigan, e implementado uma estratégia com Dunnigan com confirmação do NRTRvolatile.
+ 
 v1.10:
 Liberação: 07/07/2019
 
