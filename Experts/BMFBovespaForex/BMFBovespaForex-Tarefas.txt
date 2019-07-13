@@ -2,7 +2,14 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-
+#62 - Montar ambiente de testes
+      Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
+      partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
+      Ideia de fluxo:
+      1º - fazer todos os testes em ambiente local, para validar as implementações realizadas;
+      2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
+      3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
+      4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
 
 ========== Novas tarefas ==========
             
@@ -52,22 +59,23 @@ BMFBovespaForex - Lista de tarefas
       
 #60 - Estratégia padrão
       Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
+            
+#66 - Artigo "Como, na MetaTrader 5, desenvolver e depurar rapidamente sua estratégia de negociação"      
+      Desenvolver as técnicas apresentadas no artigo "https://www.mql5.com/pt/articles/2661". São interessantes para aprimorar a análise das estratégias de negociação.
       
-#62 - Montar ambiente de testes
-      Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
-      partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
-      Ideia de fluxo:
-      1º - fazer todos os testes em ambiente local, para validar as implementações realizadas;
-      2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
-      3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
-      4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
+#67 - Avaliar o desempenho do EA
+      Usando as dicas e sugestões apresentadas no artigo "https://www.mql5.com/pt/articles/2555", avaliar o desempenho do EA, e fazer todos os ajustes necessários como se ele fosse ir para a publicação no Mercado MetaQuote.
       
-#66 -       
+#68 - Estratégia dinâmica
+      Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
+      Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
+      
+#69 -       
 
 ========== Tarefas concluídas ==========
 
 v1.12:
-Liberação: 01/08/2019
+Liberação: 20/07/2019
 
 
 
