@@ -2,6 +2,9 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
+#55 - Estratégias nos seus respectivos MQH
+      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
+
 #62 - Montar ambiente de testes
       Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
       partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
@@ -44,9 +47,6 @@ BMFBovespaForex - Lista de tarefas
 
 #54 - Artigo: negociação com inside bar
       Artigo que explica os padrões inside bar e elabora um EA para trabalhar com esta estratégia. Link: "https://www.mql5.com/pt/articles/1771". Atenção: o código do EA foi escrito usando MQL4, será necessário adaptar o código.
-      
-#55 - Estratégias nos seus respectivos MQH
-      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
       
 #56 - Estratégia Indicador Tabajara
       Implementar uma estratégia de negociação com o indicador Tabajara.
