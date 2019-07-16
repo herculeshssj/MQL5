@@ -4,15 +4,9 @@ BMFBovespaForex - Lista de tarefas
 
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
-
-#62 - Montar ambiente de testes
-      Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
-      partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
-      Ideia de fluxo:
-      1º - fazer todos os testes em ambiente local, para validar as implementações realizadas;
-      2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
-      3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
-      4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
+      
+#69 - Notificação ao usuário na estratégia
+      Melhorar a classe CStrategy para oferecer o recurso de notificação ao usuário. Cada estratégia de negociação implementará sua própria forma de informar o andamento das negociações ao usuário.      
 
 ========== Novas tarefas ==========
             
@@ -70,14 +64,23 @@ BMFBovespaForex - Lista de tarefas
       Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
       Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
       
-#69 -       
+#70 -       
 
 ========== Tarefas concluídas ==========
 
 v1.12:
 Liberação: 20/07/2019
 
-
+#62 - Montar ambiente de testes
+      Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
+      partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
+      Ideia de fluxo:
+      1º - fazer todos os testes em ambiente local, para validar as implementações realizadas;
+      2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
+      3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
+      4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
+      Solução adotada: será usado uma conta de usuário diferente na instância para poder rodar a estrátegia na conta de demonstração. Estando tudo ok, a estratégia passará a rodar na conta de usuário onde a conta real da Pepperstone está
+      configurada.
 
 v1.11:
 Liberação: 13/07/2019
