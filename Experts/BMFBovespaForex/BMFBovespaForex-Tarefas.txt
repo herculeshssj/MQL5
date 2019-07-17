@@ -4,9 +4,6 @@ BMFBovespaForex - Lista de tarefas
 
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
-      
-#69 - Notificação ao usuário na estratégia
-      Melhorar a classe CStrategy para oferecer o recurso de notificação ao usuário. Cada estratégia de negociação implementará sua própria forma de informar o andamento das negociações ao usuário.      
 
 ========== Novas tarefas ==========
             
@@ -81,6 +78,9 @@ Liberação: 20/07/2019
       4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
       Solução adotada: será usado uma conta de usuário diferente na instância para poder rodar a estrátegia na conta de demonstração. Estando tudo ok, a estratégia passará a rodar na conta de usuário onde a conta real da Pepperstone está
       configurada.
+      
+#69 - Notificação ao usuário na estratégia
+      Melhorar a classe CStrategy para oferecer o recurso de notificação ao usuário. Cada estratégia de negociação implementará sua própria forma de informar o andamento das negociações ao usuário.            
 
 v1.11:
 Liberação: 13/07/2019
