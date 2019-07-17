@@ -4,6 +4,9 @@ BMFBovespaForex - Lista de tarefas
 
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
+      
+#71 - Estratégia do TradeByATR
+      Implementar uma estratégia que use os mesmos sinais de negociação do TradeByATR, EA obtido da documentação do MQL5. O EA gera os sinais de negociação a partir do indicador ATR.      
 
 ========== Novas tarefas ==========
             
@@ -61,7 +64,7 @@ BMFBovespaForex - Lista de tarefas
       Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
       Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
       
-#70 -       
+#72 -           
 
 ========== Tarefas concluídas ==========
 
@@ -81,6 +84,9 @@ Liberação: 20/07/2019
       
 #69 - Notificação ao usuário na estratégia
       Melhorar a classe CStrategy para oferecer o recurso de notificação ao usuário. Cada estratégia de negociação implementará sua própria forma de informar o andamento das negociações ao usuário.            
+
+#70 - Estratégia do EAIniciante
+      Implementar uma estratégia que use os mesmos sinais de negociação do ArtigoEAIniciantes. O EA usa o indicador ADX com confirmação de média móvel.      
 
 v1.11:
 Liberação: 13/07/2019
