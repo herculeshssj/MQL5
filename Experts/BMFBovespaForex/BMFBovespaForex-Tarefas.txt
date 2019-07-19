@@ -67,12 +67,16 @@ BMFBovespaForex - Lista de tarefas
 #72 - Estratégias específicas para XAU
       Após análise dos backtesting com XAUAUD, XAUUSD e XAUEUR, e avaliar um desempenho satisfatório com os osciladores, decidiu-se criar estratégias bem específicas para cada um dos três pares. Então será implementado as seguintes
       estratégias em um arquivo MQH separado:
-      - Estratégia XAUAUD - Sinais do estocástico com notificação de perda maior que 35, para gráfico de 1 hora (H1);
-      - Estratégia XAUUSD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
-      - Estratégia XAUEUR - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUAUD com estocástico - Sinais do estocástico com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUAUD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUEUR com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
       - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
       
-#73 -       
+#73 - Excluir estratégia ForexXAU
+      Não será mais necessária, uma vez que haverá uma estratégia para cada par XAU.
+      
+#74 -       
 
 ========== Tarefas concluídas ==========
 
