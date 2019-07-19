@@ -64,9 +64,22 @@ BMFBovespaForex - Lista de tarefas
       Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
       Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
       
-#72 -           
+#72 - Estratégias específicas para XAU
+      Após análise dos backtesting com XAUAUD, XAUUSD e XAUEUR, e avaliar um desempenho satisfatório com os osciladores, decidiu-se criar estratégias bem específicas para cada um dos três pares. Então será implementado as seguintes
+      estratégias em um arquivo MQH separado:
+      - Estratégia XAUAUD - Sinais do estocástico com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUUSD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUEUR - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
+      
+#73 -       
 
 ========== Tarefas concluídas ==========
+
+v1.13:
+Liberação: 27/07/2019
+
+
 
 v1.12:
 Liberação: 20/07/2019
