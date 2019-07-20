@@ -5,9 +5,6 @@ BMFBovespaForex - Lista de tarefas
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
       
-#73 - Excluir estratégia ForexXAU
-      Não será mais necessária, uma vez que haverá uma estratégia para cada par XAU.     
-
 ========== Novas tarefas ==========
             
 #26 - Reversão da tendência
@@ -104,6 +101,9 @@ Liberação: 21/07/2019
       
 #71 - Estratégia do TradeByATR
       Implementar uma estratégia que use os mesmos sinais de negociação do TradeByATR, EA obtido da documentação do MQL5. O EA gera os sinais de negociação a partir do indicador ATR.            
+
+#73 - Excluir estratégia ForexXAU
+      Não será mais necessária, uma vez que haverá uma estratégia para cada par XAU.           
 
 v1.11:
 Liberação: 13/07/2019
