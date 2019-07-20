@@ -73,7 +73,11 @@ BMFBovespaForex - Lista de tarefas
 #74 - Comparar RSI com MACD e Estocástico com XAUAUD
       Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
       
-#75 -              
+#75 - Estratégia GBPAUD com CCI
+      Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
+      Junho-Julho/2019.
+      
+#76 -                    
 
 ========== Tarefas concluídas ==========
 
