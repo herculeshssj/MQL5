@@ -70,7 +70,10 @@ BMFBovespaForex - Lista de tarefas
       - Estratégia XAUEUR com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
       - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
       
-#74 -       
+#74 - Comparar RSI com MACD e Estocástico com XAUAUD
+      Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
+      
+#75 -              
 
 ========== Tarefas concluídas ==========
 
