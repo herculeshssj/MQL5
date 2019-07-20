@@ -5,8 +5,8 @@ BMFBovespaForex - Lista de tarefas
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
       
-#71 - Estratégia do TradeByATR
-      Implementar uma estratégia que use os mesmos sinais de negociação do TradeByATR, EA obtido da documentação do MQL5. O EA gera os sinais de negociação a partir do indicador ATR.      
+#73 - Excluir estratégia ForexXAU
+      Não será mais necessária, uma vez que haverá uma estratégia para cada par XAU.     
 
 ========== Novas tarefas ==========
             
@@ -73,9 +73,6 @@ BMFBovespaForex - Lista de tarefas
       - Estratégia XAUEUR com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
       - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
       
-#73 - Excluir estratégia ForexXAU
-      Não será mais necessária, uma vez que haverá uma estratégia para cada par XAU.
-      
 #74 -       
 
 ========== Tarefas concluídas ==========
@@ -86,7 +83,7 @@ Liberação: 27/07/2019
 
 
 v1.12:
-Liberação: 20/07/2019
+Liberação: 21/07/2019
 
 #62 - Montar ambiente de testes
       Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
@@ -104,6 +101,9 @@ Liberação: 20/07/2019
 
 #70 - Estratégia do EAIniciante
       Implementar uma estratégia que use os mesmos sinais de negociação do ArtigoEAIniciantes. O EA usa o indicador ADX com confirmação de média móvel.      
+      
+#71 - Estratégia do TradeByATR
+      Implementar uma estratégia que use os mesmos sinais de negociação do TradeByATR, EA obtido da documentação do MQL5. O EA gera os sinais de negociação a partir do indicador ATR.            
 
 v1.11:
 Liberação: 13/07/2019
