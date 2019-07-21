@@ -4,6 +4,20 @@ BMFBovespaForex - Lista de tarefas
 
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
+      Estratégias que faltam implementar:
+      -> Ruptura do canal de preços (Trade_03). Vai no MQH HCustomizados;
+      -> Ruptura do canal adaptativo ADX (Trade_04). Vai no MQH HAdaptativos;
+      -> Salto do canal de desvio padrão (Trade_10). Vai no MQH HCustomizados;
+      -> Salto do canal de preços (Trade_11). Vai no MQH HCustomizados;
+      -> Ruptura do canal Donchian (Trade_13). Vai no MQH HCustomizados;
+      -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
+      -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado;
+      -> Salto das bordas Envelope (Trade_12). Vai no MQH HTendencia;
+      -> Bordas Bollingers (Trade_09). Vai no MQH HTendencia;
+      -> Tendência Alligator (Trade_17). Vai no MQH HBillWilliams;
+      -> Oscilador Maravilhoso (Trade_19). Vai no MQH HBillWilliams;
+      -> Tendência Ichimoku (Trade_20). Vai no MQH HTendencia.
+      
       
 ========== Novas tarefas ==========
             
