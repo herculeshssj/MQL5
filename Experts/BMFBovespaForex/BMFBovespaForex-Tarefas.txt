@@ -77,7 +77,12 @@ BMFBovespaForex - Lista de tarefas
       Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
       Junho-Julho/2019.
       
-#76 -                    
+#76 - Oscilador Williams (%) como sinal de permanência
+      Avaliar o oscilador William's Percent Range (%) como sinal de permanência nas posições. Nos backtesting iniciais o oscilador não gera bons sinais de negociação, mas indica momentos para manter ou reverter a posição aberta. Assim,
+      pode ser útil para indicar pontos de saída ou de permanência na negociação de acordo com a tendência.
+      Avaliar o oscilador junto com o ADX+MA e MACD com os pares XAU. Nos testes foram os que deram bons resultados ao longo de 2019.
+      
+#77 -       
 
 ========== Tarefas concluídas ==========
 
