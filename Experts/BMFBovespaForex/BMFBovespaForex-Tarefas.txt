@@ -96,7 +96,12 @@ BMFBovespaForex - Lista de tarefas
       pode ser útil para indicar pontos de saída ou de permanência na negociação de acordo com a tendência.
       Avaliar o oscilador junto com o ADX+MA e MACD com os pares XAU. Nos testes foram os que deram bons resultados ao longo de 2019.
       
-#77 -       
+#77 - Avaliar estratégia com AMA
+      Avaliar uma estratégia de negociação usando AMA para o ativo AUDUSD. Este ativo possui ciclos de tendência, e seria ideal para trabalhar com AMA.
+      Avaliar também com outros indicadores para poder gerar sinais de negociação ou sinais de confirmação.
+      E ver se o AMA pode ser usado como sinal de permanência e saída das negociações.
+
+#78 -            
 
 ========== Tarefas concluídas ==========
 
