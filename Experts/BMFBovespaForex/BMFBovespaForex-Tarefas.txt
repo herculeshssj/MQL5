@@ -17,14 +17,7 @@ BMFBovespaForex - Lista de tarefas
       -> Oscilador Maravilhoso (Trade_19). Vai no MQH HBillWilliams;
       -> Tendência Ichimoku (Trade_20). Vai no MQH HTendencia.
 
-#72 - Estratégias específicas para XAU
-      Após análise dos backtesting com XAUAUD, XAUUSD e XAUEUR, e avaliar um desempenho satisfatório com os osciladores, decidiu-se criar estratégias bem específicas para cada um dos três pares. Então será implementado as seguintes
-      estratégias em um arquivo MQH separado:
-      - Estratégia XAUAUD com estocástico - Sinais do estocástico com notificação de perda maior que 35, para gráfico de 1 hora (H1);
-      - Estratégia XAUAUD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
-      - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
-      - Estratégia XAUEUR com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
-      - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
+
 
 #77 - Avaliar estratégia com AMA
       Avaliar uma estratégia de negociação usando AMA para o ativo AUDUSD. Este ativo possui ciclos de tendência, e seria ideal para trabalhar com AMA.
@@ -106,7 +99,19 @@ BMFBovespaForex - Lista de tarefas
 v1.13:
 Liberação: 27/07/2019
 
-
+#72 - Estratégias específicas para XAU
+      Após análise dos backtesting com XAUAUD, XAUUSD e XAUEUR, e avaliar um desempenho satisfatório com os osciladores, decidiu-se criar estratégias bem específicas para cada um dos três pares. Então será implementado as seguintes
+      estratégias em um arquivo MQH separado:
+      - Estratégia XAUAUD com estocástico - Sinais do estocástico com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUAUD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUEUR com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
+      Solução adotada:
+      - Estratégia XAUAUD com estocástico - Sinais do estocástico com notificação de lucro/perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de lucro/perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de lucro/perda maior que 35, para gráfico de 1 hora (H1).
+      As três estratégias foram implementadas no arquivo HForexXAU.
 
 v1.12:
 Liberação: 21/07/2019
