@@ -14,7 +14,6 @@ BMFBovespaForex - Lista de tarefas
       -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado;
       -> Bordas Bollingers (Trade_09). Vai no MQH HTendencia;
       -> Tendência Alligator (Trade_17). Vai no MQH HBillWilliams;
-      -> Oscilador Maravilhoso (Trade_19). Vai no MQH HBillWilliams;
       -> Tendência Ichimoku (Trade_20). Vai no MQH HTendencia.
 
 #77 - Avaliar estratégia com AMA
