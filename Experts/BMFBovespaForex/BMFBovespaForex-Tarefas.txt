@@ -17,8 +17,6 @@ BMFBovespaForex - Lista de tarefas
       -> Oscilador Maravilhoso (Trade_19). Vai no MQH HBillWilliams;
       -> Tendência Ichimoku (Trade_20). Vai no MQH HTendencia.
 
-
-
 #77 - Avaliar estratégia com AMA
       Avaliar uma estratégia de negociação usando AMA para o ativo AUDUSD. Este ativo possui ciclos de tendência, e seria ideal para trabalhar com AMA.
       Avaliar também com outros indicadores para poder gerar sinais de negociação ou sinais de confirmação.
@@ -92,12 +90,14 @@ BMFBovespaForex - Lista de tarefas
       pode ser útil para indicar pontos de saída ou de permanência na negociação de acordo com a tendência.
       Avaliar o oscilador junto com o ADX+MA e MACD com os pares XAU. Nos testes foram os que deram bons resultados ao longo de 2019.
       
-#78 -            
+
+      
+#80 -                        
 
 ========== Tarefas concluídas ==========
 
 v1.13:
-Liberação: 27/07/2019
+Liberação: 28/07/2019
 
 #72 - Estratégias específicas para XAU
       Após análise dos backtesting com XAUAUD, XAUUSD e XAUEUR, e avaliar um desempenho satisfatório com os osciladores, decidiu-se criar estratégias bem específicas para cada um dos três pares. Então será implementado as seguintes
@@ -112,6 +112,13 @@ Liberação: 27/07/2019
       - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de lucro/perda maior que 35, para gráfico de 30 minutos (M30);
       - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de lucro/perda maior que 35, para gráfico de 1 hora (H1).
       As três estratégias foram implementadas no arquivo HForexXAU.
+
+#78 - Aumentar o ganho garantido
+      Aumentar em 5% o ganho garantido e o percentual de aumento para a estratégia BMFBovespaForex. Pode-se obter um lucro adicional fazendo estes aumento nos valores.
+
+#79 - Diminiur a perda máxima permitida
+      Atualmente a perda máxima está definida para 50. Acontece que até o presente momento as posições encerradas em virtude de stop loss não deram perdas superiores a 20. Portanto, faz sentido diminuir para 25 a perda máxima, protegendo
+      ainda mais o capital e permitindo operar por mais tempo.
 
 v1.12:
 Liberação: 21/07/2019
