@@ -2,6 +2,10 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
+#26 - Reversão da tendência
+      Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
+      mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
+
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
       Estratégias que faltam implementar:
@@ -18,10 +22,6 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Novas tarefas ==========
             
-#26 - Reversão da tendência
-      Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
-      mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
-
 #27 - Otimizar o EA com o profile
       Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
       gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
