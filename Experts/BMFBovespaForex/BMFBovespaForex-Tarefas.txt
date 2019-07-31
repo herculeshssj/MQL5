@@ -92,7 +92,7 @@ BMFBovespaForex - Lista de tarefas
 ========== Tarefas concluídas ==========
 
 v1.14:
-Liberação: 11/08/2019
+Liberação: 04/08/2019
 
 
 
@@ -130,6 +130,7 @@ Liberação: 28/07/2019
 
 #78 - Aumentar o ganho garantido
       Aumentar em 5% o ganho garantido e o percentual de aumento para a estratégia BMFBovespaForex. Pode-se obter um lucro adicional fazendo estes aumento nos valores.
+      Solução adotada: foi aumentado em 5% o ganho garantido e o percentual de garantia. O percentual de garantia foi mantido em 20%, e o ganho garantido em 90%.
 
 #79 - Diminiur a perda máxima permitida
       Atualmente a perda máxima está definida para 50. Acontece que até o presente momento as posições encerradas em virtude de stop loss não deram perdas superiores a 20. Portanto, faz sentido diminuir para 25 a perda máxima, protegendo
