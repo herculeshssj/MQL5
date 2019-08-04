@@ -98,13 +98,14 @@ BMFBovespaForex - Lista de tarefas
 ========== Tarefas concluídas ==========
 
 v1.14:
-Liberação: 11/08/2019
+Liberação: 01/09/2019
 Número de linhas de código: 
 
 
 
 v1.13:
-Liberação: 28/07/2019
+Liberação: 04/08/2019
+Linhas de código: 
 
 #40 - Aumentar o volume de novas ordens automaticamente
       Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
