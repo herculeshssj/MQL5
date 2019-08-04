@@ -16,8 +16,6 @@ BMFBovespaForex - Lista de tarefas
       -> Ruptura do canal Donchian (Trade_13). Vai no MQH HCustomizados;
       -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
       -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado;
-      -> Bordas Bollingers (Trade_09). Vai no MQH HTendencia;
-      -> Tendência Alligator (Trade_17). Vai no MQH HBillWilliams;
       -> Tendência Ichimoku (Trade_20). Vai no MQH HTendencia.
 
 #82 - Aprimorar a estratégia atual
