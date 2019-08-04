@@ -97,7 +97,7 @@ int OnCalculate(const int rates_total,
       int InpChannelPeriod=(int)floor(150/adxBuffer[i]);
       ExtHighBuffer[i]=Highest(high,InpChannelPeriod,i);
       ExtLowBuffer[i]=Lowest(low,InpChannelPeriod,i);
-      ExtMiddBuffer[i]=(ExtHighBuffer[i]+ExtLowBuffer[i])/2.0;;
+      ExtMiddBuffer[i]=(ExtHighBuffer[i]+ExtLowBuffer[i])/2.0;
      }
 
    return(rates_total);
