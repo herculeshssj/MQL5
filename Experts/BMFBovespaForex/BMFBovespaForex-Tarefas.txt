@@ -15,8 +15,7 @@ BMFBovespaForex - Lista de tarefas
       -> Salto do canal de preços (Trade_11). Vai no MQH HCustomizados;
       -> Ruptura do canal Donchian (Trade_13). Vai no MQH HCustomizados;
       -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
-      -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado;
-      -> Tendência Ichimoku (Trade_20). Vai no MQH HTendencia.
+      -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado.
 
 #82 - Aprimorar a estratégia atual
       No backtesting de comparação da estratégia atual com as demais implementadas, o cruzamento MA Curta-Ágil é bem mais lucrativa. Modificar a estratégia atual para ficar mais próximo dos ganhos do cruzamento MA Curta-Ágil.
