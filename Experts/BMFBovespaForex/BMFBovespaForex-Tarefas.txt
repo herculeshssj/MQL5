@@ -14,6 +14,9 @@ BMFBovespaForex - Lista de tarefas
       -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
       -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado.
 
+#57 - Estratégia Buying-Selling Pressure
+      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
+
 #82 - Aprimorar a estratégia atual
       No backtesting de comparação da estratégia atual com as demais implementadas, o cruzamento MA Curta-Ágil é bem mais lucrativa. Modificar a estratégia atual para ficar mais próximo dos ganhos do cruzamento MA Curta-Ágil.
 
@@ -44,9 +47,6 @@ BMFBovespaForex - Lista de tarefas
       
 #56 - Estratégia Indicador Tabajara
       Implementar uma estratégia de negociação com o indicador Tabajara.
-      
-#57 - Estratégia Buying-Selling Pressure
-      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
       
 #58 - Estratégias indicadores adaptativos
       Implementar estratégias para os indicadores adaptativos.
@@ -84,9 +84,6 @@ BMFBovespaForex - Lista de tarefas
       Além disso os contratos para criptomoeda tem tamanho 1.0, e não 100, 1000 ou 100.000 como os demais ativos, fazendo com que a fórmula saia errado. 
       Tentar fazer estas correções para operar criptomoedas, e testar outros CFDs para saber se as correções irão valer para eles também.
       
-#81 - BUG - problema com stop loss
-      Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
-      
 #83 -             
 
 ========== Tarefas concluídas ==========
@@ -95,7 +92,9 @@ v1.14:
 Liberação: 01/09/2019
 Número de linhas de código: 
 
-
+#81 - BUG - problema com stop loss
+      Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
+      Solução adotada: stop loss e take profit fixos. Não será usado o NRTR para definição do stop loss inicial.
 
 v1.13:
 Liberação: 04/08/2019
