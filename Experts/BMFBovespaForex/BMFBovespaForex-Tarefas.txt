@@ -6,22 +6,6 @@ BMFBovespaForex - Lista de tarefas
       Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
       mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
 
-#55 - Estratégias nos seus respectivos MQH
-      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
-      Estratégias que faltam implementar:
-      -> Salto do canal de desvio padrão (Trade_10). Vai no MQH HCustomizados;
-      -> Ruptura do canal Donchian (Trade_13). Vai no MQH HCustomizados;
-      -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
-      -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado.
-
-#57 - Estratégia Buying-Selling Pressure
-      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
-
-#82 - Aprimorar a estratégia atual
-      No backtesting de comparação da estratégia atual com as demais implementadas, o cruzamento MA Curta-Ágil é bem mais lucrativa. Modificar a estratégia atual para ficar mais próximo dos ganhos do cruzamento MA Curta-Ágil.
-
-========== Novas tarefas ==========
-            
 #27 - Otimizar o EA com o profile
       Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
       gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
@@ -44,10 +28,21 @@ BMFBovespaForex - Lista de tarefas
 
 #54 - Artigo: negociação com inside bar
       Artigo que explica os padrões inside bar e elabora um EA para trabalhar com esta estratégia. Link: "https://www.mql5.com/pt/articles/1771". Atenção: o código do EA foi escrito usando MQL4, será necessário adaptar o código.
-      
+
+#55 - Estratégias nos seus respectivos MQH
+      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
+      Estratégias que faltam implementar:
+      -> Salto do canal de desvio padrão (Trade_10). Vai no MQH HCustomizados;
+      -> Ruptura do canal Donchian (Trade_13). Vai no MQH HCustomizados;
+      -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
+      -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado.
+
 #56 - Estratégia Indicador Tabajara
       Implementar uma estratégia de negociação com o indicador Tabajara.
-      
+
+#57 - Estratégia Buying-Selling Pressure
+      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
+
 #58 - Estratégias indicadores adaptativos
       Implementar estratégias para os indicadores adaptativos.
       
@@ -83,7 +78,9 @@ BMFBovespaForex - Lista de tarefas
       "Margin: Lots * ContractSize * MarketPrice * Margin_Rate"
       Além disso os contratos para criptomoeda tem tamanho 1.0, e não 100, 1000 ou 100.000 como os demais ativos, fazendo com que a fórmula saia errado. 
       Tentar fazer estas correções para operar criptomoedas, e testar outros CFDs para saber se as correções irão valer para eles também.
-      
+
+========== Novas tarefas ==========
+   
 #83 -             
 
 ========== Tarefas concluídas ==========
@@ -95,6 +92,11 @@ Número de linhas de código:
 #81 - BUG - problema com stop loss
       Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
       Solução adotada: stop loss e take profit fixos. Não será usado o NRTR para definição do stop loss inicial.
+
+#82 - Aprimorar a estratégia atual
+      No backtesting de comparação da estratégia atual com as demais implementadas, o cruzamento MA Curta-Ágil é bem mais lucrativa. Modificar a estratégia atual para ficar mais próximo dos ganhos do cruzamento MA Curta-Ágil.
+      Solução adotada: definir take profit fixo, ordens sem stop loss inicial, limite máximo de perda em 50, estratégia unicamente baseada em Cruzamento MA Curta-Ágil com confirmação NRTR. Estas mudanças permitiram outros símbolos se
+      destacassem e mostrassem excelente desempenho ao longo do ano, podendo seguir com a tendência de altos ganhos até o fim do ano.      
 
 v1.13:
 Liberação: 04/08/2019
