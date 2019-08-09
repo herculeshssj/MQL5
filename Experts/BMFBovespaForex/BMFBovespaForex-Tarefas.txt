@@ -87,7 +87,7 @@ BMFBovespaForex - Lista de tarefas
 
 v1.14:
 Liberação: 01/09/2019
-Número de linhas de código: 
+Número de linhas de código: 5737
 
 #81 - BUG - problema com stop loss
       Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
