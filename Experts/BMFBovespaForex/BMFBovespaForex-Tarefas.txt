@@ -40,15 +40,9 @@ BMFBovespaForex - Lista de tarefas
 #56 - Estratégia Indicador Tabajara
       Implementar uma estratégia de negociação com o indicador Tabajara.
 
-#57 - Estratégia Buying-Selling Pressure
-      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
-
 #58 - Estratégias indicadores adaptativos
       Implementar estratégias para os indicadores adaptativos.
-      
-#60 - Estratégia padrão
-      Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
-            
+         
 #66 - Artigo "Como, na MetaTrader 5, desenvolver e depurar rapidamente sua estratégia de negociação"      
       Desenvolver as técnicas apresentadas no artigo "https://www.mql5.com/pt/articles/2661". São interessantes para aprimorar a análise das estratégias de negociação.
       
@@ -61,10 +55,6 @@ BMFBovespaForex - Lista de tarefas
       
 #74 - Comparar RSI com MACD e Estocástico com XAUAUD
       Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
-      
-#75 - Estratégia GBPAUD com CCI
-      Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
-      Junho-Julho/2019.
       
 #76 - Oscilador Williams (%) como sinal de permanência
       Avaliar o oscilador William's Percent Range (%) como sinal de permanência nas posições. Nos backtesting iniciais o oscilador não gera bons sinais de negociação, mas indica momentos para manter ou reverter a posição aberta. Assim,
@@ -88,6 +78,21 @@ BMFBovespaForex - Lista de tarefas
 v1.14:
 Liberação: 01/09/2019
 Número de linhas de código: 5737
+
+#57 - Estratégia Buying-Selling Pressure
+      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
+      Solução adotada: implementado uma estratégia de negociação usando o indicador. É necessário fazer vários backtestings para identificar qual cenário ele é lucrativo ou gera prejuízos. Nos testes preliminares, um mercado em tendência
+      a estratégia gera posições lucrativas. Em mercados que possuem muita reversão a estratégia gera muitos stop loss.
+
+#60 - Estratégia padrão
+      Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
+      Obs: a estratégia BMFBovespaForex já é minha estratégia padrão.
+
+#75 - Estratégia GBPAUD com CCI
+      Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
+      Junho-Julho/2019.
+      Observação: o indicador funcionou bem no 1º semestre. No meu de julho começou a acumular perdas, indicando que o ciclo de alta acabou. Realizando o backtesting com o ativo no período de Junho-Agosto, a estratégia que se saiu melhor 
+      foi Price Channel.
 
 #81 - BUG - problema com stop loss
       Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
