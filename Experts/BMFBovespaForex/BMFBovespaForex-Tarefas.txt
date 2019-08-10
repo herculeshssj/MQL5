@@ -10,9 +10,6 @@ BMFBovespaForex - Lista de tarefas
       -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
       -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado.
 
-#56 - Estratégia Indicador Tabajara
-      Implementar uma estratégia de negociação com o indicador Tabajara.
-
 #74 - Comparar RSI com MACD e Estocástico com XAUAUD
       Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
    
@@ -61,6 +58,10 @@ Número de linhas de código: ?????
       Artigo que explica os padrões inside bar e elabora um EA para trabalhar com esta estratégia. Link: "https://www.mql5.com/pt/articles/1771". Atenção: o código do EA foi escrito usando MQL4, será necessário adaptar o código.
       Solução adotada: foram feitas modificações no EA para poder suportar a estratégia que precisava abrir suas próprias ordens stop. Nos testes preliminares a estratégia fica no zero a zero quando executado no AUSUSD-H4. É necessário
       mais backtesting para poder identificar oportunidades com esta estratégia.
+
+#56 - Estratégia Indicador Tabajara
+      Implementar uma estratégia de negociação com o indicador Tabajara.
+      Solução adotada: implementado a estratégia com o indicador tabajara.
 
 #57 - Estratégia Buying-Selling Pressure
       Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
