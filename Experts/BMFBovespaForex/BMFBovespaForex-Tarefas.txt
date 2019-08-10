@@ -12,6 +12,7 @@ BMFBovespaForex - Lista de tarefas
 
 #74 - Comparar RSI com MACD e Estocástico com XAUAUD
       Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
+      Solução adotada: 
    
 ========== Novas tarefas ==========
    
