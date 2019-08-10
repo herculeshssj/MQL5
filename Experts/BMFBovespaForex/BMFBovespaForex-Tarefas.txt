@@ -2,30 +2,6 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#26 - Reversão da tendência
-      Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
-      mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
-
-#27 - Otimizar o EA com o profile
-      Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
-      gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
-             
-#33 - Estudo: mais proteções financeiras para a conta
-      Baseado nas informações constantes no artigo "https://www.mql5.com/pt/articles/22", implementar mais proteções financeiras para não zerar a conta e não trabalhar no limite da margem disponível para negociação. Esse artigo pode ajudar
-      também a determinar o nível adequado de stop loss após o cálculo do trailing stop.
-      
-#34 - Notificação do ambiente de produção
-      Implementar sinais de alerta quando o EA identificar que as condições do terminal ou do SO não são favoráveis para operar, como por exemplo falta de espaço em disco e pouco memória RAM.
-      Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
-      recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
-      
-#43 - Estratégia com osciladores
-      Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
-      MetaTrader 5.
-      Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
-      Obs1: os indicadores do artigo foram implementados.
-      Obs2: contratos cheios de índice funcionam bem com osciladores, mais especificamente o INDQ19 no timeframe M5 com estocástico nas configurações padrão.
-
 #55 - Estratégias nos seus respectivos MQH
       Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
       Estratégias que faltam implementar:
@@ -37,39 +13,9 @@ BMFBovespaForex - Lista de tarefas
 #56 - Estratégia Indicador Tabajara
       Implementar uma estratégia de negociação com o indicador Tabajara.
 
-#58 - Estratégias indicadores adaptativos
-      Implementar estratégias para os indicadores adaptativos.
-         
-#66 - Artigo "Como, na MetaTrader 5, desenvolver e depurar rapidamente sua estratégia de negociação"      
-      Desenvolver as técnicas apresentadas no artigo "https://www.mql5.com/pt/articles/2661". São interessantes para aprimorar a análise das estratégias de negociação.
-      
-#67 - Avaliar o desempenho do EA
-      Usando as dicas e sugestões apresentadas no artigo "https://www.mql5.com/pt/articles/2555", avaliar o desempenho do EA, e fazer todos os ajustes necessários como se ele fosse ir para a publicação no Mercado MetaQuote.
-      
-#68 - Estratégia dinâmica
-      Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
-      Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
-      
 #74 - Comparar RSI com MACD e Estocástico com XAUAUD
       Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
-      
-#76 - Oscilador Williams (%) como sinal de permanência
-      Avaliar o oscilador William's Percent Range (%) como sinal de permanência nas posições. Nos backtesting iniciais o oscilador não gera bons sinais de negociação, mas indica momentos para manter ou reverter a posição aberta. Assim,
-      pode ser útil para indicar pontos de saída ou de permanência na negociação de acordo com a tendência.
-      Avaliar o oscilador junto com o ADX+MA e MACD com os pares XAU. Nos testes foram os que deram bons resultados ao longo de 2019.
-      
-#80 - Cálculo de margem para criptomoeda
-      Na Pepperstone os CFDs para criptomoedas estão em USD, e não em AUD. Quando é feito o cálculo de margem, a função entende que está trabalhando com par reverso, quando na verdade não está, realizado o cálculo para Forex:
-      "Margin:  Lots * Contract_Size / Leverage * Margin_Rate"
-      Quando na verdade, a fórmula deveria ser esta:
-      "Margin: Lots * ContractSize * MarketPrice * Margin_Rate"
-      Além disso os contratos para criptomoeda tem tamanho 1.0, e não 100, 1000 ou 100.000 como os demais ativos, fazendo com que a fórmula saia errado. 
-      Tentar fazer estas correções para operar criptomoedas, e testar outros CFDs para saber se as correções irão valer para eles também.
-
-#83 - Implementação de estratégia
-      Preciso de um robô que opere quando vários fatores se alinharem, WMA, MACD, RVI, ATR e algumas outras condições. Mais detalhes estão no PDF.
-      Obs: o freelance de exemplo foi denominado "Job".
-
+   
 ========== Novas tarefas ==========
    
 <<< Sem novas tarefas >>>
@@ -77,8 +23,39 @@ BMFBovespaForex - Lista de tarefas
 ========== Tarefas concluídas ==========
 
 v1.14:
-Liberação: 01/09/2019
-Número de linhas de código: 5737
+Liberação: 11/08/2019
+Número de linhas de código: ?????
+
+#26 - Reversão da tendência
+      Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
+      mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
+      Solução adotada: pode-se chamar direto na confirmação do sinal um método em COrder para fechar todas as posições abertas para o símbolo selecionado. Não é o melhor local para realizar tal chamada, mas para a estrutura atual do EA
+      funciona adequadamente. Para que a reversão ocorra é necessário uma atributo de instância que guarda qual foi o sinal anterior, e compare com o sinal que está sendo confirmado. Se forem diferente, as posições abertas são
+      encerradas para uma nova posição da direção contrária possa ser aberta.
+
+#27 - Otimizar o EA com o profile
+      Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
+      gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
+      Solução adotada: o conselho é não operar com muitos gráficos no VPS, para não consumir muita memória. A nível de processamento está bom, mesmo para um Core.
+
+#33 - Estudo: mais proteções financeiras para a conta
+      Baseado nas informações constantes no artigo "https://www.mql5.com/pt/articles/22", implementar mais proteções financeiras para não zerar a conta e não trabalhar no limite da margem disponível para negociação. Esse artigo pode ajudar
+      também a determinar o nível adequado de stop loss após o cálculo do trailing stop.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+      
+#34 - Notificação do ambiente de produção
+      Implementar sinais de alerta quando o EA identificar que as condições do terminal ou do SO não são favoráveis para operar, como por exemplo falta de espaço em disco e pouco memória RAM.
+      Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
+      recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+
+#43 - Estratégia com osciladores
+      Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
+      MetaTrader 5.
+      Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
+      Obs1: os indicadores do artigo foram implementados.
+      Obs2: contratos cheios de índice funcionam bem com osciladores, mais especificamente o INDQ19 no timeframe M5 com estocástico nas configurações padrão.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
 
 #54 - Artigo: negociação com inside bar
       Artigo que explica os padrões inside bar e elabora um EA para trabalhar com esta estratégia. Link: "https://www.mql5.com/pt/articles/1771". Atenção: o código do EA foi escrito usando MQL4, será necessário adaptar o código.
@@ -90,15 +67,48 @@ Número de linhas de código: 5737
       Solução adotada: implementado uma estratégia de negociação usando o indicador. É necessário fazer vários backtestings para identificar qual cenário ele é lucrativo ou gera prejuízos. Nos testes preliminares, um mercado em tendência
       a estratégia gera posições lucrativas. Em mercados que possuem muita reversão a estratégia gera muitos stop loss.
 
+#58 - Estratégias indicadores adaptativos
+      Implementar estratégias para os indicadores adaptativos.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs  
+
 #60 - Estratégia padrão
       Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
       Obs: a estratégia BMFBovespaForex já é minha estratégia padrão.
+
+#66 - Artigo "Como, na MetaTrader 5, desenvolver e depurar rapidamente sua estratégia de negociação"      
+      Desenvolver as técnicas apresentadas no artigo "https://www.mql5.com/pt/articles/2661". São interessantes para aprimorar a análise das estratégias de negociação.
+      Obs: as dicas não foram estudadas por conta de descontinuidade de operar com daytrade usando robôs.
+
+#67 - Avaliar o desempenho do EA
+      Usando as dicas e sugestões apresentadas no artigo "https://www.mql5.com/pt/articles/2555", avaliar o desempenho do EA, e fazer todos os ajustes necessários como se ele fosse ir para a publicação no Mercado MetaQuote.
+      Solução adotada: o EA trabalha bem no VPS na Amazon AWS, desde que não opere com muitos gráficos por conta da quantidade de memória disponível (1 GB).
+
+#68 - Estratégia dinâmica
+      Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
+      Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
+      Solução adotada: seria necessário fazer cache das informações do história de negociações para fazer a mudança dinâmica das estratégias, fora que todos os indicadores utilizados precisariam ser instanciados. Seria necessário estudar
+      mais a fundo a criação dinâmica de indicadores para viabilizar uma mudança dinâmica das estratégias.
 
 #75 - Estratégia GBPAUD com CCI
       Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
       Junho-Julho/2019.
       Observação: o indicador funcionou bem no 1º semestre. No meu de julho começou a acumular perdas, indicando que o ciclo de alta acabou. Realizando o backtesting com o ativo no período de Junho-Agosto, a estratégia que se saiu melhor 
       foi Price Channel.
+
+#76 - Oscilador Williams (%) como sinal de permanência
+      Avaliar o oscilador William's Percent Range (%) como sinal de permanência nas posições. Nos backtesting iniciais o oscilador não gera bons sinais de negociação, mas indica momentos para manter ou reverter a posição aberta. Assim,
+      pode ser útil para indicar pontos de saída ou de permanência na negociação de acordo com a tendência.
+      Avaliar o oscilador junto com o ADX+MA e MACD com os pares XAU. Nos testes foram os que deram bons resultados ao longo de 2019.
+      Solução adotada a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+
+#80 - Cálculo de margem para criptomoeda
+      Na Pepperstone os CFDs para criptomoedas estão em USD, e não em AUD. Quando é feito o cálculo de margem, a função entende que está trabalhando com par reverso, quando na verdade não está, realizado o cálculo para Forex:
+      "Margin:  Lots * Contract_Size / Leverage * Margin_Rate"
+      Quando na verdade, a fórmula deveria ser esta:
+      "Margin: Lots * ContractSize * MarketPrice * Margin_Rate"
+      Além disso os contratos para criptomoeda tem tamanho 1.0, e não 100, 1000 ou 100.000 como os demais ativos, fazendo com que a fórmula saia errado. 
+      Tentar fazer estas correções para operar criptomoedas, e testar outros CFDs para saber se as correções irão valer para eles também.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
 
 #81 - BUG - problema com stop loss
       Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
@@ -108,6 +118,12 @@ Número de linhas de código: 5737
       No backtesting de comparação da estratégia atual com as demais implementadas, o cruzamento MA Curta-Ágil é bem mais lucrativa. Modificar a estratégia atual para ficar mais próximo dos ganhos do cruzamento MA Curta-Ágil.
       Solução adotada: definir take profit fixo, ordens sem stop loss inicial, limite máximo de perda em 50, estratégia unicamente baseada em Cruzamento MA Curta-Ágil com confirmação NRTR. Estas mudanças permitiram outros símbolos se
       destacassem e mostrassem excelente desempenho ao longo do ano, podendo seguir com a tendência de altos ganhos até o fim do ano.      
+
+#83 - Implementação de estratégia
+      Preciso de um robô que opere quando vários fatores se alinharem, WMA, MACD, RVI, ATR e algumas outras condições. Mais detalhes estão no PDF.
+      Obs: o freelance de exemplo foi denominado "Job".
+      Solução adotada: a estratégia foi implementada conforma as orientações do PDF. Contudo, a estratégia não é lucrativa quando se aplica nos ativos informados, mas por conta do valor do ATR que é muito pequeno para o stop loss e take 
+      profit.      
 
 v1.13:
 Liberação: 04/08/2019
