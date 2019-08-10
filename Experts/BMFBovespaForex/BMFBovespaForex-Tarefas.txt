@@ -2,17 +2,8 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-#55 - Estratégias nos seus respectivos MQH
-      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
-      Estratégias que faltam implementar:
-      -> Ruptura do canal Donchian (Trade_13). Vai no MQH HCustomizados;
-      -> Ruptura do Silver Channel (Trade_14). Vai no MQH HCustomizados;
-      -> Ruptura do canal Gallagher (Trade_15). Vai no MQH HCustomizado.
+<<< Sem tarefas em andamento >>>
 
-#74 - Comparar RSI com MACD e Estocástico com XAUAUD
-      Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
-      Solução adotada: 
-   
 ========== Novas tarefas ==========
    
 <<< Sem novas tarefas >>>
@@ -21,7 +12,7 @@ BMFBovespaForex - Lista de tarefas
 
 v1.14:
 Liberação: 11/08/2019
-Número de linhas de código: ?????
+Número de linhas de código: 10.000
 
 #26 - Reversão da tendência
       Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
@@ -59,6 +50,10 @@ Número de linhas de código: ?????
       Solução adotada: foram feitas modificações no EA para poder suportar a estratégia que precisava abrir suas próprias ordens stop. Nos testes preliminares a estratégia fica no zero a zero quando executado no AUSUSD-H4. É necessário
       mais backtesting para poder identificar oportunidades com esta estratégia.
 
+#55 - Estratégias nos seus respectivos MQH
+      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
+      Obs: todos os sinais citados no artigo foram implementados como estratégias.
+
 #56 - Estratégia Indicador Tabajara
       Implementar uma estratégia de negociação com o indicador Tabajara.
       Solução adotada: implementado a estratégia com o indicador tabajara.
@@ -89,6 +84,11 @@ Número de linhas de código: ?????
       Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
       Solução adotada: seria necessário fazer cache das informações do história de negociações para fazer a mudança dinâmica das estratégias, fora que todos os indicadores utilizados precisariam ser instanciados. Seria necessário estudar
       mais a fundo a criação dinâmica de indicadores para viabilizar uma mudança dinâmica das estratégias.
+
+#74 - Comparar RSI com MACD e Estocástico com XAUAUD
+      Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
+      Solução adotada: foi decidido utilizar o XAUUSD e XAUEUR pois eles mantêm ao longo de 2019 um movimento de preços mais bem definidos, seja seguindo uma tendência, seja acompanhando um ritmo constante de oscilação. O ativo XAUAUD
+      foi descartado e não será mais foco de análise.
 
 #75 - Estratégia GBPAUD com CCI
       Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
