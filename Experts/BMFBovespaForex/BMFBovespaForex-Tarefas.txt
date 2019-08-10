@@ -68,6 +68,7 @@ BMFBovespaForex - Lista de tarefas
 
 #83 - Implementação de estratégia
       Preciso de um robô que opere quando vários fatores se alinharem, WMA, MACD, RVI, ATR e algumas outras condições. Mais detalhes estão no PDF.
+      Obs: o freelance de exemplo foi denominado "Job".
 
 ========== Novas tarefas ==========
    
