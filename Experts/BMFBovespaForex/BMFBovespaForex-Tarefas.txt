@@ -66,9 +66,12 @@ BMFBovespaForex - Lista de tarefas
       Além disso os contratos para criptomoeda tem tamanho 1.0, e não 100, 1000 ou 100.000 como os demais ativos, fazendo com que a fórmula saia errado. 
       Tentar fazer estas correções para operar criptomoedas, e testar outros CFDs para saber se as correções irão valer para eles também.
 
+#83 - Implementação de estratégia
+      Preciso de um robô que opere quando vários fatores se alinharem, WMA, MACD, RVI, ATR e algumas outras condições. Mais detalhes estão no PDF.
+
 ========== Novas tarefas ==========
    
-#83 -             
+<<< Sem novas tarefas >>>
 
 ========== Tarefas concluídas ==========
 
