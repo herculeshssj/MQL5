@@ -14,6 +14,42 @@ BMFBovespaForex - Lista de tarefas
       
 #86 -       
 
+
+https://www.mql5.com/en/forum/215628 <- analisar melhor
+https://www.mql5.com/pt/forum/23409 <- transformar em tarefas
+https://www.mql5.com/pt/articles/358 <- avaliar os indicadores semáforos
+https://www.mql5.com/pt/forum/16503 <- estudar mais a fundo
+https://www.mql5.com/pt/articles/2599 <- somente guardar os exemplos na pasta MQL5
+https://www.mql5.com/en/articles/2355 <- Telegram bot - implementar
+https://forexsucessodigital.com/2015/09/viver-de-forex-ganhar-dinheiro-internet.html
+https://forexsucessodigital.com/2013/02/aprenda-como-dominar-o-price-action-para-forex.html
+https://www.mql5.com/pt/forum/32454/unread#unread
+https://www.mql5.com/en/blogs/post/713658
+https://www.mql5.com/pt/articles/69
+https://www.mql5.com/en/blogs/post/675611
+Artigos:
+https://www.mql5.com/pt/articles/442
+https://www.mql5.com/pt/articles/171
+https://www.mql5.com/pt/articles/134
+https://www.mql5.com/pt/articles/2717
+https://www.mql5.com/pt/articles/2411
+http://expertadvisorbook.com/expert-advisor-programming-for-metatrader-5/
+https://dicionariodoinvestidor.com.br/content/o-que-e-media-movel-aritmetica-simples-mma-mms/
+https://www.mql5.com/pt/articles/1334
+https://www.mql5.com/pt/articles/101
+https://www.mql5.com/pt/code/327
+https://www.mql5.com/pt/articles/1367
+https://www.mql5.com/pt/articles/1971
+https://www.mql5.com/pt/articles/2355
+https://www.mql5.com/pt/forum/316464 <- informações sobre uma negociação
+https://www.mql5.com/pt/docs/calendar <- funções do calendário econômico
+https://www.mql5.com/pt/articles/5008
+https://www.mql5.com/pt/articles/3150
+https://ptfbs.com/analytics/guidebooks/amp/quanto-dinheiro-preciso-para-negociar-no-mercado-
+cambial-265
+https://www.mql5.com/pt/forum/273536 <- ideia para parar de operar quando o lucro/prejuízo atingir
+certo valor. Para Forex seria o lucro da semana, para BM&Fbovespa seria o lucro do dia e/ou semana.
+https://www.mql5.com/pt/code/22218 <- busca de padrões harmônicos
 ========== Tarefas concluídas ==========
 
 v1.15:
