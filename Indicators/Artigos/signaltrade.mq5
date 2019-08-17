@@ -10,7 +10,7 @@
 #property indicator_buffers 1
 #property indicator_plots   1
 //--- Connect necessary libraries of functions
-#include <SignalTrade.mqh>
+#include <Artigos\SignalTrade.mqh>
 //--- Import functions from the LibFunctions library
 #import "LibFunctions.ex5"
 void SetLabel(string nm,string tx,ENUM_BASE_CORNER cn,ENUM_ANCHOR_POINT cr,int xd,int yd,string fn,int fs,double yg,color ct);
@@ -49,19 +49,19 @@ int OnInit()
    h_ma1=iMA(Symbol(),Period(),8,0,MODE_SMA,PRICE_CLOSE);
    h_ma2=iMA(Symbol(),Period(),16,0,MODE_SMA,PRICE_CLOSE);
    h_macd=iMACD(Symbol(),Period(),12,26,9,PRICE_CLOSE);
-   h_pc=iCustom(Symbol(),Period(),"Price Channel",22);
-   h_acadx=iCustom(Symbol(),Period(),"AdaptiveChannelADX",14);
+   h_pc=iCustom(Symbol(),Period(),"Artigos\\PriceChannel",22);
+   h_acadx=iCustom(Symbol(),Period(),"Artigos\\AdaptiveChannelADX",14);
    h_stoh=iStochastic(Symbol(),Period(),5,3,3,MODE_SMA,STO_LOWHIGH);
    h_rsi=iRSI(Symbol(),Period(),14,PRICE_CLOSE);
    h_cci=iCCI(Symbol(),Period(),14,PRICE_TYPICAL);
    h_wpr=iWPR(Symbol(),Period(),14);
    h_bb=iBands(Symbol(),Period(),20,0,2,PRICE_CLOSE);
-   h_sdc=iCustom(Symbol(),Period(),"StandardDeviationChannel",14,MODE_SMA,PRICE_CLOSE,2.0);
+   h_sdc=iCustom(Symbol(),Period(),"Artigos\\StandardDeviationChannel",14,MODE_SMA,PRICE_CLOSE,2.0);
    h_env=iEnvelopes(Symbol(),Period(),28,0,MODE_SMA,PRICE_CLOSE,0.1);
-   h_dc=iCustom(Symbol(),Period(),"Donchian Channels",24,3,-2);
-   h_sc=iCustom(Symbol(),Period(),"Silver-channels",26,38.2,23.6,61.8);
-   h_gc=iCustom(Symbol(),Period(),"PriceChannelGalaher");
-   h_nrtr=iCustom(Symbol(),Period(),"NRTR",40,2.0);
+   h_dc=iCustom(Symbol(),Period(),"Artigos\\DonchianChannels",24,3,-2);
+   h_sc=iCustom(Symbol(),Period(),"Artigos\\SilverChannels",26,38.2,23.6,61.8);
+   h_gc=iCustom(Symbol(),Period(),"Artigos\\PriceChannelGallaher");
+   h_nrtr=iCustom(Symbol(),Period(),"Downloads\\NRTR",40,2.0);
    h_al=iAlligator(Symbol(),Period(),13,0,8,0,5,0,MODE_SMMA,PRICE_MEDIAN);
    h_ama=iAMA(Symbol(),Period(),9,2,30,0,PRICE_CLOSE);
    h_ao=iAO(Symbol(),Period());
@@ -136,7 +136,7 @@ int OnCalculate(const int rates_total,
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalPC),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalPC));
    x+=size;
-   SetLabel("lebel"+(string)i,"Price Channell",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
+   SetLabel("lebel"+(string)i,"Price Channel l",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalACADX),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalACADX));
    x+=size;
@@ -168,7 +168,7 @@ int OnCalculate(const int rates_total,
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalPC2),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalPC2));
    x+=size;
-   SetLabel("lebel"+(string)i,"Price Channell 2",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
+   SetLabel("lebel"+(string)i,"Price Channel 2",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalENV),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalENV));
    x+=size;
@@ -180,11 +180,11 @@ int OnCalculate(const int rates_total,
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalSC),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalSC));
    x+=size;
-   SetLabel("lebel"+(string)i,"Silver-channels",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
+   SetLabel("lebel"+(string)i,"Silver Channels",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalGC),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalGC));
    x+=size;
-   SetLabel("lebel"+(string)i,"Galaher Channel",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
+   SetLabel("lebel"+(string)i,"Gallaher Channel",CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y,"Arial",fz,0,BlueViolet);
    i++;y+=size;x=10;
    SetLabel("arrow"+(string)i,arrow(SignalNRTR),CORNER_RIGHT_UPPER,ANCHOR_RIGHT_UPPER,x,y+4,"Wingdings",fz-2,0,Colorarrow(SignalNRTR));
    x+=size;
