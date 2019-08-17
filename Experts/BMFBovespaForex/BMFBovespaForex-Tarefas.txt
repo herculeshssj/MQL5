@@ -2,17 +2,27 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
-<<< Sem tarefas em andamento >>>
+#85 - Mais estratégias de negociação
+      Implementar estratégias com todos os indicadores mostrados nesse artigo: "https:/ /www.mql5.com/pt/articles/1518".
 
 ========== Novas tarefas ==========
    
 #84 - Integração com Telegram
       Implementar a integração com Telegram para que eu possa interagir com o EA remotamente.
       
-#85 - Mais estratégias de negociação
-      Implementar estratégias com todos os indicadores mostrados nesse artigo: "https:/ /www.mql5.com/pt/articles/1518".
+#86 - Criar struct para parâmetros do EA
+      Criar um struct para poder setar os parâmetros definidos no EA, a fim de recuperá-los via arquivo.
+      O struct será estruturado da seguinte forma:
+      struct EAParams
+      - ENUM_TIPO_PARAMETRO
+      - valorChar;
+      - valorShort;
+      - valorInt;
+      ...
+      A estrutura terá os seguintes tipos de dados: char, short, int, long, uchar, ushort, uint, ulong, bool, string, double, float e datetime.
+      O arquivo irá salvar um array de EAParams.
       
-#86 -       
+#88 -             
 
 
 https://www.mql5.com/en/forum/215628 <- analisar melhor
@@ -54,9 +64,10 @@ https://www.mql5.com/pt/code/22218 <- busca de padrões harmônicos
 
 v1.15:
 Liberação: 01/09/2019
-Número de linhas de código: 100.000
+Número de linhas de código: 10.000
 
-
+#87 - Stop loss e take profit padrão
+      Colocar uma implementação padrão para stop loss e take profit no HStrategy. Caso a estratégia não queira definir, ela é obrigada a sobrescrever os dois métodos.      
 
 v1.14:
 Liberação: 10/08/2019
