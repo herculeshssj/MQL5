@@ -2,13 +2,13 @@ BMFBovespaForex - Lista de tarefas
 
 ========== Tarefas em andamento ==========
 
+#84 - Integração com Telegram
+      Implementar a integração com Telegram para que eu possa interagir com o EA remotamente. Artigo: "https://www.mql5.com/en/articles/2355".
+
 #85 - Mais estratégias de negociação
       Implementar estratégias com todos os indicadores mostrados nesse artigo: "https:/ /www.mql5.com/pt/articles/1518".
 
 ========== Novas tarefas ==========
-   
-#84 - Integração com Telegram
-      Implementar a integração com Telegram para que eu possa interagir com o EA remotamente.
       
 #86 - Criar struct para parâmetros do EA
       Criar um struct para poder setar os parâmetros definidos no EA, a fim de recuperá-los via arquivo.
@@ -30,7 +30,6 @@ https://www.mql5.com/pt/forum/23409 <- transformar em tarefas
 https://www.mql5.com/pt/articles/358 <- avaliar os indicadores semáforos
 https://www.mql5.com/pt/forum/16503 <- estudar mais a fundo
 https://www.mql5.com/pt/articles/2599 <- somente guardar os exemplos na pasta MQL5
-https://www.mql5.com/en/articles/2355 <- Telegram bot - implementar
 https://forexsucessodigital.com/2015/09/viver-de-forex-ganhar-dinheiro-internet.html
 https://forexsucessodigital.com/2013/02/aprenda-como-dominar-o-price-action-para-forex.html
 https://www.mql5.com/pt/forum/32454/unread#unread
