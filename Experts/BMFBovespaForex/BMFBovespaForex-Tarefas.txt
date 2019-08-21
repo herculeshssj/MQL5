@@ -22,7 +22,11 @@ BMFBovespaForex - Lista de tarefas
       A estrutura terá os seguintes tipos de dados: char, short, int, long, uchar, ushort, uint, ulong, bool, string, double, float e datetime.
       O arquivo irá salvar um array de EAParams.
       
-#88 -             
+#88 - Parar de operar ao alcançar lucro/prejuízos máximos
+      Usando as ideias contidas no tópico do fórum "https://www.mql5.com/pt/forum/273536", implementar um método em HMoney que retorne o valor máximo de lucro/perda obtido pelo EA para que o mesmo pare de operar. No caso da BM&FBovespa,
+      o stop ocorre diariamente. Para o Forex o stop ocorre semanalmente.
+      
+#89 -       
 
 
 https://www.mql5.com/en/forum/215628 <- analisar melhor
@@ -53,12 +57,8 @@ https://www.mql5.com/pt/articles/2355
 https://www.mql5.com/pt/forum/316464 <- informações sobre uma negociação
 https://www.mql5.com/pt/docs/calendar <- funções do calendário econômico
 https://www.mql5.com/pt/articles/5008
-https://www.mql5.com/pt/articles/3150
-https://ptfbs.com/analytics/guidebooks/amp/quanto-dinheiro-preciso-para-negociar-no-mercado-
-cambial-265
-https://www.mql5.com/pt/forum/273536 <- ideia para parar de operar quando o lucro/prejuízo atingir
-certo valor. Para Forex seria o lucro da semana, para BM&Fbovespa seria o lucro do dia e/ou semana.
-https://www.mql5.com/pt/code/22218 <- busca de padrões harmônicos
+
+
 ========== Tarefas concluídas ==========
 
 v1.15:
