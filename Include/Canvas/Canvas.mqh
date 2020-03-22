@@ -5,8 +5,9 @@
 //+------------------------------------------------------------------+
 #include <Files\FileBin.mqh>
 #include <Controls\Rect.mqh>
-//+------------------------------------------------------------------+
+
 #define SIGN(i) ((i<0) ? -1 : 1)
+
 //+------------------------------------------------------------------+
 //| Macro to generate color                                          |
 //+------------------------------------------------------------------+
@@ -20,6 +21,7 @@
 #define GETRGBB(clr)   uchar(clr)
 #define COLOR2RGB(clr) (0xFF000000|(uchar(clr)<<16)|(uchar((clr)>>8)<<8)|uchar((clr)>>16))
 #define RGB2COLOR(rgb) ((uchar(rgb)<<16)|(uchar((rgb)>>8)<<8)|uchar((rgb)>>16))
+
 //+------------------------------------------------------------------+
 //| Line end style (round, butt, square)                             |
 //+------------------------------------------------------------------+
@@ -29,6 +31,7 @@ enum ENUM_LINE_END
    LINE_END_BUTT,
    LINE_END_SQUARE,
   };
+
 //+------------------------------------------------------------------+
 //| Class CCanvas                                                    |
 //| Usage: class for working with a dynamic resource                 |
@@ -71,9 +74,9 @@ public:
    bool              CreateBitmapLabel(const long chart_id,const int subwin,const string name,
                                        const int x,const int y,const int width,const int height,
                                        ENUM_COLOR_FORMAT clrfmt=COLOR_FORMAT_XRGB_NOALPHA);
-   bool              Attach(const long chart_id,const string objname,ENUM_COLOR_FORMAT clrfmt=COLOR_FORMAT_XRGB_NOALPHA);
-   bool              Attach(const long chart_id,const string objname,const int width,const int height,ENUM_COLOR_FORMAT clrfmt=COLOR_FORMAT_XRGB_NOALPHA);
-   void              Destroy(void);
+   virtual bool      Attach(const long chart_id,const string objname,ENUM_COLOR_FORMAT clrfmt=COLOR_FORMAT_XRGB_NOALPHA);
+   virtual bool      Attach(const long chart_id,const string objname,const int width,const int height,ENUM_COLOR_FORMAT clrfmt=COLOR_FORMAT_XRGB_NOALPHA);
+   virtual void      Destroy(void);
    //--- properties
    string            ChartObjectName(void)          const { return(m_objname); }
    string            ResourceName(void)             const { return(m_rcname);  }
@@ -119,7 +122,7 @@ public:
                                 const uint clr,const uint style=UINT_MAX);
    void              CircleAA(const int x,const int y,const double r,const uint clr,const uint style=UINT_MAX);
    void              EllipseAA(const double x1,const double y1,const double x2,const double y2,const uint clr,const uint style=UINT_MAX);
-   //--- draw primitives with antialiasing by Wu's algorithm                              
+   //--- draw primitives with antialiasing by Wu's algorithm
    void              LineWu(int x1,int y1,int x2,int y2,const uint clr,const uint style=UINT_MAX);
    void              PolylineWu(const int &x[],const int &y[],const uint clr,const uint style=UINT_MAX);
    void              PolygonWu(const int &x[],const int &y[],const uint clr,const uint style=UINT_MAX);
@@ -162,6 +165,8 @@ public:
    //--- line style property
    uint              LineStyleGet(void) const;
    void              LineStyleSet(const uint style);
+   //--- load bitmap from file to buffer
+   static bool       LoadBitmap(const string filename,uint &data[],int &width,int &height);
 
 private:
    bool              FontSet(void);
@@ -216,18 +221,18 @@ uint CCanvas::m_default_colors[9]=
 //| Constructor                                                      |
 //+------------------------------------------------------------------+
 CCanvas::CCanvas(void) : m_chart_id(0),
-                         m_objname(NULL),
-                         m_objtype(WRONG_VALUE),
-                         m_rcname(NULL),
-                         m_width(0),
-                         m_height(0),
-                         m_format(COLOR_FORMAT_XRGB_NOALPHA),
-                         m_fontname("arial"),
-                         m_fontsize(-120),
-                         m_fontflags(0),
-                         m_fontangle(0),
-                         m_style(UINT_MAX),
-                         m_style_idx(0)
+   m_objname(NULL),
+   m_objtype(WRONG_VALUE),
+   m_rcname(NULL),
+   m_width(0),
+   m_height(0),
+   m_format(COLOR_FORMAT_XRGB_NOALPHA),
+   m_fontname("arial"),
+   m_fontsize(-120),
+   m_fontflags(0),
+   m_fontangle(0),
+   m_style(UINT_MAX),
+   m_style_idx(0)
   {
   }
 //+------------------------------------------------------------------+
@@ -246,7 +251,7 @@ bool CCanvas::Create(const string name,const int width,const int height,ENUM_COL
    if(width>0 && height>0 && ArrayResize(m_pixels,width*height)>0)
      {
       //--- generate resource name
-      m_rcname="::"+name+(string)(GetTickCount()+MathRand());
+      m_rcname="::"+name+(string)ChartID()+(string)(GetTickCount()+MathRand());
       //--- initialize data with zeros
       ArrayInitialize(m_pixels,0);
       //--- create dynamic resource
@@ -324,8 +329,8 @@ bool CCanvas::CreateBitmapLabel(const long chart_id,const int subwin,const strin
       if(ObjectCreate(chart_id,name,OBJ_BITMAP_LABEL,subwin,0,0))
         {
          //--- set x,y and bind object with resource
-         if(ObjectSetInteger(chart_id,name,OBJPROP_XDISTANCE,x) && 
-            ObjectSetInteger(chart_id,name,OBJPROP_YDISTANCE,y) && 
+         if(ObjectSetInteger(chart_id,name,OBJPROP_XDISTANCE,x) &&
+            ObjectSetInteger(chart_id,name,OBJPROP_YDISTANCE,y) &&
             ObjectSetString(chart_id,name,OBJPROP_BMPFILE,m_rcname))
            {
             //--- successfully created
@@ -375,7 +380,7 @@ bool CCanvas::Attach(const long chart_id,const string objname,const int width,co
       if(StringLen(rcname)==0 && width>0 && height>0 && ArrayResize(m_pixels,width*height)>0)
         {
          ZeroMemory(m_pixels);
-         if(ResourceCreate("::"+objname,m_pixels,width,height,0,0,0,clrfmt) && 
+         if(ResourceCreate("::"+objname,m_pixels,width,height,0,0,0,clrfmt) &&
             ObjectSetString(chart_id,objname,OBJPROP_BMPFILE,"::"+objname))
            {
             m_chart_id=chart_id;
@@ -505,7 +510,7 @@ void CCanvas::Fill(int x,int y,const uint clr)
       return;
    stack[0]=index;
    m_pixels[index]=clr;
-   for(uint i=0;i<count;i++)
+   for(uint i=0; i<count; i++)
      {
       index=stack[i];
       x=index%m_width;
@@ -570,7 +575,7 @@ void CCanvas::Fill(int x,int y,const uint clr,const uint threshould)
       return;
    stack[0]=index;
    m_pixels[index]=clr;
-   for(uint i=0;i<count;i++)
+   for(uint i=0; i<count; i++)
      {
       index=stack[i];
       x=index%m_width;
@@ -629,7 +634,7 @@ void CCanvas::LineVertical(int x,int y1,int y2,const uint clr)
       y2=m_height-1;
 //--- draw line
    int index=y1*m_width+x;
-   for(int i=y1;i<=y2;i++,index+=m_width)
+   for(int i=y1; i<=y2; i++,index+=m_width)
       m_pixels[index]=clr;
   }
 //+------------------------------------------------------------------+
@@ -732,7 +737,7 @@ void CCanvas::Polyline(int &x[],int &y[],const uint clr)
       return;
    total--;
 //--- draw
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
       Line(x[i],y[i],x[i+1],y[i+1],clr);
   }
 //+------------------------------------------------------------------+
@@ -749,7 +754,7 @@ void CCanvas::Polygon(int &x[],int &y[],const uint clr)
       return;
    total--;
 //--- draw
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
       Line(x[i],y[i],x[i+1],y[i+1],clr);
 //--- close the outline
    Line(x[total],y[total],x[0],y[0],clr);
@@ -1019,7 +1024,7 @@ void CCanvas::Arc(int x,int y,int rx,int ry,double fi3,double fi4,const uint clr
 //+------------------------------------------------------------------+
 //| Calculates angle between ray (x1,y1),(x1+1,y1) and               |
 //|                          ray (x1,y1),(x2,y2)                     |
-//| Note that y coordinates are inversed 				                  |
+//| Note that y coordinates are inversed                             |
 //+------------------------------------------------------------------+
 double CCanvas::AngleCalc(int x1,int y1,int x2,int y2)
   {
@@ -1927,7 +1932,7 @@ void CCanvas::FillRectangle(int x1,int y1,int x2,int y2,const uint clr)
       y2=m_height-1;
    int len=(x2-x1)+1;
 //--- set pixels
-   for(;y1<=y2;y1++)
+   for(; y1<=y2; y1++)
       ArrayFill(m_pixels,y1*m_width+x1,len,clr);
   }
 //+------------------------------------------------------------------+
@@ -1981,7 +1986,7 @@ void CCanvas::FillTriangle(int x1,int y1,int x2,int y2,int x3,int y3,const uint 
    xd1=x1;
    xd2=x1;
 //---
-   for(int i=y1;i<=y3;i++)
+   for(int i=y1; i<=y3; i++)
      {
       if(i==y2)
         {
@@ -2034,7 +2039,7 @@ void CCanvas::FillPolygon(int &x[],int &y[],const uint clr)
    int imin=0;
    int xmin=x[0];
    int ymin=y[0];
-   for(int i=1;i<total;i++)
+   for(int i=1; i<total; i++)
      {
       if(y[i]>ymin)
          continue;
@@ -2052,7 +2057,7 @@ void CCanvas::FillPolygon(int &x[],int &y[],const uint clr)
       imin=i;
      }
 //--- copy coordinates arrays to array of pixels (starting from top-left)
-   for(int i=0;i<total;i++,imin++)
+   for(int i=0; i<total; i++,imin++)
      {
       p[i].x=x[imin%total];
       p[i].y=y[imin%total];
@@ -2099,7 +2104,7 @@ void CCanvas::PixelSetAA(const double x,const double y,const uint clr)
    if(dy>0.0)
       yy[2]=yy[2]=iy+1;
 //--- calculate radii and sum of their squares
-   for(int i=0;i<4;i++)
+   for(int i=0; i<4; i++)
      {
       dx=xx[i]-x;
       dy=yy[i]-y;
@@ -2107,7 +2112,7 @@ void CCanvas::PixelSetAA(const double x,const double y,const uint clr)
       rrr+=rr[i];
      }
 //--- draw pixels
-   for(int i=0;i<4;i++)
+   for(int i=0; i<4; i++)
      {
       k=rr[i]/rrr;
       c=PixelGet(xx[i],yy[i]);
@@ -2250,7 +2255,7 @@ void CCanvas::PolylineAA(int &x[],int &y[],const uint clr,const uint style)
       LineStyleSet(style);
    uint mask=1<<m_style_idx;
 //--- draw
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
      {
       int x1=x[i];
       int y1=y[i];
@@ -2340,7 +2345,7 @@ void CCanvas::PolygonAA(int &x[],int &y[],const uint clr,const uint style)
       LineStyleSet(style);
    uint mask=1<<m_style_idx;
 //--- draw
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
      {
       int x1=x[i];
       int y1=y[i];
@@ -2478,7 +2483,7 @@ void CCanvas::EllipseAA(const double x1,const double y1,const double x2,const do
    if(style!=UINT_MAX)
       LineStyleSet(style);
    uint mask=1<<m_style_idx;
-//--- draw   
+//--- draw
    double quarter=round(rx2/sqrt(rx2+ry2));
    for(double dx=0; dx<=quarter; dx++)
      {
@@ -2522,7 +2527,7 @@ void CCanvas::TransparentLevelSet(const uchar value)
   {
    int total=ArraySize(m_pixels);
    uint value24=(uint)value<<24;
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
       m_pixels[i]=value24|(m_pixels[i]&0xFFFFFF);
   }
 //+------------------------------------------------------------------+
@@ -2659,6 +2664,42 @@ void CCanvas::TextSize(const string text,int &width,int &height)
 //+------------------------------------------------------------------+
 bool CCanvas::LoadFromFile(const string filename)
   {
+//--- load image
+   if(!CCanvas::LoadBitmap(filename,m_pixels,m_width,m_height))
+      return(false);
+//--- color components are not processed by terminal (they should be correctly specified by user)
+   if(m_format==COLOR_FORMAT_ARGB_RAW)
+     {
+      uchar a,r,g,b;
+      int img_size=m_width*m_height;
+      //--- convert image to premultiplied ARGB
+      for(int i=0; i<img_size; i++)
+
+        {
+         switch(a=GETRGBA(m_pixels[i]))
+           {
+            case 0xFF:
+               break;
+            case 0x00:
+               m_pixels[i]=0;
+               break;
+            default:
+               r=GETRGBR(m_pixels[i])*a/255;
+               g=GETRGBG(m_pixels[i])*a/255;
+               b=GETRGBB(m_pixels[i])*a/255;
+               m_pixels[i]=ARGB(a,r,g,b);
+               break;
+           }
+        }
+     }
+//--- success
+   return(true);
+  }
+//+------------------------------------------------------------------+
+//| Load data from file                                              |
+//+------------------------------------------------------------------+
+bool CCanvas::LoadBitmap(const string filename,uint &data[],int &width,int &height)
+  {
    struct BitmapHeader
      {
       ushort            type;
@@ -2680,9 +2721,9 @@ bool CCanvas::LoadFromFile(const string filename)
    BitmapHeader header;
    bool     result=true;
    CFileBin file;
-   uchar    a,r,g,b;
    uint     img_size;
    bool     no_alpha,no_flip=false;
+   uchar    r,g,b;
 //--- open file
    if(file.Open(filename,FILE_READ)==INVALID_HANDLE)
      {
@@ -2696,33 +2737,33 @@ bool CCanvas::LoadFromFile(const string filename)
       file.Close();
       return(false);
      }
-   m_width =(int)header.imgWidth;
-   m_height=(int)header.imgHeight;
-   if(m_height<0)
+   width =(int)header.imgWidth;
+   height=(int)header.imgHeight;
+   if(height<0)
      {
-      m_height=-m_height;
+      height=-height;
       no_flip=true;
      }
 //--- process depending on color depth
    if(header.imgBitCount==32)
      {
       no_alpha=true;
-      img_size=file.ReadArray(m_pixels);
+      img_size=file.ReadArray(data);
       //--- flip image
       if(!no_flip)
-         for(int i=0;i<m_height/2;i++)
+         for(int i=0; i<height/2; i++)
            {
             uint tmp[];
-            ArrayCopy(tmp,m_pixels,0,m_width*i,m_width);
-            ArrayCopy(m_pixels,m_pixels,m_width*i,m_width*(m_height-i-1),m_width);
-            ArrayCopy(m_pixels,tmp,m_width*(m_height-i-1),0,m_width);
+            ArrayCopy(tmp,data,0,width*i,width);
+            ArrayCopy(data,data,width*i,width*(height-i-1),width);
+            ArrayCopy(data,tmp,width*(height-i-1),0,width);
            }
       //--- check if at least one pixel has alpha channel
       //--- then leave image as is (consider it as premultiplied ARGB)
-      for(uint i=0;i<img_size;i++)
+      for(uint i=0; i<img_size; i++)
         {
          //--- there is alpha channel
-         if(GETRGBA(m_pixels[i])!=0)
+         if(GETRGBA(data[i])!=0)
            {
             no_alpha=false;
             break;
@@ -2732,33 +2773,8 @@ bool CCanvas::LoadFromFile(const string filename)
       if(no_alpha)
         {
          //--- consider image as nontransparent, add alpha channel as 0xFF
-         for(uint i=0;i<img_size;i++)
-            m_pixels[i]|=0xFF000000;
-        }
-      else
-        {
-         if(m_format==COLOR_FORMAT_ARGB_RAW)
-           {
-            //--- color components are not processed by terminal (they should be correctly specified by user) 
-            //--- convert image to premultiplied ARGB
-            for(uint i=0;i<img_size;i++)
-              {
-               switch(a=GETRGBA(m_pixels[i]))
-                 {
-                  case 0xFF:
-                     break;
-                  case 0x00:
-                     m_pixels[i]=0;
-                     break;
-                  default:
-                     r=GETRGBR(m_pixels[i])*a/255;
-                     g=GETRGBG(m_pixels[i])*a/255;
-                     b=GETRGBB(m_pixels[i])*a/255;
-                     m_pixels[i]=ARGB(a,r,g,b);
-                     break;
-                 }
-              }
-           }
+         for(uint i=0; i<img_size; i++)
+            data[i]|=0xFF000000;
         }
      }
    else
@@ -2766,25 +2782,25 @@ bool CCanvas::LoadFromFile(const string filename)
       //--- 24 bits - change image color depth to 32 bits
       int byte_width;
       //--- allocate memory for pixels
-      if(ArrayResize(m_pixels,m_width*m_height)!=-1)
+      if(ArrayResize(data,width*height)!=-1)
         {
          //--- the number of bytes that define a line of pixels must be multiple of 4
-         byte_width=m_width*3;             // number of bytes in line of pixels
+         byte_width=width*3;             // number of bytes in line of pixels
          byte_width=(byte_width+3)&~3;     // align line to the 4 byte boundary
          uchar tmp[];
-         for(int i=0;i<m_height;i++)
+         for(int i=0; i<height; i++)
            {
             if(file.ReadArray(tmp,0,byte_width)!=byte_width)
               {
                result=false;
                break;
               }
-            for(int j=0,k=0,p=m_width*(m_height-i-1);j<m_width;j++,p++,k+=3)
+            for(int j=0,k=0,p=width*(height-i-1); j<width; j++,p++,k+=3)
               {
                r=tmp[k+2];
                g=tmp[k+1];
                b=tmp[k];
-               m_pixels[p]=XRGB(r,g,b);
+               data[p]=XRGB(r,g,b);
               }
            }
         }
@@ -2811,8 +2827,8 @@ int CCanvas::PolygonClassify(const CPoint &p[])
    int im= 0;
    int xm=p[0].x;
    int ym=p[0].y;
-//--- find the most top-left vertex 
-   for(int i=1;i<total;i++)
+//--- find the most top-left vertex
+   for(int i=1; i<total; i++)
      {
       if(p[i].y>ym)
          continue;
@@ -2835,7 +2851,7 @@ bool CCanvas::IsPolygonConvex(CPoint &p[])
    if(total==3)
       return(true);
    int res=SIGN(PointClassify(p[0],p[1],p[2]));
-   for(int i=1;i<total;i++)
+   for(int i=1; i<total; i++)
      {
       int res1=SIGN(PointClassify(p[i],p[(i+1)%total],p[(i+2)%total]));
       if(res!=res1)
@@ -2854,7 +2870,7 @@ void CCanvas::PolygonNormalize(CPoint &p[])
    int imin=0;
    int xmin=p[0].x;
    int ymin=p[0].y;
-   for(int i=1;i<total;i++)
+   for(int i=1; i<total; i++)
      {
       if(p[i].y>ymin)
          continue;
@@ -2873,7 +2889,7 @@ void CCanvas::PolygonNormalize(CPoint &p[])
      }
    if(imin==0)
       return;
-   for(int i=0;i<imin;i++)
+   for(int i=0; i<imin; i++)
      {
       CPoint tmp=p[0];
       ArrayCopy(p,p,0,1);
@@ -2888,7 +2904,7 @@ void CCanvas::PolygonIntersect(CPoint &p[],CPoint &add[])
    int total=ArraySize(p);
    int res=SIGN(PolygonClassify(p));
 //--- scan vertices clockwise and counterclockwise to find a non-convex one
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
      {
       int rr=SIGN(PointClassify(p[i],p[(i+1)%total],p[(i+2)%total]));
       int rl=SIGN(PointClassify(p[(total-i-2)%total],p[(total-i-1)%total],p[(total-i)%total]));
@@ -3033,7 +3049,7 @@ void CCanvas::LineWu(int x1,int y1,int x2,int y2,const uint clr,const uint style
          y2=m_height-1;
       //--- draw line
       int index=y1*m_width+x1;
-      for(int i=y1;i<=y2;i++,index+=m_width)
+      for(int i=y1; i<=y2; i++,index+=m_width)
         {
          if((m_style&mask)==mask)
             m_pixels[index]=clr;
@@ -3103,8 +3119,12 @@ void CCanvas::LineWu(int x1,int y1,int x2,int y2,const uint clr,const uint style
       //--- first point has to have a smaller X coordinate
       if(x2<x1)
         {
-         x2 += x1; x1 = x2 - x1; x2 -= x1;
-         y2 += y1; y1 = y2 - y1; y2 -= y1;
+         x2 += x1;
+         x1 = x2 - x1;
+         x2 -= x1;
+         y2 += y1;
+         y1 = y2 - y1;
+         y2 -= y1;
         }
       if(y2<y1)
         {
@@ -3148,8 +3168,12 @@ void CCanvas::LineWu(int x1,int y1,int x2,int y2,const uint clr,const uint style
       //--- first point has to have a smaller Y coordinate
       if(y2<y1)
         {
-         x2 += x1; x1 = x2 - x1; x2 -= x1;
-         y2 += y1; y1 = y2 - y1; y2 -= y1;
+         x2 += x1;
+         x1 = x2 - x1;
+         x2 -= x1;
+         y2 += y1;
+         y1 = y2 - y1;
+         y2 -= y1;
         }
       if(x2<x1)
         {
@@ -3210,7 +3234,7 @@ void CCanvas::PolylineWu(const int &x[],const int &y[],const uint clr,const uint
       LineStyleSet(style);
    uint mask=1<<m_style_idx;
 //--- draw
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
      {
       int x1=x[i];
       int x2=x[i+1];
@@ -3240,7 +3264,7 @@ void CCanvas::PolylineWu(const int &x[],const int &y[],const uint clr,const uint
             y2=m_height-1;
          //--- draw line
          int index=y1*m_width+x1;
-         for(int j=y1;j<=y2;j++,index+=m_width)
+         for(int j=y1; j<=y2; j++,index+=m_width)
            {
             if((m_style&mask)==mask)
                m_pixels[index]=clr;
@@ -3297,8 +3321,12 @@ void CCanvas::PolylineWu(const int &x[],const int &y[],const uint clr,const uint
          //--- first point has to have a smaller X coordinate
          if(x2<x1)
            {
-            x2 += x1; x1 = x2 - x1; x2 -= x1;
-            y2 += y1; y1 = y2 - y1; y2 -= y1;
+            x2 += x1;
+            x1 = x2 - x1;
+            x2 -= x1;
+            y2 += y1;
+            y1 = y2 - y1;
+            y2 -= y1;
            }
          if(y2<y1)
            {
@@ -3342,8 +3370,12 @@ void CCanvas::PolylineWu(const int &x[],const int &y[],const uint clr,const uint
          //--- first point has to have a smaller Y coordinate
          if(y2<y1)
            {
-            x2 += x1; x1 = x2 - x1; x2 -= x1;
-            y2 += y1; y1 = y2 - y1; y2 -= y1;
+            x2 += x1;
+            x1 = x2 - x1;
+            x2 -= x1;
+            y2 += y1;
+            y1 = y2 - y1;
+            y2 -= y1;
            }
          if(x2<x1)
            {
@@ -3407,7 +3439,7 @@ void CCanvas::PolygonWu(const int &x[],const int &y[],const uint clr,const uint 
       LineStyleSet(style);
    uint mask=1<<m_style_idx;
 //--- draw
-   for(int i=0;i<total;i++)
+   for(int i=0; i<total; i++)
      {
       int x1=x[i];
       int y1=y[i];
@@ -3437,7 +3469,7 @@ void CCanvas::PolygonWu(const int &x[],const int &y[],const uint clr,const uint 
             y2=m_height-1;
          //--- draw line
          int index=y1*m_width+x1;
-         for(int j=y1;j<=y2;j++,index+=m_width)
+         for(int j=y1; j<=y2; j++,index+=m_width)
            {
             if((m_style&mask)==mask)
                m_pixels[index]=clr;
@@ -3494,8 +3526,12 @@ void CCanvas::PolygonWu(const int &x[],const int &y[],const uint clr,const uint 
          //--- first point has to have a smaller X coordinate
          if(x2<x1)
            {
-            x2 += x1; x1 = x2 - x1; x2 -= x1;
-            y2 += y1; y1 = y2 - y1; y2 -= y1;
+            x2 += x1;
+            x1 = x2 - x1;
+            x2 -= x1;
+            y2 += y1;
+            y1 = y2 - y1;
+            y2 -= y1;
            }
          if(y2<y1)
            {
@@ -3539,8 +3575,12 @@ void CCanvas::PolygonWu(const int &x[],const int &y[],const uint clr,const uint 
          //--- first point has to have a smaller Y coordinate
          if(y2<y1)
            {
-            x2 += x1; x1 = x2 - x1; x2 -= x1;
-            y2 += y1; y1 = y2 - y1; y2 -= y1;
+            x2 += x1;
+            x1 = x2 - x1;
+            x2 -= x1;
+            y2 += y1;
+            y1 = y2 - y1;
+            y2 -= y1;
            }
          if(x2<x1)
            {
@@ -3646,7 +3686,7 @@ void CCanvas::CircleWu(const int x,const int y,const double r,const uint clr,con
   }
 //+------------------------------------------------------------------+
 //| Draw ellipse according to Wu's algorithm                         |
-//+------------------------------------------------------------------+ 
+//+------------------------------------------------------------------+
 void CCanvas::EllipseWu(const int x1,const int y1,const int x2,const int y2,const uint clr,const uint style=UINT_MAX)
   {
    int rx=(int)(x2-x1)/2;
@@ -3711,7 +3751,7 @@ void CCanvas::LineThickVertical(const int x,const int y1,const int y2,const uint
      }
 //--- r be the filter radius (and also the half-width of the wide line)
    double r=(size/2.0);
-//--- primary calculate   
+//--- primary calculate
    int dy=MathAbs(y2-y1);
    int sign=(y1<y2) ? 1 : -1;
 //--- set the line style
@@ -3738,12 +3778,12 @@ void CCanvas::LineThickVertical(const int x,const int y1,const int y2,const uint
             segment=true;
            }
          else
-         if((m_style&mask)!=mask && segment)
-           {
-            ye=y1+(sign)*(int)(i*r);
-            SegmentVertical(x,ys,ye,sign,r,clr,end_style);
-            segment=false;
-           }
+            if((m_style&mask)!=mask && segment)
+              {
+               ye=y1+(sign)*(int)(i*r);
+               SegmentVertical(x,ys,ye,sign,r,clr,end_style);
+               segment=false;
+              }
          mask<<=1;
          if(mask==0x1000000)
             mask=1;
@@ -3769,7 +3809,7 @@ void CCanvas::LineThickHorizontal(const int x1,const int x2,const int y,const ui
      }
 //--- r be the filter radius (and also the half-width of the wide line)
    double r=(size/2.0);
-//--- primary calculate  
+//--- primary calculate
    int dx=MathAbs(x2-x1);
    int sign=(x1<x2) ? 1 : -1;
 //--- set the line style
@@ -3796,12 +3836,12 @@ void CCanvas::LineThickHorizontal(const int x1,const int x2,const int y,const ui
             segment=true;
            }
          else
-         if((m_style&mask)!=mask && segment)
-           {
-            xe=x1+(sign)*(int)(i*r);
-            SegmentHorizontal(xs,xe,y,sign,r,clr,end_style);
-            segment=false;
-           }
+            if((m_style&mask)!=mask && segment)
+              {
+               xe=x1+(sign)*(int)(i*r);
+               SegmentHorizontal(xs,xe,y,sign,r,clr,end_style);
+               segment=false;
+              }
          mask<<=1;
          if(mask==0x1000000)
             mask=1;
@@ -3877,13 +3917,13 @@ void CCanvas::LineThick(const int x1,const int y1,const int x2,const int y2,cons
             segment=true;
            }
          else
-         if((m_style&mask)!=mask && segment)
-           {
-            xe=x1+(xsign)*(int)(i*rsin_k);
-            ye=y1+(ysign)*(int)(i*rcos_k);
-            Segment(xs,ys,xe,ye,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
-            segment=false;
-           }
+            if((m_style&mask)!=mask && segment)
+              {
+               xe=x1+(xsign)*(int)(i*rsin_k);
+               ye=y1+(ysign)*(int)(i*rcos_k);
+               Segment(xs,ys,xe,ye,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
+               segment=false;
+              }
          mask<<=1;
          if(mask==0x1000000)
             mask=1;
@@ -3957,12 +3997,12 @@ void CCanvas::PolylineThick(const int &x[],const int &y[],const uint clr,const i
                   segment=true;
                  }
                else
-               if((m_style&mask)!=mask && segment)
-                 {
-                  ye=y1+(sign)*(int)(i*r);
-                  SegmentVertical(x1,ys,ye,sign,r,clr,end_style);
-                  segment=false;
-                 }
+                  if((m_style&mask)!=mask && segment)
+                    {
+                     ye=y1+(sign)*(int)(i*r);
+                     SegmentVertical(x1,ys,ye,sign,r,clr,end_style);
+                     segment=false;
+                    }
                mask<<=1;
                if(mask==0x1000000)
                   mask=1;
@@ -4004,12 +4044,12 @@ void CCanvas::PolylineThick(const int &x[],const int &y[],const uint clr,const i
                   segment=true;
                  }
                else
-               if((m_style&mask)!=mask && segment)
-                 {
-                  xe=x1+(sign)*(int)(i*r);
-                  SegmentHorizontal(xs,xe,y1,sign,r,clr,end_style);
-                  segment=false;
-                 }
+                  if((m_style&mask)!=mask && segment)
+                    {
+                     xe=x1+(sign)*(int)(i*r);
+                     SegmentHorizontal(xs,xe,y1,sign,r,clr,end_style);
+                     segment=false;
+                    }
                mask<<=1;
                if(mask==0x1000000)
                   mask=1;
@@ -4037,7 +4077,7 @@ void CCanvas::PolylineThick(const int &x[],const int &y[],const uint clr,const i
       int ysign=(y1<y2) ? 1 : -1;
       double kp0=(-xsign*ysign)*(dx/dy);
       double kp1=-1/kp0;
-      //--- draw thick line by segment 
+      //--- draw thick line by segment
       if(style==STYLE_SOLID)
         {
          Segment(x1,y1,x2,y2,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
@@ -4061,13 +4101,13 @@ void CCanvas::PolylineThick(const int &x[],const int &y[],const uint clr,const i
                segment=true;
               }
             else
-            if((m_style&mask)!=mask && segment)
-              {
-               xe=x1+(xsign)*(int)(i*rsin_k);
-               ye=y1+(ysign)*(int)(i*rcos_k);
-               Segment(xs,ys,xe,ye,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
-               segment=false;
-              }
+               if((m_style&mask)!=mask && segment)
+                 {
+                  xe=x1+(xsign)*(int)(i*rsin_k);
+                  ye=y1+(ysign)*(int)(i*rcos_k);
+                  Segment(xs,ys,xe,ye,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
+                  segment=false;
+                 }
             mask<<=1;
             if(mask==0x1000000)
                mask=1;
@@ -4149,12 +4189,12 @@ void CCanvas::PolygonThick(const int &x[],const int &y[],const uint clr,const in
                   segment=true;
                  }
                else
-               if((m_style&mask)!=mask && segment)
-                 {
-                  ye=y1+(sign)*(int)(i*r);
-                  SegmentVertical(x1,ys,ye,sign,r,clr,end_style);
-                  segment=false;
-                 }
+                  if((m_style&mask)!=mask && segment)
+                    {
+                     ye=y1+(sign)*(int)(i*r);
+                     SegmentVertical(x1,ys,ye,sign,r,clr,end_style);
+                     segment=false;
+                    }
                mask<<=1;
                if(mask==0x1000000)
                   mask=1;
@@ -4176,7 +4216,7 @@ void CCanvas::PolygonThick(const int &x[],const int &y[],const uint clr,const in
       if(dy==0)
         {
          int sign=(x1<x2) ? 1 : -1;
-         //--- draw horizontal thick line by segment   
+         //--- draw horizontal thick line by segment
          if(style==STYLE_SOLID)
            {
             SegmentHorizontal(x1,x2,y1,sign,r,clr,end_style);
@@ -4196,12 +4236,12 @@ void CCanvas::PolygonThick(const int &x[],const int &y[],const uint clr,const in
                   segment=true;
                  }
                else
-               if((m_style&mask)!=mask && segment)
-                 {
-                  xe=x1+(sign)*(int)(i*r);
-                  SegmentHorizontal(xs,xe,y1,sign,r,clr,end_style);
-                  segment=false;
-                 }
+                  if((m_style&mask)!=mask && segment)
+                    {
+                     xe=x1+(sign)*(int)(i*r);
+                     SegmentHorizontal(xs,xe,y1,sign,r,clr,end_style);
+                     segment=false;
+                    }
                mask<<=1;
                if(mask==0x1000000)
                   mask=1;
@@ -4229,7 +4269,7 @@ void CCanvas::PolygonThick(const int &x[],const int &y[],const uint clr,const in
       int ysign=(y1<y2) ? 1 : -1;
       double kp0=(-xsign*ysign)*(dx/dy);
       double kp1=-1/kp0;
-      //--- draw thick line by segment 
+      //--- draw thick line by segment
       if(style==STYLE_SOLID)
         {
          Segment(x1,y1,x2,y2,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
@@ -4253,13 +4293,13 @@ void CCanvas::PolygonThick(const int &x[],const int &y[],const uint clr,const in
                segment=true;
               }
             else
-            if((m_style&mask)!=mask && segment)
-              {
-               xe=x1+(xsign)*(int)(i*rsin_k);
-               ye=y1+(ysign)*(int)(i*rcos_k);
-               Segment(xs,ys,xe,ye,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
-               segment=false;
-              }
+               if((m_style&mask)!=mask && segment)
+                 {
+                  xe=x1+(xsign)*(int)(i*rsin_k);
+                  ye=y1+(ysign)*(int)(i*rcos_k);
+                  Segment(xs,ys,xe,ye,kp0,kp1,xsign,ysign,rcos_k,rsin_k,r,clr,end_style);
+                  segment=false;
+                 }
             mask<<=1;
             if(mask==0x1000000)
                mask=1;
@@ -4292,7 +4332,7 @@ bool CCanvas::PixelsSimilar(const uint clr0,const uint clr1,const uint threshoul
                    uint((clr1>>8) &0xff));
    uint db=MathAbs(uint((clr0>>0) &0xff) -
                    uint((clr1>>0) &0xff));
-//--- return 
+//--- return
    return (dr<=threshould || dg<=threshould || db<=threshould);
   }
 //+------------------------------------------------------------------+
@@ -4310,13 +4350,13 @@ void CCanvas::PixelTransform(const int x,const int y,const uint clr,const double
       m_pixels[index]=clr;
       return;
      }
-//--- get pixel color         
+//--- get pixel color
    uint clr0=m_pixels[index];
 //--- transform  of color component for the background
    double r0 = ((clr0>>16) & 0xFF) * (1.0-alpha);
    double g0 = ((clr0>>8) & 0xFF) * (1.0-alpha);
    double b0 = ((clr0>>0) & 0xFF) * (1.0-alpha);
-//--- transform  of color component 
+//--- transform  of color component
    double r1 = ((clr>>16) & 0xFF) * (alpha);
    double g1 = ((clr>>8) & 0xFF) * (alpha);
    double b1 = ((clr>>0) & 0xFF) * (alpha);
@@ -4325,7 +4365,7 @@ void CCanvas::PixelTransform(const int x,const int y,const uint clr,const double
    int g = (int)(g0+g1);
    int b = (int)(b0+b1);
 //--- set new color
-   m_pixels[y*m_width+x]=(r<<16|g<<8|b<<0|255<<24) &0xffffffff;
+   m_pixels[y*m_width+x]=((r<<16)|(g<<8)|(b<<0)|(255<<24));
   }
 //+------------------------------------------------------------------+
 //| Draw 4 pixel with PixelTransform method                          |
@@ -4665,11 +4705,11 @@ void CCanvas::PolylineSmooth(const int &x[],const int &y[],const uint clr,const 
    ptY[size_pt-2] = y1;
    ptX[size_pt-1] = x[arr_size-1];
    ptY[size_pt-1] = y[arr_size-1];
-//--- calculation of the coordinates of Bezier curves   
+//--- calculation of the coordinates of Bezier curves
    int index=0;
    for(int i=0; i<arr_size-1; i++)
      {
-      //--- Euclidean distance between two neighboring points     
+      //--- Euclidean distance between two neighboring points
       double distance=MathSqrt((x[i+1]-x[i])*(x[i+1]-x[i])+(y[i+1]-y[i])*(y[i+1]-y[i]));
       int size_i=(step>0.0) ?(int)(distance/step) : 1;
       if(size_i<1)
@@ -4729,7 +4769,7 @@ void CCanvas::PolygonSmooth(int &x[],int &y[],const uint clr,const int size,ENUM
       ptX[3*i+2] = x2;
       ptY[3*i+2] = y2;
      }
-//--- Euclidean distance between two neighboring points     
+//--- Euclidean distance between two neighboring points
    int index=0;
    for(int i=0; i<size_arr-1; i++)
      {
@@ -4773,10 +4813,10 @@ void CCanvas::CalcCurveBezierEndp(const double xend,const double yend,const doub
 void CCanvas::CalcCurveBezier(const int &x[],const int &y[],const int i,const double tension,double &x1,double &y1,double &x2,double &y2)
   {
    double xdiff,ydiff;
-//--- calculate tangent 
+//--- calculate tangent
    xdiff = x[i+2] - x[i];
    ydiff = y[i+2] - y[i];
-//--- apply tangent to get control points 
+//--- apply tangent to get control points
    x1 = x[i+1] - tension * xdiff;
    y1 = y[i+1] - tension * ydiff;
    x2 = x[i+1] + tension * xdiff;

@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                  ZigzagColor.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2019, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
 #property copyright "2009-2017, MetaQuotes Software Corp."
@@ -10,15 +10,15 @@
 #property indicator_buffers 5
 #property indicator_plots   1
 #property indicator_type1   DRAW_COLOR_ZIGZAG
-#property indicator_color1  DodgerBlue,Red
+#property indicator_color1  clrDodgerBlue, clrRed
 //--- input parameters
-input int ExtDepth=12;
-input int ExtDeviation=5;
-input int ExtBackstep=3;
-int level=3; // recounting's depth 
+input int InpDepth    =12;
+input int InpDeviation=5;
+input int InpBackstep =3;
+int ExtRecalc=3; // recounting's depth
 //--- indicator buffers
 double ZigzagPeakBuffer[];
-double ZigzagLawnBuffer[];
+double ZigzagBottomBuffer[];
 double HighMapBuffer[];
 double LowMapBuffer[];
 double ColorBuffer[];
@@ -29,48 +29,54 @@ void OnInit()
   {
 //--- indicator buffers mapping
    SetIndexBuffer(0,ZigzagPeakBuffer,INDICATOR_DATA);
-   SetIndexBuffer(1,ZigzagLawnBuffer,INDICATOR_DATA);
+   SetIndexBuffer(1,ZigzagBottomBuffer,INDICATOR_DATA);
    SetIndexBuffer(2,ColorBuffer,INDICATOR_COLOR_INDEX);
    SetIndexBuffer(3,HighMapBuffer,INDICATOR_CALCULATIONS);
    SetIndexBuffer(4,LowMapBuffer,INDICATOR_CALCULATIONS);
 //--- set accuracy
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
 //--- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"ZigZag("+(string)ExtDepth+","+(string)ExtDeviation+","+(string)ExtBackstep+")");
+   IndicatorSetString(INDICATOR_SHORTNAME,"ZigZag("+(string)InpDepth+","+(string)InpDeviation+","+(string)InpBackstep+")");
    PlotIndexSetString(0,PLOT_LABEL,"ZigzagColor");
-//--- set drawing line empty value
+//--- set an empty value
    PlotIndexSetDouble(0,PLOT_EMPTY_VALUE,0.0);
   }
 //+------------------------------------------------------------------+
-//| get highest value for range                                      |
+//| Get highest value for range                                      |
 //+------------------------------------------------------------------+
-double Highest(const double&array[],int range,int fromIndex)
+double Highest(const double&array[],int count,int start)
   {
-   double res;
+   double res=array[start];
 //---
-   res=array[fromIndex];
-   for(int i=fromIndex;i>fromIndex-range && i>=0;i--)
+   for(int i=start; i>start-count && i>=0; i--)
      {
-      if(res<array[i]) res=array[i];
+      if(res<array[i])
+         res=array[i];
      }
 //---
    return(res);
   }
 //+------------------------------------------------------------------+
-//| get lowest value for range                                       |
+//| Get lowest value for range                                       |
 //+------------------------------------------------------------------+
-double Lowest(const double&array[],int range,int fromIndex)
+double Lowest(const double&array[],int count,int start)
   {
-   double res;
+   double res=array[start];
 //---
-   res=array[fromIndex];
-   for(int i=fromIndex;i>fromIndex-range && i>=0;i--)
+   for(int i=start; i>start-count && i>=0; i--)
      {
-      if(res>array[i]) res=array[i];
+      if(res>array[i])
+         res=array[i];
      }
 //---
    return(res);
   }
+//--- auxiliary enumeration
+enum EnSearchMode
+  {
+   Peak=1,    // searching for the next ZigZag peak
+   Bottom=-1  // searching for the next ZigZag bottom
+  };
 //+------------------------------------------------------------------+
 //| Detrended Price Oscillator                                       |
 //+------------------------------------------------------------------+
@@ -91,7 +97,7 @@ int OnCalculate(const int rates_total,
      {
       //--- clean up arrays
       ArrayInitialize(ZigzagPeakBuffer,0.0);
-      ArrayInitialize(ZigzagLawnBuffer,0.0);
+      ArrayInitialize(ZigzagBottomBuffer,0.0);
       ArrayInitialize(HighMapBuffer,0.0);
       ArrayInitialize(LowMapBuffer,0.0);
       ArrayInitialize(ColorBuffer,0.0);
@@ -99,190 +105,194 @@ int OnCalculate(const int rates_total,
       return(0);
      }
 //--- preliminary calculations
-   int counterZ=0,whatlookfor=0;
-   int shift,back=0,lasthighpos=0,lastlowpos=0;
+   int extreme_counter=0,extreme_search=0;
+   int shift,back=0,last_high_pos=0,last_low_pos=0;
    double val=0,res=0;
-   double curlow=0,curhigh=0,lasthigh=0,lastlow=0;
-//--- set empty values
+   double cur_low=0,cur_high=0,last_high=0,last_low=0;
+//--- initializing
    if(prev_calculated==0)
      {
       ArrayInitialize(ZigzagPeakBuffer,0.0);
-      ArrayInitialize(ZigzagLawnBuffer,0.0);
+      ArrayInitialize(ZigzagBottomBuffer,0.0);
       ArrayInitialize(HighMapBuffer,0.0);
       ArrayInitialize(LowMapBuffer,0.0);
-      //--- start calculation from bar number ExtDepth
-      limit=ExtDepth-1;
+      //--- start calculation from bar number InpDepth
+      limit=InpDepth-1;
      }
-//---
+//--- ZigZag was already calculated before
    if(prev_calculated>0)
      {
       i=rates_total-1;
-      while(counterZ<level && i>rates_total -100)
+      //--- searching for the third extremum from the last uncompleted bar
+      while(extreme_counter<ExtRecalc && i>rates_total -100)
         {
-         res=(ZigzagPeakBuffer[i]+ZigzagLawnBuffer[i]);
+         res=(ZigzagPeakBuffer[i]+ZigzagBottomBuffer[i]);
          //---
-         if(res!=0) counterZ++;
+         if(res!=0)
+            extreme_counter++;
          i--;
         }
       i++;
       limit=i;
-      //---
+      //--- what type of exremum we search for
       if(LowMapBuffer[i]!=0)
         {
-         curlow=LowMapBuffer[i];
-         whatlookfor=1;
+         cur_low=LowMapBuffer[i];
+         extreme_search=Peak;
         }
       else
         {
-         curhigh=HighMapBuffer[i];
-         whatlookfor=-1;
+         cur_high=HighMapBuffer[i];
+         extreme_search=Bottom;
         }
-      //---
-      for(i=limit+1;i<rates_total && !IsStopped();i++)
+      //--- clear indicator values
+      for(i=limit+1; i<rates_total && !IsStopped(); i++)
         {
-         ZigzagPeakBuffer[i]=0.0;
-         ZigzagLawnBuffer[i]=0.0;
-         LowMapBuffer[i]=0.0;
-         HighMapBuffer[i]=0.0;
+         ZigzagPeakBuffer[i]  =0.0;
+         ZigzagBottomBuffer[i]=0.0;
+         LowMapBuffer[i]      =0.0;
+         HighMapBuffer[i]     =0.0;
         }
      }
-//----
-   for(shift=limit;shift<rates_total && !IsStopped();shift++)
+//--- searching for high and low extremes
+   for(shift=limit; shift<rates_total && !IsStopped(); shift++)
      {
-
-      val=Lowest(low,ExtDepth,shift);
-      //---
-      if(val==lastlow) val=0.0;
+      //--- low
+      val=Lowest(low,InpDepth,shift);
+      if(val==last_low)
+         val=0.0;
       else
         {
-         lastlow=val;
-         //---
-         if((low[shift]-val)>(ExtDeviation*_Point)) val=0.0;
+         last_low=val;
+         if((low[shift]-val)>(InpDeviation*_Point))
+            val=0.0;
          else
            {
-            //---
-            for(back=ExtBackstep;back>=1;back--)
+            for(back=InpBackstep; back>=1; back--)
               {
                res=LowMapBuffer[shift-back];
                //---
-               if((res!=0) && (res>val)) LowMapBuffer[shift-back]=0.0;
+               if((res!=0) && (res>val))
+                  LowMapBuffer[shift-back]=0.0;
               }
            }
         }
-      //---
-      if(low[shift]==val) LowMapBuffer[shift]=val;
+      if(low[shift]==val)
+         LowMapBuffer[shift]=val;
       else
          LowMapBuffer[shift]=0.0;
       //--- high
-      val=Highest(high,ExtDepth,shift);
-      //---
-      if(val==lasthigh) val=0.0;
+      val=Highest(high,InpDepth,shift);
+      if(val==last_high)
+         val=0.0;
       else
         {
-         lasthigh=val;
-         //---
-         if((val-high[shift])>(ExtDeviation*_Point)) val=0.0;
+         last_high=val;
+         if((val-high[shift])>(InpDeviation*_Point))
+            val=0.0;
          else
            {
-            //---
-            for(back=ExtBackstep;back>=1;back--)
+            for(back=InpBackstep; back>=1; back--)
               {
                res=HighMapBuffer[shift-back];
                //---
-               if((res!=0) && (res<val)) HighMapBuffer[shift-back]=0.0;
+               if((res!=0) && (res<val))
+                  HighMapBuffer[shift-back]=0.0;
               }
            }
         }
-      //---
-      if(high[shift]==val) HighMapBuffer[shift]=val;
-      else  HighMapBuffer[shift]=0.0;
+      if(high[shift]==val)
+         HighMapBuffer[shift]=val;
+      else
+         HighMapBuffer[shift]=0.0;
      }
-// final cutting 
-   if(whatlookfor==0)
+//--- set last values
+   if(extreme_search==0) // undefined values
      {
-      lastlow=0;
-      lasthigh=0;
+      last_low=0;
+      last_high=0;
      }
    else
      {
-      lastlow=curlow;
-      lasthigh=curhigh;
+      last_low=cur_low;
+      last_high=cur_high;
      }
-//----
-   for(shift=limit;shift<rates_total && !IsStopped();shift++)
+//--- final selection of extreme points for ZigZag
+   for(shift=limit; shift<rates_total && !IsStopped(); shift++)
      {
       res=0.0;
-      switch(whatlookfor)
+      switch(extreme_search)
         {
-         // look for peak or lawn 
-         case 0: if(lastlow==0 && lasthigh==0)
-           {
-            if(HighMapBuffer[shift]!=0)
+         case 0: // search for an extremum
+            if(last_low==0 && last_high==0)
               {
-               lasthigh=high[shift];
-               lasthighpos=shift;
-               whatlookfor=-1;
-               ZigzagPeakBuffer[shift]=lasthigh;
-               ColorBuffer[shift]=0;
-               res=1;
+               if(HighMapBuffer[shift]!=0)
+                 {
+                  last_high=high[shift];
+                  last_high_pos=shift;
+                  extreme_search=-1;
+                  ZigzagPeakBuffer[shift]=last_high;
+                  ColorBuffer[shift]=0;
+                  res=1;
+                 }
+               if(LowMapBuffer[shift]!=0)
+                 {
+                  last_low=low[shift];
+                  last_low_pos=shift;
+                  extreme_search=1;
+                  ZigzagBottomBuffer[shift]=last_low;
+                  ColorBuffer[shift]=1;
+                  res=1;
+                 }
               }
-            if(LowMapBuffer[shift]!=0)
+            break;
+         case Peak: // search for peak
+            if(LowMapBuffer[shift]!=0.0 && LowMapBuffer[shift]<last_low &&
+               HighMapBuffer[shift]==0.0)
               {
-               lastlow=low[shift];
-               lastlowpos=shift;
-               whatlookfor=1;
-               ZigzagLawnBuffer[shift]=lastlow;
+               ZigzagBottomBuffer[last_low_pos]=0.0;
+               last_low_pos=shift;
+               last_low=LowMapBuffer[shift];
+               ZigzagBottomBuffer[shift]=last_low;
                ColorBuffer[shift]=1;
                res=1;
               }
-           }
-         break;
-         // look for peak
-         case 1: if(LowMapBuffer[shift]!=0.0 && LowMapBuffer[shift]<lastlow && 
-                    HighMapBuffer[shift]==0.0)
-           {
-            ZigzagLawnBuffer[lastlowpos]=0.0;
-            lastlowpos=shift;
-            lastlow=LowMapBuffer[shift];
-            ZigzagLawnBuffer[shift]=lastlow;
-            ColorBuffer[shift]=1;
-            res=1;
-           }
-         if(HighMapBuffer[shift]!=0.0 && LowMapBuffer[shift]==0.0)
-           {
-            lasthigh=HighMapBuffer[shift];
-            lasthighpos=shift;
-            ZigzagPeakBuffer[shift]=lasthigh;
-            ColorBuffer[shift]=0;
-            whatlookfor=-1;
-            res=1;
-           }
-         break;
-         // look for lawn
-         case -1:  if(HighMapBuffer[shift]!=0.0 && 
-                      HighMapBuffer[shift]>lasthigh && 
-                      LowMapBuffer[shift]==0.0)
-           {
-            ZigzagPeakBuffer[lasthighpos]=0.0;
-            lasthighpos=shift;
-            lasthigh=HighMapBuffer[shift];
-            ZigzagPeakBuffer[shift]=lasthigh;
-            ColorBuffer[shift]=0;
-           }
-         if(LowMapBuffer[shift]!=0.0 && HighMapBuffer[shift]==0.0)
-           {
-            lastlow=LowMapBuffer[shift];
-            lastlowpos=shift;
-            ZigzagLawnBuffer[shift]=lastlow;
-            ColorBuffer[shift]=1;
-            whatlookfor=1;
-           }
-         break;
-         default: return(rates_total);
+            if(HighMapBuffer[shift]!=0.0 && LowMapBuffer[shift]==0.0)
+              {
+               last_high=HighMapBuffer[shift];
+               last_high_pos=shift;
+               ZigzagPeakBuffer[shift]=last_high;
+               ColorBuffer[shift]=0;
+               extreme_search=Bottom;
+               res=1;
+              }
+            break;
+         case Bottom: // search for bottom
+            if(HighMapBuffer[shift]!=0.0 &&
+               HighMapBuffer[shift]>last_high &&
+               LowMapBuffer[shift]==0.0)
+              {
+               ZigzagPeakBuffer[last_high_pos]=0.0;
+               last_high_pos=shift;
+               last_high=HighMapBuffer[shift];
+               ZigzagPeakBuffer[shift]=last_high;
+               ColorBuffer[shift]=0;
+              }
+            if(LowMapBuffer[shift]!=0.0 && HighMapBuffer[shift]==0.0)
+              {
+               last_low=LowMapBuffer[shift];
+               last_low_pos=shift;
+               ZigzagBottomBuffer[shift]=last_low;
+               ColorBuffer[shift]=1;
+               extreme_search=Peak;
+              }
+            break;
+         default:
+            return(rates_total);
         }
      }
 
-//--- OnCalculate done. Return new prev_calculated.
+//--- return value of prev_calculated for next call
    return(rates_total);
   }
 //+------------------------------------------------------------------+

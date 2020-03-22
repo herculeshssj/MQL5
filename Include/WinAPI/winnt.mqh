@@ -1074,16 +1074,6 @@ struct CONTEXT
    ulong             LastExceptionFromRip;
   };
 //---
-struct Bytes
-  {
-   ushort            LimitLow;
-   ushort            BaseLow;
-   uchar             BaseMid;
-   uchar             Flags1;
-   uchar             Flags2;
-   uchar             BaseHi;
-  };
-//---
 struct WOW64_FLOATING_SAVE_AREA
   {
    uint              Controlushort;
@@ -1659,20 +1649,6 @@ struct CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE
   {
    PVOID             pValue;
    uint              ValueLength;
-  };
-//---
-struct Values
-  {
-   string            Name;
-   ushort            ValueType;
-   ushort            Reserved;
-   uint              Flags;
-   uint              ValueCount;
-   long              pInt64;
-   PVOID             pUint64;
-   PVOID             ppString;
-   PVOID             pFqbn;
-   PVOID             pOctetString;
   };
 //---
 struct CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
