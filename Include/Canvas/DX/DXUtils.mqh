@@ -471,8 +471,8 @@ bool DXComputeSphere(float radius,uint tessellation,TVertex &vertices[],uint &in
      {
       DXVector2 tcoord=DXVector2(0.0f,1.0f-(float)i/segments_y);
       float latitude=(i*DX_PI/segments_y)-DX_PI_DIV2;
-      float dy =(float)sin(latitude)*radius;
-      float dxz=(float)cos(latitude)*radius;
+      float dy =(float)sin(latitude);
+      float dxz=(float)cos(latitude);
       //--- create a single ring of vertices at this latitude.
       for(uint j=0; j<=segments_xz; j++,idx++)
         {
@@ -579,7 +579,7 @@ bool DXComputeTorus(float outer_radius,float inner_radius,uint tessellation,TVer
 template <typename TVertex>
 bool DXComputeCylinder(float radius,float height,uint tessellation,TVertex &vertices[],uint &indices[])
   {
-   return(ComputeTruncatedCone(radius,radius,height,tessellation,vertices,indices));
+   return(DXComputeTruncatedCone(radius,radius,height,tessellation,vertices,indices));
   }
 //+------------------------------------------------------------------+
 //| Truncated Cone                                                   |
