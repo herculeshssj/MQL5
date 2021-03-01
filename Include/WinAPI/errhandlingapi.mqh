@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                               errhandlingapi.mqh |
-//|                        Copyright 2018, MetaQuotes Software Corp. |
+//|                        Copyright 2020, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <WinAPI\windef.mqh>
@@ -9,7 +9,7 @@
 //|                                                                  |
 //+------------------------------------------------------------------+
 #import "kernel32.dll"
-void                         RaiseException(uint exception_code,uint exception_flags,uint number_of_arguments,const ulong &arguments);
+void                         RaiseException(uint exception_code,uint exception_flags,uint number_of_arguments,const ulong &arguments[]);
 int                          UnhandledExceptionFilter(EXCEPTION_POINTERS &exception_info);
 PVOID                        SetUnhandledExceptionFilter(PVOID top_level_exception_filter);
 uint                         GetLastError(void);

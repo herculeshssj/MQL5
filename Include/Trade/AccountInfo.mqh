@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                  AccountInfo.mqh |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <Object.mqh>
@@ -90,10 +90,17 @@ string CAccountInfo::TradeModeDescription(void) const
 //---
    switch(TradeMode())
      {
-      case ACCOUNT_TRADE_MODE_DEMO   : str="Demo trading account";    break;
-      case ACCOUNT_TRADE_MODE_CONTEST: str="Contest trading account"; break;
-      case ACCOUNT_TRADE_MODE_REAL   : str="Real trading account";    break;
-      default                        : str="Unknown trade account";
+      case ACCOUNT_TRADE_MODE_DEMO:
+         str="Demo trading account";
+         break;
+      case ACCOUNT_TRADE_MODE_CONTEST:
+         str="Contest trading account";
+         break;
+      case ACCOUNT_TRADE_MODE_REAL:
+         str="Real trading account";
+         break;
+      default:
+         str="Unknown trade account";
      }
 //---
    return(str);
@@ -121,9 +128,14 @@ string CAccountInfo::StopoutModeDescription(void) const
 //---
    switch(StopoutMode())
      {
-      case ACCOUNT_STOPOUT_MODE_PERCENT: str="Level is specified in percentage"; break;
-      case ACCOUNT_STOPOUT_MODE_MONEY  : str="Level is specified in money";      break;
-      default                          : str="Unknown stopout mode";
+      case ACCOUNT_STOPOUT_MODE_PERCENT:
+         str="Level is specified in percentage";
+         break;
+      case ACCOUNT_STOPOUT_MODE_MONEY:
+         str="Level is specified in money";
+         break;
+      default:
+         str="Unknown stopout mode";
      }
 //---
    return(str);
@@ -144,10 +156,17 @@ string CAccountInfo::MarginModeDescription(void) const
 //---
    switch(MarginMode())
      {
-      case ACCOUNT_MARGIN_MODE_RETAIL_NETTING: str="Netting";  break;
-      case ACCOUNT_MARGIN_MODE_EXCHANGE      : str="Exchange"; break;
-      case ACCOUNT_MARGIN_MODE_RETAIL_HEDGING: str="Hedging";  break;
-      default                                : str="Unknown margin mode";
+      case ACCOUNT_MARGIN_MODE_RETAIL_NETTING:
+         str="Netting";
+         break;
+      case ACCOUNT_MARGIN_MODE_EXCHANGE:
+         str="Exchange";
+         break;
+      case ACCOUNT_MARGIN_MODE_RETAIL_HEDGING:
+         str="Hedging";
+         break;
+      default:
+         str="Unknown margin mode";
      }
 //---
    return(str);

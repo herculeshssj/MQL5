@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                        Bulls.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Bulls Power"
 //--- indicator settings
@@ -33,10 +33,10 @@ void OnInit()
 //--- sets first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,InpBullsPeriod-1);
 //--- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"Bulls("+(string)InpBullsPeriod+")");
+   string short_name=StringFormat("Bulls(%d)",InpBullsPeriod);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
 //--- get handle for MA
    ExtEmaHandle=iMA(NULL,0,InpBullsPeriod,0,MODE_EMA,PRICE_CLOSE);
-//--- initialization done
   }
 //+------------------------------------------------------------------+
 //| Average True Range                                               |
@@ -52,41 +52,42 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int i,limit;
-//--- check for bars count
    if(rates_total<InpBullsPeriod)
-      return(0);// not enough bars for calculation   
+      return(0);
 //--- not all data may be calculated
    int calculated=BarsCalculated(ExtEmaHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtEmaHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtEmaHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
 //--- we can copy not all data
    int to_copy;
-   if(prev_calculated>rates_total || prev_calculated<0) to_copy=rates_total;
+   if(prev_calculated>rates_total || prev_calculated<0)
+      to_copy=rates_total;
    else
      {
       to_copy=rates_total-prev_calculated;
-      if(prev_calculated>0) to_copy++;
+      if(prev_calculated>0)
+         to_copy++;
      }
-//---- get ma buffers
-   if(IsStopped()) return(0); //Checking for stop flag
+//--- get ma buffers
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtEmaHandle,0,0,to_copy,ExtTempBuffer)<=0)
      {
-      Print("getting ExtEmaHandle is failed! Error",GetLastError());
+      Print("getting ExtEmaHandle is failed! Error ",GetLastError());
       return(0);
      }
 //--- first calculation or number of bars was changed
+   int start;
    if(prev_calculated<InpBullsPeriod)
-      limit=InpBullsPeriod;
-   else limit=prev_calculated-1;
+      start=InpBullsPeriod;
+   else
+      start=prev_calculated-1;
 //--- the main loop of calculations
-   for(i=limit;i<rates_total && !IsStopped();i++)
-     {
+   for(int i=start; i<rates_total && !IsStopped(); i++)
       ExtBullsBuffer[i]=high[i]-ExtTempBuffer[i];
-     }
 //--- return value of prev_calculated for next call
    return(rates_total);
   }

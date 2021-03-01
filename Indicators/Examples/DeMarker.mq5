@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                     DeMarker.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 #include <MovingAverages.mqh>
 //--- indicator settings
@@ -38,8 +38,8 @@ void OnInit()
 //--- sets first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,InpDeMarkerPeriod);
 //--- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"DeM("+string(InpDeMarkerPeriod)+")");
-//--- initialization done
+   string short_name=StringFormat("DeM(%d)",InpDeMarkerPeriod);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
   }
 //+------------------------------------------------------------------+
 //| DeMarker                                                         |
@@ -55,44 +55,55 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int    i,limit;
-   double dNum;
-//--- check for bars count
    if(rates_total<InpDeMarkerPeriod)
       return(0);
+
+   int i,start;
 //--- preliminary calculations
    if(prev_calculated==0)
      {
       ExtDeMaxBuffer[0]=0.0;
       ExtDeMinBuffer[0]=0.0;
       //--- filling out the array of True Range values for each period
-      for(i=1;i<InpDeMarkerPeriod;i++)
+      for(i=1; i<InpDeMarkerPeriod; i++)
         {
-         if(high[i]>high[i-1]) ExtDeMaxBuffer[i]=high[i]-high[i-1];
-         else ExtDeMaxBuffer[i]=0.0;
+         if(high[i]>high[i-1])
+            ExtDeMaxBuffer[i]=high[i]-high[i-1];
+         else
+            ExtDeMaxBuffer[i]=0.0;
 
-         if(low[i-1]>low[i]) ExtDeMinBuffer[i]=low[i-1]-low[i];
-         else ExtDeMinBuffer[i]=0.0;
+         if(low[i-1]>low[i])
+            ExtDeMinBuffer[i]=low[i-1]-low[i];
+         else
+            ExtDeMinBuffer[i]=0.0;
         }
-      for(i=0;i<InpDeMarkerPeriod;i++) ExtDeMarkerBuffer[i]=0.0;
-      limit=InpDeMarkerPeriod-1;
-    }
-   else limit=prev_calculated-1;
+      for(i=0; i<InpDeMarkerPeriod; i++)
+         ExtDeMarkerBuffer[i]=0.0;
+      start=InpDeMarkerPeriod-1;
+     }
+   else
+      start=prev_calculated-1;
 //--- the main loop of calculations
-   for(i=limit;i<rates_total && !IsStopped();i++)
+   for(i=start; i<rates_total && !IsStopped(); i++)
      {
-      if(high[i]>high[i-1]) ExtDeMaxBuffer[i]=high[i]-high[i-1];
-      else ExtDeMaxBuffer[i]=0.0;
+      if(high[i]>high[i-1])
+         ExtDeMaxBuffer[i]=high[i]-high[i-1];
+      else
+         ExtDeMaxBuffer[i]=0.0;
 
-      if(low[i-1]>low[i]) ExtDeMinBuffer[i]=low[i-1]-low[i];
-      else ExtDeMinBuffer[i]=0.0;
+      if(low[i-1]>low[i])
+         ExtDeMinBuffer[i]=low[i-1]-low[i];
+      else
+         ExtDeMinBuffer[i]=0.0;
 
       ExtAvgDeMaxBuffer[i]=SimpleMA(i,InpDeMarkerPeriod,ExtDeMaxBuffer);
       ExtAvgDeMinBuffer[i]=SimpleMA(i,InpDeMarkerPeriod,ExtDeMinBuffer);
 
-      dNum=ExtAvgDeMaxBuffer[i]+ExtAvgDeMinBuffer[i];
-      if(dNum!=0) ExtDeMarkerBuffer[i]=ExtAvgDeMaxBuffer[i]/dNum;
-      else ExtDeMarkerBuffer[i]=0.0;
+      double dnum=ExtAvgDeMaxBuffer[i]+ExtAvgDeMinBuffer[i];
+      if(dnum!=0)
+         ExtDeMarkerBuffer[i]=ExtAvgDeMaxBuffer[i]/dnum;
+      else
+         ExtDeMarkerBuffer[i]=0.0;
      }
 //--- OnCalculate done. Return new prev_calculated.
    return(rates_total);

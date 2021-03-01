@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                       wingdi.mqh |
-//|                        Copyright 2018, MetaQuotes Software Corp. |
+//|                        Copyright 2020, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <WinAPI\windef.mqh>
@@ -138,8 +138,8 @@ struct ABCFLOAT
 //---
 struct AXISINFOW
   {
-   long              axMinValue;
-   long              axMaxValue;
+   int               axMinValue;
+   int               axMaxValue;
    short             axAxisName[MM_MAX_AXES_NAMELEN];
   };
 //---
@@ -152,10 +152,10 @@ struct AXESLISTW
 //---
 struct BITMAP
   {
-   long              bmType;
-   long              bmWidth;
-   long              bmHeight;
-   long              bmWidthBytes;
+   int               bmType;
+   int               bmWidth;
+   int               bmHeight;
+   int               bmWidthBytes;
    ushort            bmPlanes;
    ushort            bmBitsPixel;
    PVOID             bmBits;
@@ -195,14 +195,14 @@ struct BITMAPCOREINFO
 struct BITMAPINFOHEADER
   {
    uint              biSize;
-   long              biWidth;
-   long              biHeight;
+   int               biWidth;
+   int               biHeight;
    ushort            biPlanes;
    ushort            biBitCount;
    uint              biCompression;
    uint              biSizeImage;
-   long              biXPelsPerMeter;
-   long              biYPelsPerMeter;
+   int               biXPelsPerMeter;
+   int               biYPelsPerMeter;
    uint              biClrUsed;
    uint              biClrImportant;
   };
@@ -223,9 +223,9 @@ struct BITMAPINFO
 //---
 struct CIEXYZ
   {
-   long              ciexyzX;
-   long              ciexyzY;
-   long              ciexyzZ;
+   int               ciexyzX;
+   int               ciexyzY;
+   int               ciexyzZ;
   };
 //---
 struct CIEXYZTRIPLE
@@ -238,14 +238,14 @@ struct CIEXYZTRIPLE
 struct BITMAPV4HEADER
   {
    uint              bV4Size;
-   long              bV4Width;
-   long              bV4Height;
+   int               bV4Width;
+   int               bV4Height;
    ushort            bV4Planes;
    ushort            bV4BitCount;
    uint              bV4V4Compression;
    uint              bV4SizeImage;
-   long              bV4XPelsPerMeter;
-   long              bV4YPelsPerMeter;
+   int               bV4XPelsPerMeter;
+   int               bV4YPelsPerMeter;
    uint              bV4ClrUsed;
    uint              bV4ClrImportant;
    uint              bV4RedMask;
@@ -262,14 +262,14 @@ struct BITMAPV4HEADER
 struct BITMAPV5HEADER
   {
    uint              bV5Size;
-   long              bV5Width;
-   long              bV5Height;
+   int               bV5Width;
+   int               bV5Height;
    ushort            bV5Planes;
    ushort            bV5BitCount;
    uint              bV5Compression;
    uint              bV5SizeImage;
-   long              bV5XPelsPerMeter;
-   long              bV5YPelsPerMeter;
+   int               bV5XPelsPerMeter;
+   int               bV5YPelsPerMeter;
    uint              bV5ClrUsed;
    uint              bV5ClrImportant;
    uint              bV5RedMask;
@@ -328,7 +328,7 @@ struct DESIGNVECTOR
   {
    uint              dvReserved;
    uint              dvNumAxes;
-   long              dvValues[MM_MAX_NUMAXES];
+   int               dvValues[MM_MAX_NUMAXES];
   };
 //---
 struct DIBSECTION
@@ -425,7 +425,7 @@ struct DISPLAYCONFIG_PATH_INFO
 struct DISPLAYCONFIG_SDR_WHITE_LEVEL
   {
    DISPLAYCONFIG_DEVICE_INFO_HEADER header;
-   ulong             SDRWhiteLevel;
+   uint              SDRWhiteLevel;
   };
 //---
 struct DISPLAYCONFIG_SOURCE_DEVICE_NAME
@@ -531,13 +531,13 @@ struct EMRALPHABLEND
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              cxDest;
-   long              cyDest;
+   int               xDest;
+   int               yDest;
+   int               cxDest;
+   int               cyDest;
    uint              dwRop;
-   long              xSrc;
-   long              ySrc;
+   int               xSrc;
+   int               ySrc;
    XFORM             xformSrc;
    uint              crBkColorSrc;
    uint              iUsageSrc;
@@ -545,8 +545,8 @@ struct EMRALPHABLEND
    uint              cbBmiSrc;
    uint              offBitsSrc;
    uint              cbBitsSrc;
-   long              cxSrc;
-   long              cySrc;
+   int               cxSrc;
+   int               cySrc;
   };
 //---
 struct EMRANGLEARC
@@ -570,13 +570,13 @@ struct EMRBITBLT
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              cxDest;
-   long              cyDest;
+   int               xDest;
+   int               yDest;
+   int               cxDest;
+   int               cyDest;
    uint              dwRop;
-   long              xSrc;
-   long              ySrc;
+   int               xSrc;
+   int               ySrc;
    XFORM             xformSrc;
    uint              crBkColorSrc;
    uint              iUsageSrc;
@@ -624,8 +624,8 @@ struct LOGCOLORSPACEW
    uint              lcsSignature;
    uint              lcsVersion;
    uint              lcsSize;
-   long              lcsCSType;
-   long              lcsIntent;
+   int               lcsCSType;
+   int               lcsIntent;
    CIEXYZTRIPLE      lcsEndpoints;
    uint              lcsGammaRed;
    uint              lcsGammaGreen;
@@ -714,11 +714,11 @@ struct EMREXCLUDECLIPRECT
 //---
 struct LOGFONTW
   {
-   long              lfHeight;
-   long              lfWidth;
-   long              lfEscapement;
-   long              lfOrientation;
-   long              lfWeight;
+   int               lfHeight;
+   int               lfWidth;
+   int               lfEscapement;
+   int               lfOrientation;
+   int               lfWeight;
    uchar             lfItalic;
    uchar             lfUnderline;
    uchar             lfStrikeOut;
@@ -918,8 +918,8 @@ struct PIXELFORMATDESCRIPTOR
 //---
 struct TRIVERTEX
   {
-   long              x;
-   long              y;
+   int               x;
+   int               y;
    ushort            red;
    ushort            green;
    ushort            blue;
@@ -932,7 +932,7 @@ struct EMRGRADIENTFILL
    RECTL             rclBounds;
    uint              nVer;
    uint              nTri;
-   ulong             ulMode;
+   uint              ulMode;
    TRIVERTEX         Ver[1];
   };
 //---
@@ -954,13 +954,13 @@ struct EMRMASKBLT
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              cxDest;
-   long              cyDest;
+   int               xDest;
+   int               yDest;
+   int               cxDest;
+   int               cyDest;
    uint              dwRop;
-   long              xSrc;
-   long              ySrc;
+   int               xSrc;
+   int               ySrc;
    XFORM             xformSrc;
    uint              crBkColorSrc;
    uint              iUsageSrc;
@@ -968,8 +968,8 @@ struct EMRMASKBLT
    uint              cbBmiSrc;
    uint              offBitsSrc;
    uint              cbBitsSrc;
-   long              xMask;
-   long              yMask;
+   int               xMask;
+   int               yMask;
    uint              iUsageMask;
    uint              offBmiMask;
    uint              cbBmiMask;
@@ -1010,10 +1010,10 @@ struct EMRPLGBLT
    EMR               emr;
    RECTL             rclBounds;
    POINTL            aptlDest[3];
-   long              xSrc;
-   long              ySrc;
-   long              cxSrc;
-   long              cySrc;
+   int               xSrc;
+   int               ySrc;
+   int               cxSrc;
+   int               cySrc;
    XFORM             xformSrc;
    uint              crBkColorSrc;
    uint              iUsageSrc;
@@ -1021,8 +1021,8 @@ struct EMRPLGBLT
    uint              cbBmiSrc;
    uint              offBitsSrc;
    uint              cbBitsSrc;
-   long              xMask;
-   long              yMask;
+   int               xMask;
+   int               yMask;
    uint              iUsageMask;
    uint              offBmiMask;
    uint              cbBmiMask;
@@ -1084,14 +1084,14 @@ struct EMRPOLYPOLYLINE16
    POINTS            apts[1];
   };
 //---
-struct EMRPOLYTEXTOUTA
+struct EMRPOLYTEXTOUTW
   {
    EMR               emr;
    RECTL             rclBounds;
    uint              iGraphicsMode;
    float             exScale;
    float             eyScale;
-   long              cStrings;
+   int               cStrings;
    EMRTEXT           aemrtext[1];
   };
 //---
@@ -1105,7 +1105,7 @@ struct EMRRESIZEPALETTE
 struct EMRRESTOREDC
   {
    EMR               emr;
-   long              iRelative;
+   int               iRelative;
   };
 //---
 struct EMRROUNDRECT
@@ -1118,10 +1118,10 @@ struct EMRROUNDRECT
 struct EMRSCALEVIEWPORTEXTEX
   {
    EMR               emr;
-   long              xNum;
-   long              xDenom;
-   long              yNum;
-   long              yDenom;
+   int               xNum;
+   int               xDenom;
+   int               yNum;
+   int               yDenom;
   };
 //---
 struct EMRSELECTCLIPPATH
@@ -1170,12 +1170,12 @@ struct EMRSETDIBITSTODEVICE
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              xSrc;
-   long              ySrc;
-   long              cxSrc;
-   long              cySrc;
+   int               xDest;
+   int               yDest;
+   int               xSrc;
+   int               ySrc;
+   int               cxSrc;
+   int               cySrc;
    uint              offBmiSrc;
    uint              cbBmiSrc;
    uint              offBitsSrc;
@@ -1252,13 +1252,13 @@ struct EMRSTRETCHBLT
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              cxDest;
-   long              cyDest;
+   int               xDest;
+   int               yDest;
+   int               cxDest;
+   int               cyDest;
    uint              dwRop;
-   long              xSrc;
-   long              ySrc;
+   int               xSrc;
+   int               ySrc;
    XFORM             xformSrc;
    uint              crBkColorSrc;
    uint              iUsageSrc;
@@ -1266,41 +1266,41 @@ struct EMRSTRETCHBLT
    uint              cbBmiSrc;
    uint              offBitsSrc;
    uint              cbBitsSrc;
-   long              cxSrc;
-   long              cySrc;
+   int               cxSrc;
+   int               cySrc;
   };
 //---
 struct EMRSTRETCHDIBITS
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              xSrc;
-   long              ySrc;
-   long              cxSrc;
-   long              cySrc;
+   int               xDest;
+   int               yDest;
+   int               xSrc;
+   int               ySrc;
+   int               cxSrc;
+   int               cySrc;
    uint              offBmiSrc;
    uint              cbBmiSrc;
    uint              offBitsSrc;
    uint              cbBitsSrc;
    uint              iUsageSrc;
    uint              dwRop;
-   long              cxDest;
-   long              cyDest;
+   int               cxDest;
+   int               cyDest;
   };
 //---
 struct EMRTRANSPARENTBLT
   {
    EMR               emr;
    RECTL             rclBounds;
-   long              xDest;
-   long              yDest;
-   long              cxDest;
-   long              cyDest;
+   int               xDest;
+   int               yDest;
+   int               cxDest;
+   int               cyDest;
    uint              dwRop;
-   long              xSrc;
-   long              ySrc;
+   int               xSrc;
+   int               ySrc;
    XFORM             xformSrc;
    uint              crBkColorSrc;
    uint              iUsageSrc;
@@ -1308,8 +1308,8 @@ struct EMRTRANSPARENTBLT
    uint              cbBmiSrc;
    uint              offBitsSrc;
    uint              cbBitsSrc;
-   long              cxSrc;
-   long              cySrc;
+   int               cxSrc;
+   int               cySrc;
   };
 //---
 struct ENHMETAHEADER
@@ -1365,17 +1365,17 @@ struct ENUMLOGFONTW
 //---
 struct NEWTEXTMETRICW
   {
-   long              tmHeight;
-   long              tmAscent;
-   long              tmDescent;
-   long              tmInternalLeading;
-   long              tmExternalLeading;
-   long              tmAveCharWidth;
-   long              tmMaxCharWidth;
-   long              tmWeight;
-   long              tmOverhang;
-   long              tmDigitizedAspectX;
-   long              tmDigitizedAspectY;
+   int               tmHeight;
+   int               tmAscent;
+   int               tmDescent;
+   int               tmInternalLeading;
+   int               tmExternalLeading;
+   int               tmAveCharWidth;
+   int               tmMaxCharWidth;
+   int               tmWeight;
+   int               tmOverhang;
+   int               tmDigitizedAspectX;
+   int               tmDigitizedAspectY;
    short             tmFirstChar;
    short             tmLastChar;
    short             tmDefaultChar;
@@ -1463,15 +1463,15 @@ struct GLYPHSET
 //---
 struct GRADIENT_RECT
   {
-   ulong             UpperLeft;
-   ulong             LowerRight;
+   uint              UpperLeft;
+   uint              LowerRight;
   };
 //---
 struct GRADIENT_TRIANGLE
   {
-   ulong             Vertex1;
-   ulong             Vertex2;
-   ulong             Vertex3;
+   uint              Vertex1;
+   uint              Vertex2;
+   uint              Vertex3;
   };
 //---
 struct HANDLETABLE
@@ -1531,9 +1531,9 @@ struct MAT2
 //---
 struct METAFILEPICT
   {
-   long              mm;
-   long              xExt;
-   long              yExt;
+   int               mm;
+   int               xExt;
+   int               yExt;
    HANDLE            hMF;
   };
 //---
@@ -1557,17 +1557,17 @@ struct METARECORD
 //---
 struct TEXTMETRICW
   {
-   long              tmHeight;
-   long              tmAscent;
-   long              tmDescent;
-   long              tmInternalLeading;
-   long              tmExternalLeading;
-   long              tmAveCharWidth;
-   long              tmMaxCharWidth;
-   long              tmWeight;
-   long              tmOverhang;
-   long              tmDigitizedAspectX;
-   long              tmDigitizedAspectY;
+   int               tmHeight;
+   int               tmAscent;
+   int               tmDescent;
+   int               tmInternalLeading;
+   int               tmExternalLeading;
+   int               tmAveCharWidth;
+   int               tmMaxCharWidth;
+   int               tmWeight;
+   int               tmOverhang;
+   int               tmDigitizedAspectX;
+   int               tmDigitizedAspectY;
    short             tmFirstChar;
    short             tmLastChar;
    short             tmDefaultChar;
@@ -1617,10 +1617,10 @@ struct OUTLINETEXTMETRICW
 //---
 struct PELARRAY
   {
-   long              paXCount;
-   long              paYCount;
-   long              paXExt;
-   long              paYExt;
+   int               paXCount;
+   int               paYCount;
+   int               paXExt;
+   int               paYExt;
    uchar             paRGBs;
   };
 //---
@@ -1643,11 +1643,11 @@ struct POLYTEXTW
 //---
 struct PSFEATURE_CUSTPAPER
   {
-   long              lOrientation;
-   long              lWidth;
-   long              lHeight;
-   long              lWidthOffset;
-   long              lHeightOffset;
+   int               lOrientation;
+   int               lWidth;
+   int               lHeight;
+   int               lWidthOffset;
+   int               lHeightOffset;
   };
 //---
 struct PSFEATURE_OUTPUT
@@ -1857,12 +1857,12 @@ int          GdiAlphaBlend(HANDLE dest,int dest,int dest,int dest,int dest,HANDL
 int          GdiComment(HANDLE hdc,uint size,const uchar &data[]);
 int          GdiFlush(void);
 uint         GdiGetBatchLimit(void);
-int          GdiGradientFill(HANDLE hdc,TRIVERTEX &vertex,ulong vertex,PVOID mesh,ulong count,ulong mode);
+int          GdiGradientFill(HANDLE hdc,TRIVERTEX &vertex,uint vertex,PVOID mesh,uint count,uint mode);
 uint         GdiSetBatchLimit(uint dw);
 int          GdiTransparentBlt(HANDLE dest,int dest,int dest,int dest,int dest,HANDLE src,int src,int src,int src,int src,uint transparent);
 int          GetArcDirection(HANDLE hdc);
 int          GetAspectRatioFilterEx(HANDLE hdc,SIZE &lpsize);
-long         GetBitmapBits(HANDLE hbit,long cb,PVOID bits);
+int          GetBitmapBits(HANDLE hbit,int cb,PVOID bits);
 int          GetBitmapDimensionEx(HANDLE hbit,SIZE &lpsize);
 uint         GetBkColor(HANDLE hdc);
 int          GetBkMode(HANDLE hdc);
@@ -2000,7 +2000,7 @@ PVOID        SelectObject(HANDLE hdc,PVOID h);
 HANDLE       SelectPalette(HANDLE hdc,HANDLE pal,int force_bkgd);
 int          SetAbortProc(HANDLE hdc,PVOID proc);
 int          SetArcDirection(HANDLE hdc,int dir);
-long         SetBitmapBits(HANDLE hbm,uint cb,const uchar &bits[]);
+int          SetBitmapBits(HANDLE hbm,uint cb,const uchar &bits[]);
 int          SetBitmapDimensionEx(HANDLE hbm,int w,int h,SIZE &lpsz);
 uint         SetBkColor(HANDLE hdc,uint clr);
 int          SetBkMode(HANDLE hdc,int mode);

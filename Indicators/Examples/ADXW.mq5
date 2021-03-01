@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                         ADXW.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Average Directional Movement Index"
 #property description "by Welles Wilder"
@@ -28,8 +28,8 @@
 #property indicator_label2  "+DI"
 #property indicator_label3  "-DI"
 //--- input parameters
-input int InpPeriodADXW=14; // Period
-//---- buffers
+input int InpPeriodADXW=14; // Period ADX
+//--- indicator buffers
 double    ExtADXWBuffer[];
 double    ExtPDIBuffer[];
 double    ExtNDIBuffer[];
@@ -40,7 +40,7 @@ double    ExtNDBuffer[];
 double    ExtTRBuffer[];
 double    ExtATRBuffer[];
 double    ExtDXBuffer[];
-//--- global variable
+
 int       ExtADXWPeriod;
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
@@ -51,10 +51,11 @@ void OnInit()
    if(InpPeriodADXW>=100 || InpPeriodADXW<=0)
      {
       ExtADXWPeriod=14;
-      printf("Incorrect value for input variable InpPeriodADXW=%d. Indicator will use value=%d for calculations.",InpPeriodADXW,ExtADXWPeriod);
+      PrintFormat("Incorrect value for input variable InpPeriodADXW=%d. Indicator will use value=%d for calculations.",InpPeriodADXW,ExtADXWPeriod);
      }
-   else ExtADXWPeriod=InpPeriodADXW;
-//---- indicator buffers
+   else
+      ExtADXWPeriod=InpPeriodADXW;
+//--- indicator buffers
    SetIndexBuffer(0,ExtADXWBuffer);
    SetIndexBuffer(1,ExtPDIBuffer);
    SetIndexBuffer(2,ExtNDIBuffer);
@@ -73,11 +74,9 @@ void OnInit()
 //--- indicator short name
    string short_name="ADX Wilder("+string(ExtADXWPeriod)+")";
    IndicatorSetString(INDICATOR_SHORTNAME,short_name);
-//--- change 1-st index label
    PlotIndexSetString(0,PLOT_LABEL,short_name);
 //--- indicator digits
    IndicatorSetInteger(INDICATOR_DIGITS,2);
-//---- end of initialization function
   }
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
@@ -98,11 +97,12 @@ int OnCalculate(const int rates_total,
       return(0);
 //--- detect start position
    int start;
-   if(prev_calculated>1) start=prev_calculated-1;
+   if(prev_calculated>1)
+      start=prev_calculated-1;
    else
      {
       start=1;
-      for(int i=0;i<ExtADXWPeriod;i++)
+      for(int i=0; i<ExtADXWPeriod; i++)
         {
          ExtADXWBuffer[i]=0;
          ExtPDIBuffer[i]=0;
@@ -117,35 +117,38 @@ int OnCalculate(const int rates_total,
         }
      }
 //--- main cycle
-   for(int i=start;i<rates_total && !IsStopped();i++)
+   for(int i=start; i<rates_total && !IsStopped(); i++)
      {
       //--- get some data
-      double Hi    =high[i];
-      double prevHi=high[i-1];
-      double Lo    =low[i];
-      double prevLo=low[i-1];
-      double prevCl=close[i-1];
+      double high_price=high[i];
+      double prev_high =high[i-1];
+      double low_price =low[i];
+      double prev_low  =low[i-1];
+      double prev_close=close[i-1];
       //--- fill main positive and main negative buffers
-      double dTmpP=Hi-prevHi;
-      double dTmpN=prevLo-Lo;
-      if(dTmpP<0.0) dTmpP=0.0;
-      if(dTmpN<0.0) dTmpN=0.0;
-      if(dTmpN==dTmpP)
+      double tmp_pos=high_price-prev_high;
+      double tmp_neg=prev_low-low_price;
+      if(tmp_pos<0.0)
+         tmp_pos=0.0;
+      if(tmp_neg<0.0)
+         tmp_neg=0.0;
+      if(tmp_neg==tmp_pos)
         {
-         dTmpN=0.0;
-         dTmpP=0.0;
+         tmp_neg=0.0;
+         tmp_pos=0.0;
         }
       else
         {
-         if(dTmpP<dTmpN) dTmpP=0.0;
-         else            dTmpN=0.0;
+         if(tmp_pos<tmp_neg)
+            tmp_pos=0.0;
+         else
+            tmp_neg=0.0;
         }
-      ExtPDBuffer[i]=dTmpP;
-      ExtNDBuffer[i]=dTmpN;
+      ExtPDBuffer[i]=tmp_pos;
+      ExtNDBuffer[i]=tmp_neg;
       //--- define TR
-      double tr=MathMax(MathMax(MathAbs(Hi-Lo),MathAbs(Hi-prevCl)),MathAbs(Lo-prevCl));
-      //--- write down TR to TR buffer
-      ExtTRBuffer[i]=tr;
+      double tr=MathMax(MathMax(MathAbs(high_price-low_price),MathAbs(high_price-prev_close)),MathAbs(low_price-prev_close));
+      ExtTRBuffer[i]=tr; // write down TR to TR buffer
       //--- fill smoothed positive and negative buffers and TR buffer
       if(i<ExtADXWPeriod)
         {
@@ -172,13 +175,15 @@ int OnCalculate(const int rates_total,
         }
       //--- Calculate DX buffer
       double dTmp=ExtPDIBuffer[i]+ExtNDIBuffer[i];
-      if(dTmp!=0.0) dTmp=100.0*MathAbs((ExtPDIBuffer[i]-ExtNDIBuffer[i])/dTmp);
-      else          dTmp=0.0;
+      if(dTmp!=0.0)
+         dTmp=100.0*MathAbs((ExtPDIBuffer[i]-ExtNDIBuffer[i])/dTmp);
+      else
+         dTmp=0.0;
       ExtDXBuffer[i]=dTmp;
       //--- fill ADXW buffer as smoothed DX buffer
       ExtADXWBuffer[i]=SmoothedMA(i,ExtADXWPeriod,ExtADXWBuffer[i-1],ExtDXBuffer);
      }
-//---- OnCalculate done. Return new prev_calculated.
+//--- OnCalculate done. Return new prev_calculated.
    return(rates_total);
   }
 //+------------------------------------------------------------------+

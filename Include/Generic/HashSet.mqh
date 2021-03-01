@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                      HashSet.mqh |
-//|                   Copyright 2016-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2016-2021, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include<Generic\Interfaces\ISet.mqh>
@@ -18,7 +18,7 @@ public:
    int               hash_code;
    T                 value;
    int               next;
-                     Slot(void): hash_code(0),value(NULL),next(0) {}
+                     Slot(void): hash_code(0),value((T)NULL),next(0) {}
   };
 //+------------------------------------------------------------------+
 //| Class CHashSet<T>.                                               |
@@ -29,7 +29,7 @@ class CHashSet: public ISet<T>
   {
 protected:
    int               m_buckets[];
-   Slot<T>m_slots[];
+   Slot<T>           m_slots[];
    int               m_count;
    int               m_last_index;
    int               m_free_list;
@@ -44,14 +44,14 @@ public:
                      CHashSet(T &array[]);
                      CHashSet(T &array[],IEqualityComparer<T>*comparer);
                     ~CHashSet(void);
-   //--- methods of filling data 
+   //--- methods of filling data
    bool              Add(T value);
    //--- methods of access to protected data
    int               Count(void)                                       { return(m_count);              }
-   IEqualityComparer<T>*Comparer(void)                           const { return(m_comparer);           }
+   IEqualityComparer<T>* Comparer(void)                          const { return(m_comparer);           }
    bool              Contains(T item);
    void              TrimExcess(void);
-   //--- methods of copy data from collection   
+   //--- methods of copy data from collection
    int               CopyTo(T &ds_array[],const int dst_start=0);
    //--- methods of cleaning and deleting
    void              Clear(void);
@@ -78,7 +78,7 @@ public:
    bool              Overlaps(T &array[]);
    bool              SetEquals(ICollection<T>*collection);
    bool              SetEquals(T &array[]);
-   
+
 private:
    void              SetCapacity(const int new_size,bool new_hash_codes);
    bool              AddIfNotPresent(T value);
@@ -98,7 +98,7 @@ CHashSet::CHashSet(void): m_count(0),
                           m_last_index(0),
                           m_free_list(-1)
   {
-//--- use default equality comaprer    
+//--- use default equality comaprer
    m_comparer=new CDefaultEqualityComparer<T>();
    m_delete_comparer=true;
   }
@@ -114,7 +114,7 @@ CHashSet::CHashSet(IEqualityComparer<T>*comparer): m_count(0),
 //--- check equality comaprer
    if(CheckPointer(comparer)==POINTER_INVALID)
      {
-      //--- use default equality comaprer      
+      //--- use default equality comaprer
       m_comparer=new CDefaultEqualityComparer<T>();
       m_delete_comparer=true;
      }
@@ -136,7 +136,7 @@ CHashSet::CHashSet(ICollection<T>*collection): m_count(0),
                                                m_last_index(0),
                                                m_free_list(-1)
   {
-//--- use default equality comaprer    
+//--- use default equality comaprer
    m_comparer=new CDefaultEqualityComparer<T>();
    m_delete_comparer=true;
 //--- check collection
@@ -147,7 +147,7 @@ CHashSet::CHashSet(ICollection<T>*collection): m_count(0),
    Initialize(count);
 //--- add element from collection to the set
    this.UnionWith(collection);
-   if((m_count==0 && ArraySize(m_slots)>3) || 
+   if((m_count==0 && ArraySize(m_slots)>3) ||
       (m_count>0 && ArraySize(m_slots)/m_count>3))
       TrimExcess();
   }
@@ -165,13 +165,13 @@ CHashSet::CHashSet(ICollection<T>*collection,IEqualityComparer<T>*comparer): m_c
 //--- check equality comaprer
    if(CheckPointer(comparer)==POINTER_INVALID)
      {
-      //--- use default equality comaprer   
+      //--- use default equality comaprer
       m_comparer=new CDefaultEqualityComparer<T>();
       m_delete_comparer=true;
      }
    else
      {
-      //--- use specified comaprer   
+      //--- use specified comaprer
       m_comparer=comparer;
       m_delete_comparer=false;
      }
@@ -183,7 +183,7 @@ CHashSet::CHashSet(ICollection<T>*collection,IEqualityComparer<T>*comparer): m_c
    Initialize(count);
 //--- add element from collection to the set
    this.UnionWith(collection);
-   if((m_count==0 && ArraySize(m_slots)>3) || 
+   if((m_count==0 && ArraySize(m_slots)>3) ||
       (m_count>0 && ArraySize(m_slots)/m_count>3))
       TrimExcess();
   }
@@ -198,7 +198,7 @@ CHashSet::CHashSet(T &array[]): m_count(0),
                                 m_last_index(0),
                                 m_free_list(-1)
   {
-//--- use default equality comaprer   
+//--- use default equality comaprer
    m_comparer=new CDefaultEqualityComparer<T>();
    m_delete_comparer=true;
 //--- set capacity for elements of the array
@@ -206,7 +206,7 @@ CHashSet::CHashSet(T &array[]): m_count(0),
    Initialize(count);
 //--- add element from array to the set
    this.UnionWith(array);
-   if((m_count==0 && ArraySize(m_slots)>3) || 
+   if((m_count==0 && ArraySize(m_slots)>3) ||
       (m_count>0 && ArraySize(m_slots)/m_count>3))
       TrimExcess();
   }
@@ -224,13 +224,13 @@ CHashSet::CHashSet(T &array[],IEqualityComparer<T>*comparer): m_count(0),
 //--- check equality comaprer
    if(CheckPointer(comparer)==POINTER_INVALID)
      {
-      //--- use default equality comaprer   
+      //--- use default equality comaprer
       m_comparer=new CDefaultEqualityComparer<T>();
       m_delete_comparer=true;
      }
    else
      {
-      //--- use specified comaprer   
+      //--- use specified comaprer
       m_comparer=comparer;
       m_delete_comparer=false;
      }
@@ -239,15 +239,14 @@ CHashSet::CHashSet(T &array[],IEqualityComparer<T>*comparer): m_count(0),
    Initialize(count);
 //--- add element from array to the set
    this.UnionWith(array);
-   if((m_count==0 && ArraySize(m_slots)>3) || 
+   if((m_count==0 && ArraySize(m_slots)>3) ||
       (m_count>0 && ArraySize(m_slots)/m_count>3))
       TrimExcess();
   }
 //+------------------------------------------------------------------+
 //| Destructor.                                                      |
 //+------------------------------------------------------------------+
-template<typename T>
-CHashSet::~CHashSet(void)
+template<typename T> CHashSet::~CHashSet(void)
   {
    if(m_delete_comparer)
       delete m_comparer;
@@ -269,9 +268,9 @@ bool CHashSet::Contains(T item)
 //--- check buckets
    if(ArraySize(m_buckets)!=0)
      {
-      //--- get hash code for item      
+      //--- get hash code for item
       int hash_code=m_comparer.HashCode(item)&0x7FFFFFFF;
-      //--- search item in the slots       
+      //--- search item in the slots
       for(int i=m_buckets[hash_code%ArraySize(m_buckets)]-1; i>=0; i=m_slots[i].next)
          if(m_slots[i].hash_code==hash_code && m_comparer.Equals(m_slots[i].value,item))
             return(true);
@@ -360,11 +359,11 @@ bool CHashSet::Remove(T item)
   {
    if(ArraySize(m_buckets)!=0)
      {
-      //--- get hash code for item      
+      //--- get hash code for item
       int hash_code=m_comparer.HashCode(item)&0x7FFFFFFF;
       int bucket=hash_code%ArraySize(m_buckets);
       int last=-1;
-      //--- search item     
+      //--- search item
       for(int i=m_buckets[bucket]-1; i>=0; last=i,i=m_slots[i].next)
         {
          if(m_slots[i].hash_code==hash_code && m_comparer.Equals(m_slots[i].value,item))
@@ -375,8 +374,8 @@ bool CHashSet::Remove(T item)
                m_slots[last].next=m_slots[i].next;
             //--- remove item
             m_slots[i].hash_code=-1;
-            m_slots[i].value= NULL;
-            m_slots[i].next = m_free_list;
+            m_slots[i].value=(T)NULL;
+            m_slots[i].next =m_free_list;
             //--- decrement count
             m_count--;
             if(m_count==0)
@@ -453,7 +452,7 @@ void CHashSet::IntersectWith(ICollection<T>*collection)
       Clear();
       return;
      }
-//--- intersect 
+//--- intersect
    for(int i=0; i<m_last_index; i++)
      {
       if(m_slots[i].hash_code>=0)
@@ -480,7 +479,7 @@ void CHashSet::IntersectWith(T &array[])
       Clear();
       return;
      }
-//--- intersect 
+//--- intersect
    CHashSet<T>set(array);
    for(int i=0; i<m_last_index; i++)
      {
@@ -559,7 +558,7 @@ void CHashSet::UnionWith(ICollection<T>*collection)
 //--- get array from collection
    T array[];
    collection.CopyTo(array);
-//--- union array with the current set   
+//--- union array with the current set
    UnionWith(array);
   }
 //+------------------------------------------------------------------+
@@ -743,13 +742,13 @@ bool CHashSet::Overlaps(ICollection<T>*collection)
 //--- check collection
    if(CheckPointer(collection)==POINTER_INVALID)
       return(false);
-//--- check current count   
+//--- check current count
    if(m_count==0)
       return(false);
 //--- get array from collection
    T array[];
    collection.CopyTo(array);
-//--- check overlaps between current set and array   
+//--- check overlaps between current set and array
    return Overlaps(array);
   }
 //+------------------------------------------------------------------+
@@ -759,10 +758,10 @@ bool CHashSet::Overlaps(ICollection<T>*collection)
 template<typename T>
 bool CHashSet::Overlaps(T &array[])
   {
-//--- check current count   
+//--- check current count
    if(m_count==0)
       return(false);
-//--- try to find any elements from specified array in current set      
+//--- try to find any elements from specified array in current set
    for(int i=0; i<ArraySize(array); i++)
       if(Contains(array[i]))
          return(true);
@@ -778,7 +777,7 @@ bool CHashSet::SetEquals(ICollection<T>*collection)
 //--- check collection
    if(CheckPointer(collection)==POINTER_INVALID)
       return(false);
-//--- check current set is equal specified collection 
+//--- check current set is equal specified collection
    if(collection==GetPointer(this))
       return(true);
 //--- get array from collection
@@ -811,7 +810,7 @@ void CHashSet::SetCapacity(const int new_size,bool new_hash_codes)
   {
 //--- resize slots
    ArrayResize(m_slots,new_size);
-//--- restore slots   
+//--- restore slots
    if(new_hash_codes)
       for(int i=0; i<m_last_index; i++)
          if(m_slots[i].hash_code!=-1)
@@ -819,7 +818,7 @@ void CHashSet::SetCapacity(const int new_size,bool new_hash_codes)
 //--- resize buckets
    ArrayResize(m_buckets,new_size);
    ArrayFill(m_buckets,0,new_size,0);
-//--- restore buckets   
+//--- restore buckets
    for(int i=0; i<m_last_index; i++)
      {
       int bucket=m_slots[i].hash_code%new_size;
@@ -862,7 +861,7 @@ bool CHashSet::AddIfNotPresent(T value)
       index=m_last_index;
       m_last_index++;
      }
-//--- set value     
+//--- set value
    m_slots[index].hash_code=hash_code;
    m_slots[index].value=value;
    m_slots[index].next=m_buckets[bucket]-1;

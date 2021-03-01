@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                 BW-ZoneTrade.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 //--- indicator settings
 #property indicator_chart_window
@@ -50,10 +50,9 @@ void OnInit()
 //--- get handles
    ExtACHandle=iAC(NULL,0);
    ExtAOHandle=iAO(NULL,0);
-//--- initialization done
   }
 //+------------------------------------------------------------------+
-//| Trade zone by Bill Williams                                      | 
+//| Trade zone by Bill Williams                                      |
 //+------------------------------------------------------------------+
 int OnCalculate(const int rates_total,
                 const int prev_calculated,
@@ -66,52 +65,55 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int i,limit;
-//--- check for bars count
    if(rates_total<DATA_LIMIT)
-      return(0);// not enough bars for calculation
+      return(0);
 //--- not all data may be calculated
    int calculated=BarsCalculated(ExtACHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtACHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtACHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
    calculated=BarsCalculated(ExtAOHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtAOHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtAOHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
 //--- we can copy not all data
    int to_copy;
-   if(prev_calculated>rates_total || prev_calculated<0) to_copy=rates_total;
+   if(prev_calculated>rates_total || prev_calculated<0)
+      to_copy=rates_total;
    else
      {
       to_copy=rates_total-prev_calculated;
-      if(prev_calculated>0) to_copy++;
+      if(prev_calculated>0)
+         to_copy++;
      }
 //--- get AC buffer
-   if(IsStopped()) return(0); //Checking for stop flag
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtACHandle,0,0,to_copy,ExtACBuffer)<=0)
      {
-      Print("Getting iAC is failed! Error",GetLastError());
+      Print("Getting iAC is failed! Error ",GetLastError());
       return(0);
      }
 //--- get AO buffer
-   if(IsStopped()) return(0); //Checking for stop flag
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtAOHandle,0,0,to_copy,ExtAOBuffer)<=0)
      {
-      Print("Getting iAO is failed! Error",GetLastError());
+      Print("Getting iAO is failed! Error ",GetLastError());
       return(0);
      }
 //--- set first bar from what calculation will start
+   int start;
    if(prev_calculated<DATA_LIMIT)
-      limit=DATA_LIMIT;
+      start=DATA_LIMIT;
    else
-      limit=prev_calculated-1;
+      start=prev_calculated-1;
 //--- the main loop of calculations
-   for(i=limit;i<rates_total && !IsStopped();i++)
+   for(int i=start; i<rates_total && !IsStopped(); i++)
      {
       ExtOBuffer[i]=open[i];
       ExtHBuffer[i]=high[i];

@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                          ATR.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Average True Range"
 //--- indicator settings
@@ -18,7 +18,7 @@ input int InpAtrPeriod=14;  // ATR period
 //--- indicator buffers
 double    ExtATRBuffer[];
 double    ExtTRBuffer[];
-//--- global variable
+
 int       ExtPeriodATR;
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
@@ -29,9 +29,10 @@ void OnInit()
    if(InpAtrPeriod<=0)
      {
       ExtPeriodATR=14;
-      printf("Incorrect input parameter InpAtrPeriod = %d. Indicator will use value %d for calculations.",InpAtrPeriod,ExtPeriodATR);
+      PrintFormat("Incorrect input parameter InpAtrPeriod = %d. Indicator will use value %d for calculations.",InpAtrPeriod,ExtPeriodATR);
      }
-   else ExtPeriodATR=InpAtrPeriod;
+   else
+      ExtPeriodATR=InpAtrPeriod;
 //--- indicator buffers mapping
    SetIndexBuffer(0,ExtATRBuffer,INDICATOR_DATA);
    SetIndexBuffer(1,ExtTRBuffer,INDICATOR_CALCULATIONS);
@@ -40,10 +41,9 @@ void OnInit()
 //--- sets first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,InpAtrPeriod);
 //--- name for DataWindow and indicator subwindow label
-   string short_name="ATR("+string(ExtPeriodATR)+")";
+   string short_name=StringFormat("ATR(%d)",ExtPeriodATR);
    IndicatorSetString(INDICATOR_SHORTNAME,short_name);
    PlotIndexSetString(0,PLOT_LABEL,short_name);
-//--- initialization done
   }
 //+------------------------------------------------------------------+
 //| Average True Range                                               |
@@ -59,21 +59,21 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int i,limit;
-//--- check for bars count
    if(rates_total<=ExtPeriodATR)
-      return(0); // not enough bars for calculation
+      return(0);
+
+   int i,start;
 //--- preliminary calculations
    if(prev_calculated==0)
      {
       ExtTRBuffer[0]=0.0;
       ExtATRBuffer[0]=0.0;
       //--- filling out the array of True Range values for each period
-      for(i=1;i<rates_total && !IsStopped();i++)
+      for(i=1; i<rates_total && !IsStopped(); i++)
          ExtTRBuffer[i]=MathMax(high[i],close[i-1])-MathMin(low[i],close[i-1]);
       //--- first AtrPeriod values of the indicator are not calculated
       double firstValue=0.0;
-      for(i=1;i<=ExtPeriodATR;i++)
+      for(i=1; i<=ExtPeriodATR; i++)
         {
          ExtATRBuffer[i]=0.0;
          firstValue+=ExtTRBuffer[i];
@@ -81,11 +81,12 @@ int OnCalculate(const int rates_total,
       //--- calculating the first value of the indicator
       firstValue/=ExtPeriodATR;
       ExtATRBuffer[ExtPeriodATR]=firstValue;
-      limit=ExtPeriodATR+1;
+      start=ExtPeriodATR+1;
      }
-   else limit=prev_calculated-1;
+   else
+      start=prev_calculated-1;
 //--- the main loop of calculations
-   for(i=limit;i<rates_total && !IsStopped();i++)
+   for(i=start; i<rates_total && !IsStopped(); i++)
      {
       ExtTRBuffer[i]=MathMax(high[i],close[i-1])-MathMin(low[i],close[i-1]);
       ExtATRBuffer[i]=ExtATRBuffer[i-1]+(ExtTRBuffer[i]-ExtTRBuffer[i-ExtPeriodATR])/ExtPeriodATR;

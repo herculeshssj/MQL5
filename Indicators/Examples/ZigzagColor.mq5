@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                  ZigzagColor.mq5 |
-//|                   Copyright 2009-2019, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 //--- indicator settings
 #property indicator_chart_window
@@ -12,16 +12,24 @@
 #property indicator_type1   DRAW_COLOR_ZIGZAG
 #property indicator_color1  clrDodgerBlue, clrRed
 //--- input parameters
-input int InpDepth    =12;
-input int InpDeviation=5;
-input int InpBackstep =3;
-int ExtRecalc=3; // recounting's depth
+input int InpDepth    =12;  // Depth
+input int InpDeviation=5;   // Deviation
+input int InpBackstep =3;   // Back Step
 //--- indicator buffers
 double ZigzagPeakBuffer[];
 double ZigzagBottomBuffer[];
 double HighMapBuffer[];
 double LowMapBuffer[];
 double ColorBuffer[];
+
+int ExtRecalc=3; // recounting's depth
+
+enum EnSearchMode
+  {
+   Extremum=0, // searching for the first extremum
+   Peak=1,     // searching for the next ZigZag peak
+   Bottom=-1   // searching for the next ZigZag bottom
+  };
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
@@ -36,49 +44,14 @@ void OnInit()
 //--- set accuracy
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
 //--- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"ZigZag("+(string)InpDepth+","+(string)InpDeviation+","+(string)InpBackstep+")");
-   PlotIndexSetString(0,PLOT_LABEL,"ZigzagColor");
+   string short_name=StringFormat("ZigZagColor(%d,%d,%d)",InpDepth,InpDeviation,InpBackstep);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
+   PlotIndexSetString(0,PLOT_LABEL,short_name);
 //--- set an empty value
    PlotIndexSetDouble(0,PLOT_EMPTY_VALUE,0.0);
   }
 //+------------------------------------------------------------------+
-//| Get highest value for range                                      |
-//+------------------------------------------------------------------+
-double Highest(const double&array[],int count,int start)
-  {
-   double res=array[start];
-//---
-   for(int i=start; i>start-count && i>=0; i--)
-     {
-      if(res<array[i])
-         res=array[i];
-     }
-//---
-   return(res);
-  }
-//+------------------------------------------------------------------+
-//| Get lowest value for range                                       |
-//+------------------------------------------------------------------+
-double Lowest(const double&array[],int count,int start)
-  {
-   double res=array[start];
-//---
-   for(int i=start; i>start-count && i>=0; i--)
-     {
-      if(res>array[i])
-         res=array[i];
-     }
-//---
-   return(res);
-  }
-//--- auxiliary enumeration
-enum EnSearchMode
-  {
-   Peak=1,    // searching for the next ZigZag peak
-   Bottom=-1  // searching for the next ZigZag bottom
-  };
-//+------------------------------------------------------------------+
-//| Detrended Price Oscillator                                       |
+//| ZigZag calculation                                               |
 //+------------------------------------------------------------------+
 int OnCalculate(const int rates_total,
                 const int prev_calculated,
@@ -91,22 +64,12 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int i,limit=0;
-//--- check for rates count
    if(rates_total<100)
-     {
-      //--- clean up arrays
-      ArrayInitialize(ZigzagPeakBuffer,0.0);
-      ArrayInitialize(ZigzagBottomBuffer,0.0);
-      ArrayInitialize(HighMapBuffer,0.0);
-      ArrayInitialize(LowMapBuffer,0.0);
-      ArrayInitialize(ColorBuffer,0.0);
-      //--- exit with zero result
       return(0);
-     }
-//--- preliminary calculations
-   int extreme_counter=0,extreme_search=0;
-   int shift,back=0,last_high_pos=0,last_low_pos=0;
+//---
+   int    i,start=0;
+   int    extreme_counter=0,extreme_search=Extremum;
+   int    shift,back=0,last_high_pos=0,last_low_pos=0;
    double val=0,res=0;
    double cur_low=0,cur_high=0,last_high=0,last_low=0;
 //--- initializing
@@ -117,7 +80,7 @@ int OnCalculate(const int rates_total,
       ArrayInitialize(HighMapBuffer,0.0);
       ArrayInitialize(LowMapBuffer,0.0);
       //--- start calculation from bar number InpDepth
-      limit=InpDepth-1;
+      start=InpDepth-1;
      }
 //--- ZigZag was already calculated before
    if(prev_calculated>0)
@@ -133,7 +96,7 @@ int OnCalculate(const int rates_total,
          i--;
         }
       i++;
-      limit=i;
+      start=i;
       //--- what type of exremum we search for
       if(LowMapBuffer[i]!=0)
         {
@@ -146,7 +109,7 @@ int OnCalculate(const int rates_total,
          extreme_search=Bottom;
         }
       //--- clear indicator values
-      for(i=limit+1; i<rates_total && !IsStopped(); i++)
+      for(i=start+1; i<rates_total && !IsStopped(); i++)
         {
          ZigzagPeakBuffer[i]  =0.0;
          ZigzagBottomBuffer[i]=0.0;
@@ -155,7 +118,7 @@ int OnCalculate(const int rates_total,
         }
      }
 //--- searching for high and low extremes
-   for(shift=limit; shift<rates_total && !IsStopped(); shift++)
+   for(shift=start; shift<rates_total && !IsStopped(); shift++)
      {
       //--- low
       val=Lowest(low,InpDepth,shift);
@@ -218,12 +181,12 @@ int OnCalculate(const int rates_total,
       last_high=cur_high;
      }
 //--- final selection of extreme points for ZigZag
-   for(shift=limit; shift<rates_total && !IsStopped(); shift++)
+   for(shift=start; shift<rates_total && !IsStopped(); shift++)
      {
       res=0.0;
       switch(extreme_search)
         {
-         case 0: // search for an extremum
+         case Extremum:
             if(last_low==0 && last_high==0)
               {
                if(HighMapBuffer[shift]!=0)
@@ -246,7 +209,7 @@ int OnCalculate(const int rates_total,
                  }
               }
             break;
-         case Peak: // search for peak
+         case Peak:
             if(LowMapBuffer[shift]!=0.0 && LowMapBuffer[shift]<last_low &&
                HighMapBuffer[shift]==0.0)
               {
@@ -267,7 +230,7 @@ int OnCalculate(const int rates_total,
                res=1;
               }
             break;
-         case Bottom: // search for bottom
+         case Bottom:
             if(HighMapBuffer[shift]!=0.0 &&
                HighMapBuffer[shift]>last_high &&
                LowMapBuffer[shift]==0.0)
@@ -294,5 +257,31 @@ int OnCalculate(const int rates_total,
 
 //--- return value of prev_calculated for next call
    return(rates_total);
+  }
+//+------------------------------------------------------------------+
+//| Get highest value for range                                      |
+//+------------------------------------------------------------------+
+double Highest(const double&array[],int count,int start)
+  {
+   double res=array[start];
+//---
+   for(int i=start-1; i>start-count && i>=0; i--)
+      if(res<array[i])
+         res=array[i];
+//---
+   return(res);
+  }
+//+------------------------------------------------------------------+
+//| Get lowest value for range                                       |
+//+------------------------------------------------------------------+
+double Lowest(const double&array[],int count,int start)
+  {
+   double res=array[start];
+//---
+   for(int i=start-1; i>start-count && i>=0; i--)
+      if(res>array[i])
+         res=array[i];
+//---
+   return(res);
   }
 //+------------------------------------------------------------------+

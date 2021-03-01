@@ -14,8 +14,8 @@
 #property indicator_color1  DodgerBlue
 //--- input parametrs
 input ENUM_APPLIED_VOLUME InpVolumeType=VOLUME_TICK; // Volumes
-//---- indicator buffer
-double                    ExtPVTBuffer[];
+//--- indicator buffer
+double ExtPVTBuffer[];
 //+------------------------------------------------------------------+
 //| PVT initialization function                         |
 //+------------------------------------------------------------------+
@@ -31,7 +31,6 @@ void OnInit()
    PlotIndexSetDouble(0,PLOT_EMPTY_VALUE,0.0);
 //--- set index draw begin
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,1);
-//---- OnInit done
   }
 //+------------------------------------------------------------------+
 //| PVT iteration function                              |
@@ -47,13 +46,10 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-//--- variables
-   int pos;
-//--- check for bars count
    if(rates_total<2)
       return(0);
 //--- start calculation
-   pos=prev_calculated-1;
+   int pos=prev_calculated-1;
 //--- correct position, when it's first iteration
    if(pos<0)
      {
@@ -65,28 +61,25 @@ int OnCalculate(const int rates_total,
       CalculatePVT(pos,rates_total,close,tick_volume);
    else
       CalculatePVT(pos,rates_total,close,volume);
-//---- OnCalculate done. Return new prev_calculated.
+//--- OnCalculate done. Return new prev_calculated.
    return(rates_total);
   }
 //+------------------------------------------------------------------+
 //| Calculate PVT by volume argument                                 |
 //+------------------------------------------------------------------+
-void CalculatePVT(int nPosition,
-                  int nRatesCount,
-                  const double &ClBuffer[],
-                  const long &VolBuffer[])
+void CalculatePVT(const int pos,
+                  const int rates_total,
+                  const double& close[],
+                  const long& volume[])
   {
-   if(nPosition<=0) nPosition=1;
-//---
-   for(int i=nPosition;i<nRatesCount && !IsStopped();i++)
+   for(int i=pos; i<rates_total && !IsStopped(); i++)
      {
-      //--- get some data
-      double PrevClose=ClBuffer[i-1];
+      double prev_close=close[i-1];
       //--- calculate PVT value
-      if(PrevClose!=0)
-         ExtPVTBuffer[i]=((ClBuffer[i]-PrevClose)/PrevClose)*VolBuffer[i]+ExtPVTBuffer[i-1];
-      else ExtPVTBuffer[i]=ExtPVTBuffer[i-1];
+      if(prev_close!=0)
+         ExtPVTBuffer[i]=((close[i]-prev_close)/prev_close)*volume[i]+ExtPVTBuffer[i-1];
+      else
+         ExtPVTBuffer[i]=ExtPVTBuffer[i-1];
      }
-//---
   }
 //+------------------------------------------------------------------+

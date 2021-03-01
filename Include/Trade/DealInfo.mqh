@@ -1,10 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                     DealInfo.mqh |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <Object.mqh>
-#include "SymbolInfo.mqh"
 //+------------------------------------------------------------------+
 //| Class CDealInfo.                                                 |
 //| Appointment: Class for access to history deal info.              |
@@ -101,22 +100,53 @@ string CDealInfo::TypeDescription(void) const
 //---
    switch(DealType())
      {
-      case DEAL_TYPE_BUY                     : str="Buy type";                      break;
-      case DEAL_TYPE_SELL                    : str="Sell type";                     break;
-      case DEAL_TYPE_BALANCE                 : str="Balance type";                  break;
-      case DEAL_TYPE_CREDIT                  : str="Credit type";                   break;
-      case DEAL_TYPE_CHARGE                  : str="Charge type";                   break;
-      case DEAL_TYPE_CORRECTION              : str="Correction type";               break;
-      case DEAL_TYPE_BONUS                   : str="Bonus type";                    break;
-      case DEAL_TYPE_COMMISSION              : str="Commission type";               break;
-      case DEAL_TYPE_COMMISSION_DAILY        : str="Daily Commission type";         break;
-      case DEAL_TYPE_COMMISSION_MONTHLY      : str="Monthly Commission type";       break;
-      case DEAL_TYPE_COMMISSION_AGENT_DAILY  : str="Daily Agent Commission type";   break;
-      case DEAL_TYPE_COMMISSION_AGENT_MONTHLY: str="Monthly Agent Commission type"; break;
-      case DEAL_TYPE_INTEREST                : str="Interest Rate type";            break;
-      case DEAL_TYPE_BUY_CANCELED            : str="Canceled Buy type";             break;
-      case DEAL_TYPE_SELL_CANCELED           : str="Canceled Sell type";            break;
-      default                                : str="Unknown type";
+      case DEAL_TYPE_BUY:
+         str="Buy type";
+         break;
+      case DEAL_TYPE_SELL:
+         str="Sell type";
+         break;
+      case DEAL_TYPE_BALANCE:
+         str="Balance type";
+         break;
+      case DEAL_TYPE_CREDIT:
+         str="Credit type";
+         break;
+      case DEAL_TYPE_CHARGE:
+         str="Charge type";
+         break;
+      case DEAL_TYPE_CORRECTION:
+         str="Correction type";
+         break;
+      case DEAL_TYPE_BONUS:
+         str="Bonus type";
+         break;
+      case DEAL_TYPE_COMMISSION:
+         str="Commission type";
+         break;
+      case DEAL_TYPE_COMMISSION_DAILY:
+         str="Daily Commission type";
+         break;
+      case DEAL_TYPE_COMMISSION_MONTHLY:
+         str="Monthly Commission type";
+         break;
+      case DEAL_TYPE_COMMISSION_AGENT_DAILY:
+         str="Daily Agent Commission type";
+         break;
+      case DEAL_TYPE_COMMISSION_AGENT_MONTHLY:
+         str="Monthly Agent Commission type";
+         break;
+      case DEAL_TYPE_INTEREST:
+         str="Interest Rate type";
+         break;
+      case DEAL_TYPE_BUY_CANCELED:
+         str="Canceled Buy type";
+         break;
+      case DEAL_TYPE_SELL_CANCELED:
+         str="Canceled Sell type";
+         break;
+      default:
+         str="Unknown type";
      }
 //---
    return(str);
@@ -137,12 +167,23 @@ string CDealInfo::EntryDescription(void) const
 //---
    switch(CDealInfo::Entry())
      {
-      case DEAL_ENTRY_IN     : str="In entry";      break;
-      case DEAL_ENTRY_OUT    : str="Out entry";     break;
-      case DEAL_ENTRY_INOUT  : str="InOut entry";   break;
-      case DEAL_ENTRY_STATE  : str="Status record"; break;
-      case DEAL_ENTRY_OUT_BY : str="Out By entry";  break;
-      default                : str="Unknown entry";
+      case DEAL_ENTRY_IN:
+         str="In entry";
+         break;
+      case DEAL_ENTRY_OUT:
+         str="Out entry";
+         break;
+      case DEAL_ENTRY_INOUT:
+         str="InOut entry";
+         break;
+      case DEAL_ENTRY_STATE:
+         str="Status record";
+         break;
+      case DEAL_ENTRY_OUT_BY:
+         str="Out By entry";
+         break;
+      default:
+         str="Unknown entry";
      }
 //---
    return(str);
@@ -243,27 +284,56 @@ bool CDealInfo::InfoString(ENUM_DEAL_PROPERTY_STRING prop_id,string &var) const
 //+------------------------------------------------------------------+
 string CDealInfo::FormatAction(string &str,const uint action) const
   {
-//--- clean
-   str="";
-//--- see the type  
+//--- see the type
    switch(action)
      {
-      case DEAL_TYPE_BUY                     : str="buy";                      break;
-      case DEAL_TYPE_SELL                    : str="sell";                     break;
-      case DEAL_TYPE_BALANCE                 : str="balance";                  break;
-      case DEAL_TYPE_CREDIT                  : str="credit";                   break;
-      case DEAL_TYPE_CHARGE                  : str="charge";                   break;
-      case DEAL_TYPE_CORRECTION              : str="correction";               break;
-      case DEAL_TYPE_BONUS                   : str="bonus";                    break;
-      case DEAL_TYPE_COMMISSION              : str="commission";               break;
-      case DEAL_TYPE_COMMISSION_DAILY        : str="daily commission";         break;
-      case DEAL_TYPE_COMMISSION_MONTHLY      : str="monthly commission";       break;
-      case DEAL_TYPE_COMMISSION_AGENT_DAILY  : str="daily agent commission";   break;
-      case DEAL_TYPE_COMMISSION_AGENT_MONTHLY: str="monthly agent commission"; break;
-      case DEAL_TYPE_INTEREST                : str="interest rate";            break;
-      case DEAL_TYPE_BUY_CANCELED            : str="canceled buy";             break;
-      case DEAL_TYPE_SELL_CANCELED           : str="canceled sell";            break;
-      default                                : str="unknown deal type "+(string)action;
+      case DEAL_TYPE_BUY:
+         str="buy";
+         break;
+      case DEAL_TYPE_SELL:
+         str="sell";
+         break;
+      case DEAL_TYPE_BALANCE:
+         str="balance";
+         break;
+      case DEAL_TYPE_CREDIT:
+         str="credit";
+         break;
+      case DEAL_TYPE_CHARGE:
+         str="charge";
+         break;
+      case DEAL_TYPE_CORRECTION:
+         str="correction";
+         break;
+      case DEAL_TYPE_BONUS:
+         str="bonus";
+         break;
+      case DEAL_TYPE_COMMISSION:
+         str="commission";
+         break;
+      case DEAL_TYPE_COMMISSION_DAILY:
+         str="daily commission";
+         break;
+      case DEAL_TYPE_COMMISSION_MONTHLY:
+         str="monthly commission";
+         break;
+      case DEAL_TYPE_COMMISSION_AGENT_DAILY:
+         str="daily agent commission";
+         break;
+      case DEAL_TYPE_COMMISSION_AGENT_MONTHLY:
+         str="monthly agent commission";
+         break;
+      case DEAL_TYPE_INTEREST:
+         str="interest rate";
+         break;
+      case DEAL_TYPE_BUY_CANCELED:
+         str="canceled buy";
+         break;
+      case DEAL_TYPE_SELL_CANCELED:
+         str="canceled sell";
+         break;
+      default:
+         str="unknown deal type "+(string)action;
      }
 //--- return the result
    return(str);
@@ -273,16 +343,23 @@ string CDealInfo::FormatAction(string &str,const uint action) const
 //+------------------------------------------------------------------+
 string CDealInfo::FormatEntry(string &str,const uint entry) const
   {
-//--- clean
-   str="";
 //--- see the type
    switch(entry)
      {
-      case DEAL_ENTRY_IN    : str="in";     break;
-      case DEAL_ENTRY_OUT   : str="out";    break;
-      case DEAL_ENTRY_INOUT : str="in/out"; break;
-      case DEAL_ENTRY_OUT_BY: str="out by"; break;
-      default               : str="unknown deal entry "+(string)entry;
+      case DEAL_ENTRY_IN:
+         str="in";
+         break;
+      case DEAL_ENTRY_OUT:
+         str="out";
+         break;
+      case DEAL_ENTRY_INOUT:
+         str="in/out";
+         break;
+      case DEAL_ENTRY_OUT_BY:
+         str="out by";
+         break;
+      default:
+         str="unknown deal entry "+(string)entry;
      }
 //--- return the result
    return(str);
@@ -292,31 +369,33 @@ string CDealInfo::FormatEntry(string &str,const uint entry) const
 //+------------------------------------------------------------------+
 string CDealInfo::FormatDeal(string &str) const
   {
-   string      type;
-   CSymbolInfo symbol;
+   string type;
+   long   tmp_long;
 //--- set up
-   symbol.Name(Symbol());
-   int digits=symbol.Digits();
+   string symbol_name=this.Symbol();
+   int    digits=_Digits;
+   if(SymbolInfoInteger(symbol_name,SYMBOL_DIGITS,tmp_long))
+      digits=(int)tmp_long;
 //--- form the description of the deal
    switch(DealType())
      {
       //--- Buy-Sell
-      case DEAL_TYPE_BUY       :
-      case DEAL_TYPE_SELL      :
+      case DEAL_TYPE_BUY:
+      case DEAL_TYPE_SELL:
          str=StringFormat("#%I64u %s %s %s at %s",
                           Ticket(),
                           FormatAction(type,DealType()),
                           DoubleToString(Volume(),2),
-                          Symbol(),
+                          symbol_name,
                           DoubleToString(Price(),digits));
-      break;
+         break;
 
       //--- balance operations
-      case DEAL_TYPE_BALANCE   :
-      case DEAL_TYPE_CREDIT    :
-      case DEAL_TYPE_CHARGE    :
+      case DEAL_TYPE_BALANCE:
+      case DEAL_TYPE_CREDIT:
+      case DEAL_TYPE_CHARGE:
       case DEAL_TYPE_CORRECTION:
-      case DEAL_TYPE_BONUS     :
+      case DEAL_TYPE_BONUS:
       case DEAL_TYPE_COMMISSION:
       case DEAL_TYPE_COMMISSION_DAILY:
       case DEAL_TYPE_COMMISSION_MONTHLY:
@@ -327,12 +406,11 @@ string CDealInfo::FormatDeal(string &str) const
                           Ticket(),
                           FormatAction(type,DealType()),
                           DoubleToString(Profit(),2),
-                          Comment());
-      break;
+                          this.Comment());
+         break;
 
       default:
          str="unknown deal type "+(string)DealType();
-         break;
      }
 //--- return the result
    return(str);

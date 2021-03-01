@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                               MovingAverages.mqh |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
 
@@ -9,16 +9,16 @@
 //+------------------------------------------------------------------+
 double SimpleMA(const int position,const int period,const double &price[])
   {
-//---
    double result=0.0;
-//--- check position
-   if(position>=period-1 && period>0)
+//--- check period
+   if(period>0 && period<=(position+1))
      {
-      //--- calculate value
-      for(int i=0;i<period;i++) result+=price[position-i];
+      for(int i=0; i<period; i++)
+         result+=price[position-i];
+
       result/=period;
      }
-//---
+
    return(result);
   }
 //+------------------------------------------------------------------+
@@ -26,15 +26,14 @@ double SimpleMA(const int position,const int period,const double &price[])
 //+------------------------------------------------------------------+
 double ExponentialMA(const int position,const int period,const double prev_value,const double &price[])
   {
-//---
    double result=0.0;
-//--- calculate value
+//--- check period
    if(period>0)
      {
       double pr=2.0/(period+1.0);
       result=price[position]*pr+prev_value*(1-pr);
      }
-//---
+
    return(result);
   }
 //+------------------------------------------------------------------+
@@ -42,20 +41,21 @@ double ExponentialMA(const int position,const int period,const double prev_value
 //+------------------------------------------------------------------+
 double SmoothedMA(const int position,const int period,const double prev_value,const double &price[])
   {
-//---
    double result=0.0;
-//--- check position
-   if(period>0)
+//--- check period
+   if(period>0 && period<=(position+1))
      {
       if(position==period-1)
         {
-         for(int i=0;i<period;i++) result+=price[position-i];
+         for(int i=0; i<period; i++)
+            result+=price[position-i];
+
          result/=period;
         }
-      if(position>=period)
-         result=(prev_value*(period-1)+price[position])/period;
+
+      result=(prev_value*(period-1)+price[position])/period;
      }
-//---
+
    return(result);
   }
 //+------------------------------------------------------------------+
@@ -63,177 +63,255 @@ double SmoothedMA(const int position,const int period,const double prev_value,co
 //+------------------------------------------------------------------+
 double LinearWeightedMA(const int position,const int period,const double &price[])
   {
-//---
-   double result=0.0,sum=0.0;
-   int    i,wsum=0;
-//--- calculate value
-   if(position>=period-1 && period>0)
+   double result=0.0;
+//--- check period
+   if(period>0 && period<=(position+1))
      {
-      for(i=period;i>0;i--)
+      double sum =0.0;
+      int    wsum=0;
+
+      for(int i=period; i>0; i--)
         {
          wsum+=i;
-         sum+=price[position-i+1]*(period-i+1);
+         sum +=price[position-i+1]*(period-i+1);
         }
+
       result=sum/wsum;
      }
-//---
+
    return(result);
   }
 //+------------------------------------------------------------------+
 //| Simple moving average on price array                             |
 //+------------------------------------------------------------------+
-int SimpleMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,
-                     const int period,const double& price[],double& buffer[])
+int SimpleMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,const int period,const double& price[],double& buffer[])
   {
-   int i,limit;
-//--- check for data
-   if(period<=1 || rates_total-begin<period) return(0);
+//--- check period
+   if(period<=1 || period>(rates_total-begin))
+      return(0);
 //--- save as_series flags
    bool as_series_price=ArrayGetAsSeries(price);
    bool as_series_buffer=ArrayGetAsSeries(buffer);
-   if(as_series_price)  ArraySetAsSeries(price,false);
-   if(as_series_buffer) ArraySetAsSeries(buffer,false);
-//--- first calculation or number of bars was changed
-   if(prev_calculated==0) // first calculation
+
+   ArraySetAsSeries(price,false);
+   ArraySetAsSeries(buffer,false);
+//--- calculate start position
+   int start_position;
+
+   if(prev_calculated==0)  // first calculation or number of bars was changed
      {
-      limit=period+begin;
       //--- set empty value for first bars
-      for(i=0;i<limit-1;i++) buffer[i]=0.0;
+      start_position=period+begin;
+
+      for(int i=0; i<start_position-1; i++)
+         buffer[i]=0.0;
       //--- calculate first visible value
-      double firstValue=0;
-      for(i=begin;i<limit;i++)
-         firstValue+=price[i];
-      firstValue/=period;
-      buffer[limit-1]=firstValue;
+      double first_value=0;
+
+      for(int i=begin; i<start_position; i++)
+         first_value+=price[i];
+
+      buffer[start_position-1]=first_value/period;
      }
-   else limit=prev_calculated-1;
+   else
+      start_position=prev_calculated-1;
 //--- main loop
-   for(i=limit;i<rates_total;i++)
+   for(int i=start_position; i<rates_total; i++)
       buffer[i]=buffer[i-1]+(price[i]-price[i-period])/period;
 //--- restore as_series flags
-   if(as_series_price)  ArraySetAsSeries(price,true);
-   if(as_series_buffer) ArraySetAsSeries(buffer,true);
+   ArraySetAsSeries(price,as_series_price);
+   ArraySetAsSeries(buffer,as_series_buffer);
 //---
-    return(rates_total);
+   return(rates_total);
   }
 //+------------------------------------------------------------------+
 //|  Exponential moving average on price array                       |
 //+------------------------------------------------------------------+
-int ExponentialMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,
-                          const int period,const double& price[],double& buffer[])
+int ExponentialMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,const int period,const double& price[],double& buffer[])
   {
-   int    i,limit;
-//--- check for data
-   if(period<=1 || rates_total-begin<period) return(0);
-   double dSmoothFactor=2.0/(1.0+period);
-//--- save as_series flags
+//--- check period
+   if(period<=1 || period>(rates_total-begin))
+      return(0);
+//--- save and clear 'as_series' flags
    bool as_series_price=ArrayGetAsSeries(price);
    bool as_series_buffer=ArrayGetAsSeries(buffer);
-   if(as_series_price)  ArraySetAsSeries(price,false);
-   if(as_series_buffer) ArraySetAsSeries(buffer,false);
-//--- first calculation or number of bars was changed
-   if(prev_calculated==0)
+
+   ArraySetAsSeries(price,false);
+   ArraySetAsSeries(buffer,false);
+//--- calculate start position
+   int    start_position;
+   double smooth_factor=2.0/(1.0+period);
+
+   if(prev_calculated==0)  // first calculation or number of bars was changed
      {
-      limit=period+begin;
       //--- set empty value for first bars
-      for(i=0;i<begin;i++) buffer[i]=0.0;
+      for(int i=0; i<begin; i++)
+         buffer[i]=0.0;
       //--- calculate first visible value
-      buffer[begin]=price[begin];
-      for(i=begin+1;i<limit;i++)
-         buffer[i]=price[i]*dSmoothFactor+buffer[i-1]*(1.0-dSmoothFactor);
+      start_position=period+begin;
+      buffer[begin] =price[begin];
+
+      for(int i=begin+1; i<start_position; i++)
+         buffer[i]=price[i]*smooth_factor+buffer[i-1]*(1.0-smooth_factor);
      }
-   else limit=prev_calculated-1;
+   else
+      start_position=prev_calculated-1;
 //--- main loop
-   for(i=limit;i<rates_total;i++)
-      buffer[i]=price[i]*dSmoothFactor+buffer[i-1]*(1.0-dSmoothFactor);
+   for(int i=start_position; i<rates_total; i++)
+      buffer[i]=price[i]*smooth_factor+buffer[i-1]*(1.0-smooth_factor);
 //--- restore as_series flags
-   if(as_series_price)  ArraySetAsSeries(price,true);
-   if(as_series_buffer) ArraySetAsSeries(buffer,true);
+   ArraySetAsSeries(price,as_series_price);
+   ArraySetAsSeries(buffer,as_series_buffer);
 //---
-    return(rates_total);
+   return(rates_total);
   }
 //+------------------------------------------------------------------+
-//|  Linear weighted moving average on price array                   |
+//|  Linear weighted moving average on price array classic           |
 //+------------------------------------------------------------------+
-int LinearWeightedMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,
-                             const int period,const double& price[],double& buffer[],int &weightsum)
+int LinearWeightedMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,const int period,const double& price[],double& buffer[])
   {
-   int        i,limit;
-   double     sum;
-//--- check for data
-   if(period<=1 || rates_total-begin<period) return(0);
+//--- check period
+   if(period<=1 || period>(rates_total-begin))
+      return(0);
 //--- save as_series flags
    bool as_series_price=ArrayGetAsSeries(price);
    bool as_series_buffer=ArrayGetAsSeries(buffer);
-   if(as_series_price)  ArraySetAsSeries(price,false);
-   if(as_series_buffer) ArraySetAsSeries(buffer,false);
-//--- first calculation or number of bars was changed
-   if(prev_calculated==0)
+
+   ArraySetAsSeries(price,false);
+   ArraySetAsSeries(buffer,false);
+//--- calculate start position
+   int i,start_position;
+
+   if(prev_calculated<=period+begin+2)  // first calculation or number of bars was changed
      {
-      weightsum=0;
-      limit=period+begin;
       //--- set empty value for first bars
-      for(i=0;i<limit;i++) buffer[i]=0.0;
-      //--- calculate first visible value
-      double firstValue=0;
-      for(i=begin;i<limit;i++)
-        {
-         int k=i-begin+1;
-         weightsum+=k;
-         firstValue+=k*price[i];
-        }
-      firstValue/=(double)weightsum;
-      buffer[limit-1]=firstValue;
+      start_position=period+begin;
+
+      for(i=0; i<start_position; i++)
+         buffer[i]=0.0;
      }
-   else limit=prev_calculated-1;
-//--- main loop
-   for(i=limit;i<rates_total;i++)
+   else
+      start_position=prev_calculated-2;
+//--- calculate first visible value
+   double sum=0.0,lsum=0.0;
+   int    l,weight=0;
+
+   for(i=start_position-period,l=1; i<start_position; i++,l++)
      {
-      sum=0;
-      for(int j=0;j<period;j++) sum+=(period-j)*price[i-j];
-      buffer[i]=sum/weightsum;
+      sum   +=price[i]*l;
+      lsum  +=price[i];
+      weight+=l;
+     }
+   buffer[start_position-1]=sum/weight;
+//--- main loop
+   for(i=start_position; i<rates_total; i++)
+     {
+      sum      =sum-lsum+price[i]*period;
+      lsum     =lsum-price[i-period]+price[i];
+      buffer[i]=sum/weight;
      }
 //--- restore as_series flags
-   if(as_series_price)  ArraySetAsSeries(price,true);
-   if(as_series_buffer) ArraySetAsSeries(buffer,true);
+   ArraySetAsSeries(price,as_series_price);
+   ArraySetAsSeries(buffer,as_series_buffer);
 //---
-    return(rates_total);
+   return(rates_total);
+  }
+//+------------------------------------------------------------------+
+//|  Linear weighted moving average on price array fast              |
+//+------------------------------------------------------------------+
+int LinearWeightedMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,const int period,const double& price[],double& buffer[],int &weight_sum)
+  {
+//--- check period
+   if(period<=1 || period>(rates_total-begin))
+      return(0);
+//--- save as_series flags
+   bool as_series_price=ArrayGetAsSeries(price);
+   bool as_series_buffer=ArrayGetAsSeries(buffer);
+
+   ArraySetAsSeries(price,false);
+   ArraySetAsSeries(buffer,false);
+//--- calculate start position
+   int start_position;
+
+   if(prev_calculated==0)  // first calculation or number of bars was changed
+     {
+      //--- set empty value for first bars
+      start_position=period+begin;
+
+      for(int i=0; i<start_position; i++)
+         buffer[i]=0.0;
+      //--- calculate first visible value
+      double first_value=0;
+      int    wsum       =0;
+
+      for(int i=begin,k=1; i<start_position; i++,k++)
+        {
+         first_value+=k*price[i];
+         wsum       +=k;
+        }
+
+      buffer[start_position-1]=first_value/wsum;
+      weight_sum=wsum;
+     }
+   else
+      start_position=prev_calculated-1;
+//--- main loop
+   for(int i=start_position; i<rates_total; i++)
+     {
+      double sum=0;
+
+      for(int j=0; j<period; j++)
+         sum+=(period-j)*price[i-j];
+
+      buffer[i]=sum/weight_sum;
+     }
+//--- restore as_series flags
+   ArraySetAsSeries(price,as_series_price);
+   ArraySetAsSeries(buffer,as_series_buffer);
+//---
+   return(rates_total);
   }
 //+------------------------------------------------------------------+
 //|  Smoothed moving average on price array                          |
 //+------------------------------------------------------------------+
-int SmoothedMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,
-                       const int period,const double& price[],double& buffer[])
+int SmoothedMAOnBuffer(const int rates_total,const int prev_calculated,const int begin,const int period,const double& price[],double& buffer[])
   {
-   int i,limit;
-//--- check for data
-   if(period<=1 || rates_total-begin<period) return(0);
+//--- check period
+   if(period<=1 || period>(rates_total-begin))
+      return(0);
 //--- save as_series flags
    bool as_series_price=ArrayGetAsSeries(price);
    bool as_series_buffer=ArrayGetAsSeries(buffer);
-   if(as_series_price)  ArraySetAsSeries(price,false);
-   if(as_series_buffer) ArraySetAsSeries(buffer,false);
-//--- first calculation or number of bars was changed
-   if(prev_calculated==0)
+
+   ArraySetAsSeries(price,false);
+   ArraySetAsSeries(buffer,false);
+//--- calculate start position
+   int start_position;
+
+   if(prev_calculated==0)  // first calculation or number of bars was changed
      {
-      limit=period+begin;
       //--- set empty value for first bars
-      for(i=0;i<limit-1;i++) buffer[i]=0.0;
+      start_position=period+begin;
+
+      for(int i=0; i<start_position-1; i++)
+         buffer[i]=0.0;
       //--- calculate first visible value
-      double firstValue=0;
-      for(i=begin;i<limit;i++)
-         firstValue+=price[i];
-      firstValue/=period;
-      buffer[limit-1]=firstValue;
+      double first_value=0;
+
+      for(int i=begin; i<start_position; i++)
+         first_value+=price[i];
+
+      buffer[start_position-1]=first_value/period;
      }
-   else limit=prev_calculated-1;
+   else
+      start_position=prev_calculated-1;
 //--- main loop
-   for(i=limit;i<rates_total;i++)
+   for(int i=start_position; i<rates_total; i++)
       buffer[i]=(buffer[i-1]*(period-1)+price[i])/period;
 //--- restore as_series flags
-   if(as_series_price)  ArraySetAsSeries(price,true);
-   if(as_series_buffer) ArraySetAsSeries(buffer,true);
+   ArraySetAsSeries(price,as_series_price);
+   ArraySetAsSeries(buffer,as_series_buffer);
 //---
-    return(rates_total);
+   return(rates_total);
   }
 //+------------------------------------------------------------------+

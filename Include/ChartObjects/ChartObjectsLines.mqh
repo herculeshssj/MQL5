@@ -182,7 +182,7 @@ bool CChartObjectTrend::RayRight(const bool new_ray) const
    return(ObjectSetInteger(m_chart_id,m_name,OBJPROP_RAY_RIGHT,new_ray));
   }
 //+------------------------------------------------------------------+
-//| Writing parameters of objject to file                            |
+//| Writing parameters of object to file                             |
 //+------------------------------------------------------------------+
 bool CChartObjectTrend::Save(const int file_handle)
   {
@@ -304,7 +304,7 @@ public:
                             const datetime time1,const double price1,
                             const datetime time2,const double price2);
    //--- method of identifying the object
-   virtual int       Type(void) const { return(OBJ_TREND); }
+   virtual int       Type(void) const { return(OBJ_CYCLES); }
   };
 //+------------------------------------------------------------------+
 //| Constructor                                                      |

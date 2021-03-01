@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                         W_AD.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Larry Williams' Accumulation/Distribution"
 //--- indicator settings
@@ -12,14 +12,14 @@
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
 #property indicator_color1  LightSeaGreen
-//---- buffers
+//--- indicator buffer
 double ExtWADBuffer[];
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
 void OnInit()
   {
-//---- define buffer
+//--- define buffer
    SetIndexBuffer(0,ExtWADBuffer);
 //--- set draw begin
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,1);
@@ -27,7 +27,6 @@ void OnInit()
    IndicatorSetString(INDICATOR_SHORTNAME,"W_A/D");
 //--- round settings
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
-//---- OnInit done
   }
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
@@ -48,14 +47,13 @@ int OnCalculate(const int rates_total,
       return(0);
 //--- start working
    int pos=prev_calculated-1;
-//--- correct position, set initial value
-   if(pos<=0)
+   if(pos<1)
      {
       pos=1;
       ExtWADBuffer[0]=0.0;
      }
 //--- main cycle
-   for(int i=pos;i<rates_total && !IsStopped();i++)
+   for(int i=pos; i<rates_total && !IsStopped(); i++)
      {
       //--- get data
       double hi=high[i];
@@ -76,7 +74,7 @@ int OnCalculate(const int rates_total,
             ExtWADBuffer[i]=ExtWADBuffer[i-1]+cl-trh;
         }
      }
-//---- OnCalculate done. Return new prev_calculated.
+//--- OnCalculate done. Return new prev_calculated.
    return(rates_total);
   }
 //+------------------------------------------------------------------+
@@ -84,11 +82,14 @@ int OnCalculate(const int rates_total,
 //+------------------------------------------------------------------+
 bool IsEqualDoubles(double d1,double d2,double epsilon)
   {
-   if(epsilon<0.0) epsilon=-epsilon;
-   if(epsilon>0.1) epsilon=0.00001;
+   if(epsilon<0.0)
+      epsilon=-epsilon;
+   if(epsilon>0.1)
+      epsilon=0.00001;
 //---
    double diff=d1-d2;
-   if(diff>epsilon || diff<-epsilon) return(false);
+   if(diff>epsilon || diff<-epsilon)
+      return(false);
 //---
    return(true);
   }

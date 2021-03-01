@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                   Stochastic.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 //--- indicator settings
 #property indicator_separate_window
@@ -39,17 +39,17 @@ void OnInit()
    IndicatorSetInteger(INDICATOR_LEVELS,2);
    IndicatorSetDouble(INDICATOR_LEVELVALUE,0,20);
    IndicatorSetDouble(INDICATOR_LEVELVALUE,1,80);
-//--- set maximum and minimum for subwindow 
+//--- set maximum and minimum for subwindow
    IndicatorSetDouble(INDICATOR_MINIMUM,0);
    IndicatorSetDouble(INDICATOR_MAXIMUM,100);
 //--- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"Stoch("+(string)InpKPeriod+","+(string)InpDPeriod+","+(string)InpSlowing+")");
+   string short_name=StringFormat("Stoch(%d,%d,%d)",InpKPeriod,InpDPeriod,InpSlowing);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
    PlotIndexSetString(0,PLOT_LABEL,"Main");
    PlotIndexSetString(1,PLOT_LABEL,"Signal");
 //--- sets first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,InpKPeriod+InpSlowing-2);
    PlotIndexSetInteger(1,PLOT_DRAW_BEGIN,InpKPeriod+InpDPeriod);
-//--- initialization done
   }
 //+------------------------------------------------------------------+
 //| Stochastic Oscillator                                            |
@@ -71,59 +71,69 @@ int OnCalculate(const int rates_total,
       return(0);
 //---
    start=InpKPeriod-1;
-   if(start+1<prev_calculated) start=prev_calculated-2;
+   if(start+1<prev_calculated)
+      start=prev_calculated-2;
    else
      {
-      for(i=0;i<start;i++)
+      for(i=0; i<start; i++)
         {
          ExtLowesBuffer[i]=0.0;
          ExtHighesBuffer[i]=0.0;
         }
      }
 //--- calculate HighesBuffer[] and ExtHighesBuffer[]
-   for(i=start;i<rates_total && !IsStopped();i++)
+   for(i=start; i<rates_total && !IsStopped(); i++)
      {
       double dmin=1000000.0;
       double dmax=-1000000.0;
-      for(k=i-InpKPeriod+1;k<=i;k++)
+      for(k=i-InpKPeriod+1; k<=i; k++)
         {
-         if(dmin>low[k])  dmin=low[k];
-         if(dmax<high[k]) dmax=high[k];
+         if(dmin>low[k])
+            dmin=low[k];
+         if(dmax<high[k])
+            dmax=high[k];
         }
       ExtLowesBuffer[i]=dmin;
       ExtHighesBuffer[i]=dmax;
      }
 //--- %K
    start=InpKPeriod-1+InpSlowing-1;
-   if(start+1<prev_calculated) start=prev_calculated-2;
+   if(start+1<prev_calculated)
+      start=prev_calculated-2;
    else
      {
-      for(i=0;i<start;i++) ExtMainBuffer[i]=0.0;
+      for(i=0; i<start; i++)
+         ExtMainBuffer[i]=0.0;
      }
 //--- main cycle
-   for(i=start;i<rates_total && !IsStopped();i++)
+   for(i=start; i<rates_total && !IsStopped(); i++)
      {
-      double sumlow=0.0;
-      double sumhigh=0.0;
-      for(k=(i-InpSlowing+1);k<=i;k++)
+      double sum_low=0.0;
+      double sum_high=0.0;
+      for(k=(i-InpSlowing+1); k<=i; k++)
         {
-         sumlow +=(close[k]-ExtLowesBuffer[k]);
-         sumhigh+=(ExtHighesBuffer[k]-ExtLowesBuffer[k]);
+         sum_low +=(close[k]-ExtLowesBuffer[k]);
+         sum_high+=(ExtHighesBuffer[k]-ExtLowesBuffer[k]);
         }
-      if(sumhigh==0.0) ExtMainBuffer[i]=100.0;
-      else             ExtMainBuffer[i]=sumlow/sumhigh*100;
+      if(sum_high==0.0)
+         ExtMainBuffer[i]=100.0;
+      else
+         ExtMainBuffer[i]=sum_low/sum_high*100;
      }
 //--- signal
    start=InpDPeriod-1;
-   if(start+1<prev_calculated) start=prev_calculated-2;
+   if(start+1<prev_calculated)
+      start=prev_calculated-2;
    else
      {
-      for(i=0;i<start;i++) ExtSignalBuffer[i]=0.0;
+      for(i=0; i<start; i++)
+         ExtSignalBuffer[i]=0.0;
      }
-   for(i=start;i<rates_total && !IsStopped();i++)
+   for(i=start; i<rates_total && !IsStopped(); i++)
      {
       double sum=0.0;
-      for(k=0;k<InpDPeriod;k++) sum+=ExtMainBuffer[i-k];
+      for(k=0; k<InpDPeriod; k++)
+         sum+=ExtMainBuffer[i-k];
       ExtSignalBuffer[i]=sum/InpDPeriod;
      }
 //--- OnCalculate done. Return new prev_calculated.

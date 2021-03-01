@@ -1,10 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                             HistoryOrderInfo.mqh |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <Object.mqh>
-#include "SymbolInfo.mqh"
 //+------------------------------------------------------------------+
 //| Class CHistoryOrderInfo.                                         |
 //| Appointment: Class for access to history order info.             |
@@ -291,24 +290,38 @@ bool CHistoryOrderInfo::InfoString(const ENUM_ORDER_PROPERTY_STRING prop_id,stri
 //+------------------------------------------------------------------+
 string CHistoryOrderInfo::FormatType(string &str,const uint type) const
   {
-//--- clean
-   str="";
 //--- see the type
    switch(type)
      {
-      case ORDER_TYPE_BUY            : str="buy";             break;
-      case ORDER_TYPE_SELL           : str="sell";            break;
-      case ORDER_TYPE_BUY_LIMIT      : str="buy limit";       break;
-      case ORDER_TYPE_SELL_LIMIT     : str="sell limit";      break;
-      case ORDER_TYPE_BUY_STOP       : str="buy stop";        break;
-      case ORDER_TYPE_SELL_STOP      : str="sell stop";       break;
-      case ORDER_TYPE_BUY_STOP_LIMIT : str="buy stop limit";  break;
-      case ORDER_TYPE_SELL_STOP_LIMIT: str="sell stop limit"; break;
-      case ORDER_TYPE_CLOSE_BY       : str="close by";        break;
-
+      case ORDER_TYPE_BUY:
+         str="buy";
+         break;
+      case ORDER_TYPE_SELL:
+         str="sell";
+         break;
+      case ORDER_TYPE_BUY_LIMIT:
+         str="buy limit";
+         break;
+      case ORDER_TYPE_SELL_LIMIT:
+         str="sell limit";
+         break;
+      case ORDER_TYPE_BUY_STOP:
+         str="buy stop";
+         break;
+      case ORDER_TYPE_SELL_STOP:
+         str="sell stop";
+         break;
+      case ORDER_TYPE_BUY_STOP_LIMIT:
+         str="buy stop limit";
+         break;
+      case ORDER_TYPE_SELL_STOP_LIMIT:
+         str="sell stop limit";
+         break;
+      case ORDER_TYPE_CLOSE_BY:
+         str="close by";
+         break;
       default:
          str="unknown order type "+(string)type;
-         break;
      }
 //--- return the result
    return(str);
@@ -318,22 +331,32 @@ string CHistoryOrderInfo::FormatType(string &str,const uint type) const
 //+------------------------------------------------------------------+
 string CHistoryOrderInfo::FormatStatus(string &str,const uint status) const
   {
-//--- clean
-   str="";
 //--- see the type
    switch(status)
      {
-      case ORDER_STATE_STARTED : str="started";  break;
-      case ORDER_STATE_PLACED  : str="placed";   break;
-      case ORDER_STATE_CANCELED: str="canceled"; break;
-      case ORDER_STATE_PARTIAL : str="partial";  break;
-      case ORDER_STATE_FILLED  : str="filled";   break;
-      case ORDER_STATE_REJECTED: str="rejected"; break;
-      case ORDER_STATE_EXPIRED : str="expired";  break;
-
+      case ORDER_STATE_STARTED:
+         str="started";
+         break;
+      case ORDER_STATE_PLACED:
+         str="placed";
+         break;
+      case ORDER_STATE_CANCELED:
+         str="canceled";
+         break;
+      case ORDER_STATE_PARTIAL:
+         str="partial";
+         break;
+      case ORDER_STATE_FILLED:
+         str="filled";
+         break;
+      case ORDER_STATE_REJECTED:
+         str="rejected";
+         break;
+      case ORDER_STATE_EXPIRED:
+         str="expired";
+         break;
       default:
          str="unknown order status "+(string)status;
-         break;
      }
 //--- return the result
    return(str);
@@ -343,18 +366,20 @@ string CHistoryOrderInfo::FormatStatus(string &str,const uint status) const
 //+------------------------------------------------------------------+
 string CHistoryOrderInfo::FormatTypeFilling(string &str,const uint type) const
   {
-//--- clean
-   str="";
 //--- see the type
    switch(type)
      {
-      case ORDER_FILLING_RETURN: str="return remainder"; break;
-      case ORDER_FILLING_IOC   : str="cancel remainder"; break;
-      case ORDER_FILLING_FOK   : str="fill or kill";     break;
-
+      case ORDER_FILLING_RETURN:
+         str="return remainder";
+         break;
+      case ORDER_FILLING_IOC:
+         str="cancel remainder";
+         break;
+      case ORDER_FILLING_FOK:
+         str="fill or kill";
+         break;
       default:
          str="unknown type filling "+(string)type;
-         break;
      }
 //--- return the result
    return(str);
@@ -364,19 +389,23 @@ string CHistoryOrderInfo::FormatTypeFilling(string &str,const uint type) const
 //+------------------------------------------------------------------+
 string CHistoryOrderInfo::FormatTypeTime(string &str,const uint type) const
   {
-//--- clean
-   str="";
 //--- see the type
    switch(type)
      {
-      case ORDER_TIME_GTC          : str="gtc";           break;
-      case ORDER_TIME_DAY          : str="day";           break;
-      case ORDER_TIME_SPECIFIED    : str="specified";     break;
-      case ORDER_TIME_SPECIFIED_DAY: str="specified day"; break;
-
+      case ORDER_TIME_GTC:
+         str="gtc";
+         break;
+      case ORDER_TIME_DAY:
+         str="day";
+         break;
+      case ORDER_TIME_SPECIFIED:
+         str="specified";
+         break;
+      case ORDER_TIME_SPECIFIED_DAY:
+         str="specified day";
+         break;
       default:
          str="unknown type time "+(string)type;
-         break;
      }
 //--- return the result
    return(str);
@@ -386,17 +415,19 @@ string CHistoryOrderInfo::FormatTypeTime(string &str,const uint type) const
 //+------------------------------------------------------------------+
 string CHistoryOrderInfo::FormatOrder(string &str) const
   {
-   string      type,price;
-   CSymbolInfo symbol;
+   string type,price;
+   long   tmp_long;
 //--- set up
-   symbol.Name(Symbol());
-   int digits=symbol.Digits();
+   string symbol_name=this.Symbol();
+   int    digits=_Digits;
+   if(SymbolInfoInteger(symbol_name,SYMBOL_DIGITS,tmp_long))
+      digits=(int)tmp_long;
 //--- form the order description
    str=StringFormat("#%I64u %s %s %s",
                     Ticket(),
                     FormatType(type,OrderType()),
                     DoubleToString(VolumeInitial(),2),
-                    Symbol());
+                    symbol_name);
 //--- receive the price of the order
    FormatPrice(price,PriceOpen(),PriceStopLimit(),digits);
 //--- if there is price, write it
@@ -414,8 +445,6 @@ string CHistoryOrderInfo::FormatOrder(string &str) const
 string CHistoryOrderInfo::FormatPrice(string &str,const double price_order,const double price_trigger,const uint digits) const
   {
    string price,trigger;
-//--- clean
-   str="";
 //--- Is there its trigger price?
    if(price_trigger)
      {

@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                    memoryapi.mqh |
-//|                        Copyright 2018, MetaQuotes Software Corp. |
+//|                        Copyright 2020, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <WinAPI\windef.mqh>
@@ -35,27 +35,27 @@ struct WIN32_MEMORY_RANGE_ENTRY
 //|                                                                  |
 //+------------------------------------------------------------------+
 #import "kernel32.dll"
-int     AllocateUserPhysicalPages(HANDLE hProcess,ulong NumberOfPages,ulong PageArray);
-int     AllocateUserPhysicalPagesNuma(HANDLE hProcess,ulong NumberOfPages,ulong PageArray,uint nndPreferred);
-HANDLE  CreateFileMappingFromApp(HANDLE hFile,PVOID SecurityAttributes,ulong PageProtection,ulong MaximumSize,const string Name);
+int     AllocateUserPhysicalPages(HANDLE hProcess,ulong &NumberOfPages,ulong &PageArray[]);
+int     AllocateUserPhysicalPagesNuma(HANDLE hProcess,ulong &NumberOfPages,ulong &PageArray[],uint nndPreferred);
+HANDLE  CreateFileMappingFromApp(HANDLE hFile,PVOID SecurityAttributes,uint PageProtection,ulong MaximumSize,const string Name);
 HANDLE  CreateFileMappingNumaW(HANDLE hFile,PVOID lpFileMappingAttributes,uint flProtect,uint dwMaximumSizeHigh,uint dwMaximumSizeLow,const string lpName,uint nndPreferred);
 HANDLE  CreateFileMappingW(HANDLE hFile,PVOID lpFileMappingAttributes,uint flProtect,uint dwMaximumSizeHigh,uint dwMaximumSizeLow,const string lpName);
 HANDLE  CreateMemoryResourceNotification(MEMORY_RESOURCE_NOTIFICATION_TYPE NotificationType);
 uint    DiscardVirtualMemory(PVOID VirtualAddress,ulong Size);
 int     FlushViewOfFile(const PVOID lpBaseAddress,ulong dwNumberOfBytesToFlush);
-int     FreeUserPhysicalPages(HANDLE hProcess,ulong NumberOfPages,ulong PageArray);
+int     FreeUserPhysicalPages(HANDLE hProcess,ulong &NumberOfPages,ulong &PageArray[]);
 ulong   GetLargePageMinimum(void);
-int     GetMemoryErrorHandlingCapabilities(ulong &Capabilities);
+int     GetMemoryErrorHandlingCapabilities(uint &Capabilities);
 int     GetProcessWorkingSetSizeEx(HANDLE hProcess,ulong &lpMinimumWorkingSetSize,ulong &lpMaximumWorkingSetSize,uint &Flags);
 int     GetSystemFileCacheSize(ulong &lpMinimumFileCacheSize,ulong &lpMaximumFileCacheSize,uint &lpFlags);
-uint    GetWriteWatch(uint dwFlags,PVOID lpBaseAddress,ulong dwRegionSize,PVOID &lpAddresses[],ulong &lpdwCount,uint &lpdwGranularity);
-int     MapUserPhysicalPages(PVOID VirtualAddress,ulong NumberOfPages,ulong PageArray);
+uint    GetWriteWatch(uint dwFlags,PVOID lpBaseAddress,ulong dwRegionSize,PVOID &lpAddresses[],uint &lpdwCount,uint &lpdwGranularity);
+int     MapUserPhysicalPages(PVOID VirtualAddress,ulong &NumberOfPages,ulong &PageArray[]);
 PVOID   MapViewOfFile(HANDLE hFileMappingObject,uint dwDesiredAccess,uint dwFileOffsetHigh,uint dwFileOffsetLow,ulong dwNumberOfBytesToMap);
 PVOID   MapViewOfFileEx(HANDLE hFileMappingObject,uint dwDesiredAccess,uint dwFileOffsetHigh,uint dwFileOffsetLow,ulong dwNumberOfBytesToMap,PVOID lpBaseAddress);
-PVOID   MapViewOfFileFromApp(HANDLE hFileMappingObject,ulong DesiredAccess,ulong FileOffset,ulong NumberOfBytesToMap);
+PVOID   MapViewOfFileFromApp(HANDLE hFileMappingObject,uint DesiredAccess,ulong FileOffset,ulong NumberOfBytesToMap);
 uint    OfferVirtualMemory(PVOID VirtualAddress,ulong Size,OFFER_PRIORITY Priority);
 HANDLE  OpenFileMappingW(uint dwDesiredAccess,int bInheritHandle,const string lpName);
-int     PrefetchVirtualMemory(HANDLE hProcess,ulong NumberOfEntries,WIN32_MEMORY_RANGE_ENTRY &VirtualAddresses,ulong Flags);
+int     PrefetchVirtualMemory(HANDLE hProcess,uint &NumberOfEntries,WIN32_MEMORY_RANGE_ENTRY &VirtualAddresses,uint Flags);
 int     QueryMemoryResourceNotification(HANDLE ResourceNotificationHandle,int &ResourceState);
 int     ReadProcessMemory(HANDLE hProcess,const PVOID lpBaseAddress,PVOID lpBuffer,ulong nSize,ulong &lpNumberOfBytesRead);
 uint    ReclaimVirtualMemory(const PVOID VirtualAddress,ulong Size);
@@ -64,7 +64,7 @@ uint    ResetWriteWatch(PVOID lpBaseAddress,ulong dwRegionSize);
 int     SetProcessWorkingSetSizeEx(HANDLE hProcess,ulong dwMinimumWorkingSetSize,ulong dwMaximumWorkingSetSize,uint Flags);
 int     SetSystemFileCacheSize(ulong MinimumFileCacheSize,ulong MaximumFileCacheSize,uint Flags);
 int     UnmapViewOfFile(const PVOID lpBaseAddress);
-int     UnmapViewOfFileEx(PVOID BaseAddress,ulong UnmapFlags);
+int     UnmapViewOfFileEx(PVOID BaseAddress,uint UnmapFlags);
 int     UnregisterBadMemoryNotification(PVOID RegistrationHandle);
 PVOID   VirtualAlloc(PVOID lpAddress,ulong dwSize,uint flAllocationType,uint flProtect);
 PVOID   VirtualAllocEx(HANDLE hProcess,PVOID lpAddress,ulong dwSize,uint flAllocationType,uint flProtect);

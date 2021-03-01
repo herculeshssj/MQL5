@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                         OsMA.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Moving Average of Oscillator"
 #property description "aka MACD histogram"
@@ -21,14 +21,14 @@ input int                InpSlowEMAPeriod=26;         // Slow EMA period
 input int                InpSignalSMAPeriod=9;        // Signal SMA period
 input ENUM_APPLIED_PRICE InpAppliedPrice=PRICE_CLOSE; // Applied price
 //--- indicator buffers
-double                   ExtOsMABuffer[];
-double                   ExtMacdBuffer[];
-double                   ExtSignalBuffer[];
-double                   ExtFastMaBuffer[];
-double                   ExtSlowMaBuffer[];
+double ExtOsMABuffer[];
+double ExtMacdBuffer[];
+double ExtSignalBuffer[];
+double ExtFastMaBuffer[];
+double ExtSlowMaBuffer[];
 //--- MA handles
-int                      ExtFastMaHandle;
-int                      ExtSlowMaHandle;
+int    ExtFastMaHandle;
+int    ExtSlowMaHandle;
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
@@ -44,12 +44,12 @@ void OnInit()
 //--- sets first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,InpSlowEMAPeriod+InpSignalSMAPeriod-2);
 //--- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"OsMA("+string(InpFastEMAPeriod)+","+string(InpSlowEMAPeriod)+","+string(InpSignalSMAPeriod)+")");
+   string short_name=StringFormat("OsMA(%d,%d,%d)",InpFastEMAPeriod,InpSlowEMAPeriod,InpSignalSMAPeriod);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
    PlotIndexSetString(0,PLOT_LABEL,"OsMA");
 //--- get MAs handles
    ExtFastMaHandle=iMA(NULL,0,InpFastEMAPeriod,0,MODE_EMA,InpAppliedPrice);
    ExtSlowMaHandle=iMA(NULL,0,InpSlowEMAPeriod,0,MODE_EMA,InpAppliedPrice);
-//--- initialization done
   }
 //+------------------------------------------------------------------+
 //|  Moving Average of Oscillator                                    |
@@ -77,49 +77,49 @@ int OnCalculate(const int rates_total,
    calculated=BarsCalculated(ExtSlowMaHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtSlowMaHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtSlowMaHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
 //--- we can copy not all data
    int to_copy;
-   if(prev_calculated>rates_total || prev_calculated<0) to_copy=rates_total;
+   if(prev_calculated>rates_total || prev_calculated<0)
+      to_copy=rates_total;
    else
      {
       to_copy=rates_total-prev_calculated;
-      if(prev_calculated>0) to_copy++;
+      if(prev_calculated>0)
+         to_copy++;
      }
 //--- get Fast EMA buffer
-   if(IsStopped()) return(0); //Checking for stop flag
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtFastMaHandle,0,0,to_copy,ExtFastMaBuffer)<=0)
      {
-      Print("Getting fast EMA is failed! Error",GetLastError());
+      Print("Getting fast EMA is failed! Error ",GetLastError());
       return(0);
      }
 //--- get SlowSMA buffer
-   if(IsStopped()) return(0); //Checking for stop flag
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtSlowMaHandle,0,0,to_copy,ExtSlowMaBuffer)<=0)
      {
-      Print("Getting slow SMA is failed! Error",GetLastError());
+      Print("Getting slow SMA is failed! Error ",GetLastError());
       return(0);
      }
 //---
-   int i,limit;
+   int i,start;
    if(prev_calculated==0)
-      limit=0;
-   else limit=prev_calculated-1;
-//--- the main loop of calculations
-   for(i=limit;i<rates_total;i++)
-     {
-      //--- calculate MACD
+      start=0;
+   else
+      start=prev_calculated-1;
+//--- calculate MACD
+   for(i=start; i<rates_total && !IsStopped(); i++)
       ExtMacdBuffer[i]=ExtFastMaBuffer[i]-ExtSlowMaBuffer[i];
-     }
 //--- calculate Signal
    SimpleMAOnBuffer(rates_total,prev_calculated,0,InpSignalSMAPeriod,ExtMacdBuffer,ExtSignalBuffer);
 //--- calculate OsMA
-   for(i=limit;i<rates_total && !IsStopped();i++)
-     {
+   for(i=start; i<rates_total && !IsStopped(); i++)
       ExtOsMABuffer[i]=ExtMacdBuffer[i]-ExtSignalBuffer[i];
-     }
 //--- OnCalculate done. Return new prev_calculated.
    return(rates_total);
   }

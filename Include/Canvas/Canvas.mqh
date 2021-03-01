@@ -3872,12 +3872,12 @@ void CCanvas::LineThick(const int x1,const int y1,const int x2,const int y2,cons
    double dy=MathAbs(y2-y1);
    if(dx==0)
      {
-      LineThickVertical(x1,y1,y2,size,clr,style,end_style);
+      LineThickVertical(x1,y1,y2,clr,size,style,end_style);
       return;
      }
    if(dy==0)
      {
-      LineThickHorizontal(x1,x2,y1,size,clr,style,end_style);
+      LineThickHorizontal(x1,x2,y1,clr,size,style,end_style);
       return;
      }
 //--- compute the linear coefficients of the two (scaled) edge functions

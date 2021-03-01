@@ -17,12 +17,12 @@
 #property indicator_label1  "TRIX"
 #property indicator_applied_price PRICE_CLOSE
 //--- input parameters
-input int                InpPeriodEMA=14;               // EMA period
+input int InpPeriodEMA=14;               // EMA period
 //--- indicator buffers
-double                  TRIX_Buffer[];
-double                  EMA[];
-double                  SecondEMA[];
-double                  ThirdEMA[];
+double    TRIX_Buffer[];
+double    EMA[];
+double    SecondEMA[];
+double    ThirdEMA[];
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
@@ -36,12 +36,11 @@ void OnInit()
 //--- sets first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,3*InpPeriodEMA-3);
 //--- name for index label
-   PlotIndexSetString(0,PLOT_LABEL,"TRIX("+string(InpPeriodEMA)+")");
-//--- name for indicator label
-   IndicatorSetString(INDICATOR_SHORTNAME,"TRIX("+string(InpPeriodEMA)+")");
+   string short_name=StringFormat("TRIX(%d)",InpPeriodEMA);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
+   PlotIndexSetString(0,PLOT_LABEL,short_name);
 //--- indicator digits
    IndicatorSetInteger(INDICATOR_DIGITS,5);
-//--- initialization done
   }
 //+------------------------------------------------------------------+
 //| Triple Exponential Average                                       |
@@ -51,18 +50,18 @@ int OnCalculate(const int rates_total,
                 const int begin,
                 const double &price[])
   {
-//--- check for data
    if(rates_total<3*InpPeriodEMA-3)
       return(0);
 //---
-   int limit;
+   int start;
    if(prev_calculated==0)
      {
-      limit=3*(InpPeriodEMA-1);
-      for(int i=0;i<limit;i++)
+      start=3*(InpPeriodEMA-1);
+      for(int i=0; i<start; i++)
          TRIX_Buffer[i]=EMPTY_VALUE;
      }
-   else limit=prev_calculated-1;
+   else
+      start=prev_calculated-1;
 //--- calculate EMA
    ExponentialMAOnBuffer(rates_total,prev_calculated,0,InpPeriodEMA,price,EMA);
 //--- calculate EMA on EMA array
@@ -70,7 +69,7 @@ int OnCalculate(const int rates_total,
 //--- calculate EMA on EMA array on EMA array
    ExponentialMAOnBuffer(rates_total,prev_calculated,2*InpPeriodEMA-2,InpPeriodEMA,SecondEMA,ThirdEMA);
 //--- calculate TRIX
-   for(int i=limit;i<rates_total && !IsStopped();i++)
+   for(int i=start; i<rates_total && !IsStopped(); i++)
      {
       if(ThirdEMA[i-1]!=0.0)
          TRIX_Buffer[i]=(ThirdEMA[i]-ThirdEMA[i-1])/ThirdEMA[i-1];

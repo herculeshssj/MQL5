@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                      WinBase.mqh |
-//|                        Copyright 2018, MetaQuotes Software Corp. |
+//|                        Copyright 2020, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <WinAPI\windef.mqh>
@@ -95,44 +95,44 @@ struct ACTCTX_SECTION_KEYED_DATA_ASSEMBLY_METADATA
   {
    PVOID             lpInformation;
    PVOID             lpSectionBase;
-   ulong             ulSectionLength;
+   uint              ulSectionLength;
    PVOID             lpSectionGlobalDataBase;
-   ulong             ulSectionGlobalDataLength;
+   uint              ulSectionGlobalDataLength;
   };
 //---
 struct ACTCTX_SECTION_KEYED_DATA
   {
-   ulong             cbSize;
-   ulong             ulDataFormatVersion;
+   uint              cbSize;
+   uint              ulDataFormatVersion;
    PVOID             lpData;
-   ulong             ulLength;
+   uint              ulLength;
    PVOID             lpSectionGlobalData;
-   ulong             ulSectionGlobalDataLength;
+   uint              ulSectionGlobalDataLength;
    PVOID             lpSectionBase;
-   ulong             ulSectionTotalLength;
+   uint              ulSectionTotalLength;
    HANDLE            hActCtx;
-   ulong             ulAssemblyRosterIndex;
-   ulong             ulFlags;
+   uint              ulAssemblyRosterIndex;
+   uint              ulFlags;
    ACTCTX_SECTION_KEYED_DATA_ASSEMBLY_METADATA AssemblyMetadata;
   };
 //---
 struct ACTCTX_SECTION_KEYED_DATA_2600
   {
-   ulong             cbSize;
-   ulong             ulDataFormatVersion;
+   uint              cbSize;
+   uint              ulDataFormatVersion;
    PVOID             lpData;
-   ulong             ulLength;
+   uint              ulLength;
    PVOID             lpSectionGlobalData;
-   ulong             ulSectionGlobalDataLength;
+   uint              ulSectionGlobalDataLength;
    PVOID             lpSectionBase;
-   ulong             ulSectionTotalLength;
+   uint              ulSectionTotalLength;
    HANDLE            hActCtx;
-   ulong             ulAssemblyRosterIndex;
+   uint              ulAssemblyRosterIndex;
   };
 //---
 struct ACTCTXW
   {
-   ulong             cbSize;
+   uint              cbSize;
    uint              dwFlags;
    PVOID             lpSource;
    ushort            wProcessorArchitecture;
@@ -233,7 +233,7 @@ struct EVENTLOG_FULL_INFORMATION
 //---
 struct FILE_ALIGNMENT_INFO: public FILE_INFO
   {
-   ulong             AlignmentRequirement;
+   uint              AlignmentRequirement;
   };
 //---
 struct FILE_ALLOCATION_INFO: public FILE_INFO
@@ -283,17 +283,17 @@ struct FILE_END_OF_FILE_INFO: public FILE_INFO
 //---
 struct FILE_FULL_DIR_INFO: public FILE_INFO
   {
-   ulong             NextEntryOffset;
-   ulong             FileIndex;
+   uint              NextEntryOffset;
+   uint              FileIndex;
    long              CreationTime;
    long              LastAccessTime;
    long              LastWriteTime;
    long              ChangeTime;
    long              EndOfFile;
    long              AllocationSize;
-   ulong             FileAttributes;
-   ulong             FileNameLength;
-   ulong             EaSize;
+   uint              FileAttributes;
+   uint              FileNameLength;
+   uint              EaSize;
    short             FileName[1];
   };
 //---
@@ -318,18 +318,18 @@ struct FILE_ID_BOTH_DIR_INFO: public FILE_INFO
 //---
 struct FILE_ID_EXTD_DIR_INFO: public FILE_INFO
   {
-   ulong             NextEntryOffset;
-   ulong             FileIndex;
+   uint              NextEntryOffset;
+   uint              FileIndex;
    long              CreationTime;
    long              LastAccessTime;
    long              LastWriteTime;
    long              ChangeTime;
    long              EndOfFile;
    long              AllocationSize;
-   ulong             FileAttributes;
-   ulong             FileNameLength;
-   ulong             EaSize;
-   ulong             ReparsePointTag;
+   uint              FileAttributes;
+   uint              FileNameLength;
+   uint              EaSize;
+   uint              ReparsePointTag;
    FILE_ID_128       FileId;
    short             FileName[1];
   };
@@ -362,13 +362,13 @@ struct FILE_STANDARD_INFO: public FILE_INFO
 //---
 struct FILE_STORAGE_INFO: public FILE_INFO
   {
-   ulong             LogicalBytesPerSector;
-   ulong             PhysicalBytesPerSectorForAtomicity;
-   ulong             PhysicalBytesPerSectorForPerformance;
-   ulong             FileSystemEffectivePhysicalBytesPerSectorForAtomicity;
-   ulong             Flags;
-   ulong             ByteOffsetForSectorAlignment;
-   ulong             ByteOffsetForPartitionAlignment;
+   uint              LogicalBytesPerSector;
+   uint              PhysicalBytesPerSectorForAtomicity;
+   uint              PhysicalBytesPerSectorForPerformance;
+   uint              FileSystemEffectivePhysicalBytesPerSectorForAtomicity;
+   uint              Flags;
+   uint              ByteOffsetForSectorAlignment;
+   uint              ByteOffsetForPartitionAlignment;
   };
 //---
 struct FILE_STREAM_INFO: public FILE_INFO
@@ -422,16 +422,16 @@ struct OFSTRUCT
 //---
 struct OPERATION_END_PARAMETERS
   {
-   ulong             Version;
-   ulong             OperationId;
-   ulong             Flags;
+   uint              Version;
+   uint              OperationId;
+   uint              Flags;
   };
 //---
 struct OPERATION_START_PARAMETERS
   {
-   ulong             Version;
-   ulong             OperationId;
-   ulong             Flags;
+   uint              Version;
+   uint              OperationId;
+   uint              Flags;
   };
 //---
 struct SYSTEM_POWER_STATUS
@@ -446,7 +446,7 @@ struct SYSTEM_POWER_STATUS
 //---
 struct UMS_SCHEDULER_STARTUP_INFO
   {
-   ulong             UmsVersion;
+   uint              UmsVersion;
    PVOID             CompletionList;
    PVOID             SchedulerProc;
    PVOID             SchedulerParam;
@@ -462,8 +462,8 @@ struct WIN32_STREAM_ID
 //---
 struct UMS_SYSTEM_THREAD_INFORMATION
   {
-   ulong             UmsVersion;
-   ulong             ThreadUmsFlags;
+   uint              UmsVersion;
+   uint              ThreadUmsFlags;
   };
 //---
 struct FILE_ID_DESCRIPTOR
@@ -501,7 +501,7 @@ int                    BackupRead(HANDLE file,uchar &buffer[],uint number_of_byt
 int                    BackupSeek(HANDLE file,uint low_bytes_to_seek,uint high_bytes_to_seek,uint &low_byte_seeked,uint &high_byte_seeked,PVOID &context);
 int                    BackupWrite(HANDLE file,uchar &buffer[],uint number_of_bytes_to_write,uint &number_of_bytes_written,int abort,int process_security,PVOID &context);
 HANDLE                 BeginUpdateResourceW(const string file_name,int delete_existing_resources);
-int                    BindIoCompletionCallback(HANDLE FileHandle,PVOID Function,ulong Flags);
+int                    BindIoCompletionCallback(HANDLE FileHandle,PVOID Function,uint Flags);
 int                    BuildCommDCBAndTimeoutsW(const string def,DCB &lpDCB,COMMTIMEOUTS &comm_timeouts);
 int                    BuildCommDCBW(const string def,DCB &lpDCB);
 int                    CancelDeviceWakeupRequest(HANDLE device);
@@ -514,7 +514,7 @@ int                    ConvertFiberToThread(void);
 PVOID                  ConvertThreadToFiber(PVOID parameter);
 PVOID                  ConvertThreadToFiberEx(PVOID parameter,uint flags);
 int                    CopyContext(CONTEXT &Destination,uint ContextFlags,CONTEXT &Source);
-long                   CopyFile2(const string existing_file_name,const string new_file_name,COPYFILE2_EXTENDED_PARAMETERS &extended_parameters);
+int                    CopyFile2(const string existing_file_name,const string new_file_name,COPYFILE2_EXTENDED_PARAMETERS &extended_parameters);
 int                    CopyFileExW(const string existing_file_name,const string new_file_name,PVOID progress_routine,PVOID data,int &cancel,uint copy_flags);
 int                    CopyFileTransactedW(const string existing_file_name,const string new_file_name,PVOID progress_routine,PVOID data,int &cancel,uint copy_flags,HANDLE transaction);
 int                    CopyFileW(const string existing_file_name,const string new_file_name,int fail_if_exists);
@@ -526,7 +526,7 @@ PVOID                  CreateFiberEx(ulong stack_commit_size,ulong stack_reserve
 HANDLE                 CreateFileTransactedW(const string file_name,uint desired_access,uint share_mode,PVOID security_attributes,uint creation_disposition,uint flags_and_attributes,HANDLE template_file,HANDLE transaction,ushort &mini_version,PVOID extended_parameter);
 int                    CreateHardLinkTransactedW(const string file_name,const string existing_file_name,PVOID security_attributes,HANDLE transaction);
 int                    CreateHardLinkW(const string file_name,const string existing_file_name,PVOID security_attributes);
-int                    CreateJobSet(ulong NumJob,JOB_SET_ARRAY &UserJobSet,ulong Flags);
+int                    CreateJobSet(uint NumJob,JOB_SET_ARRAY &UserJobSet,uint Flags);
 HANDLE                 CreateMailslotW(const string name,uint max_message_size,uint read_timeout,PVOID security_attributes);
 uchar                  CreateSymbolicLinkTransactedW(const string symlink_file_name,const string target_file_name,uint flags,HANDLE transaction);
 uchar                  CreateSymbolicLinkW(const string symlink_file_name,const string target_file_name,uint flags);
@@ -556,8 +556,8 @@ int                    EscapeCommFunction(HANDLE file,uint func);
 int                    ExecuteUmsThread(PVOID UmsThread);
 void                   FatalExit(int ExitCode);
 int                    FileTimeToDosDateTime(FILETIME &file_time,ushort &fat_date,ushort &fat_time);
-int                    FindActCtxSectionGuid(uint flags,const GUID &extension_guid[],ulong section_id,const GUID &guid_to_find[],ACTCTX_SECTION_KEYED_DATA &ReturnedData);
-int                    FindActCtxSectionStringW(uint flags,const GUID &extension_guid[],ulong section_id,const string string_to_find,ACTCTX_SECTION_KEYED_DATA &ReturnedData);
+int                    FindActCtxSectionGuid(uint flags,const GUID &extension_guid[],uint section_id,const GUID &guid_to_find[],ACTCTX_SECTION_KEYED_DATA &ReturnedData);
+int                    FindActCtxSectionStringW(uint flags,const GUID &extension_guid[],uint section_id,const string string_to_find,ACTCTX_SECTION_KEYED_DATA &ReturnedData);
 ushort                 FindAtomW(const string str);
 HANDLE                 FindFirstFileNameTransactedW(const string file_name,uint flags,uint &StringLength,string LinkName,HANDLE transaction);
 HANDLE                 FindFirstFileTransactedW(const string file_name,FINDEX_INFO_LEVELS info_level_id,FIND_DATAW &find_file_data,FINDEX_SEARCH_OPS search_op,PVOID search_filter,uint additional_flags,HANDLE transaction);
@@ -568,8 +568,8 @@ int                    FindVolumeMountPointClose(HANDLE find_volume_mount_point)
 uint                   FormatMessageW(uint flags,const uchar &source[],uint message_id,uint language_id,ushort &buffer[],uint size,PVOID &Arguments[]);
 uint                   GetActiveProcessorCount(ushort GroupNumber);
 ushort                 GetActiveProcessorGroupCount(void);
-long                   GetApplicationRecoveryCallback(HANDLE process,PVOID &recovery_callback,PVOID &parameter,uint &ping_interval,uint &flags);
-long                   GetApplicationRestartSettings(HANDLE process,ushort &commandline[],uint &size,uint &flags);
+int                    GetApplicationRecoveryCallback(HANDLE process,PVOID &recovery_callback,PVOID &parameter,uint &ping_interval,uint &flags);
+int                    GetApplicationRestartSettings(HANDLE process,ushort &commandline[],uint &size,uint &flags);
 uint                   GetAtomNameW(ushort atom,ushort &buffer[],int size);
 int                    GetBinaryTypeW(const string application_name,uint &binary_type);
 int                    GetCommConfig(HANDLE comm_dev,COMMCONFIG &lpCC,uint &size);
@@ -599,10 +599,10 @@ uint                   GetLongPathNameTransactedW(const string short_path,string
 int                    GetMailslotInfo(HANDLE mailslot,uint &max_message_size,uint &next_size,uint &message_count,uint &read_timeout);
 uint                   GetMaximumProcessorCount(ushort GroupNumber);
 ushort                 GetMaximumProcessorGroupCount(void);
-int                    GetNamedPipeClientProcessId(HANDLE Pipe,ulong &ClientProcessId);
-int                    GetNamedPipeClientSessionId(HANDLE Pipe,ulong &ClientSessionId);
-int                    GetNamedPipeServerProcessId(HANDLE Pipe,ulong &ServerProcessId);
-int                    GetNamedPipeServerSessionId(HANDLE Pipe,ulong &ServerSessionId);
+int                    GetNamedPipeClientProcessId(HANDLE Pipe,uint &ClientProcessId);
+int                    GetNamedPipeClientSessionId(HANDLE Pipe,uint &ClientSessionId);
+int                    GetNamedPipeServerProcessId(HANDLE Pipe,uint &ServerProcessId);
+int                    GetNamedPipeServerSessionId(HANDLE Pipe,uint &ServerSessionId);
 PVOID                  GetNextUmsListItem(PVOID UmsContext);
 int                    GetNumaAvailableMemoryNode(uchar Node,ulong &AvailableBytes);
 int                    GetNumaAvailableMemoryNodeEx(ushort Node,ulong &AvailableBytes);
@@ -610,7 +610,7 @@ int                    GetNumaNodeNumberFromHandle(HANDLE file,ushort &NodeNumbe
 int                    GetNumaNodeProcessorMask(uchar Node,ulong &ProcessorMask);
 int                    GetNumaProcessorNode(uchar Processor,uchar &NodeNumber);
 int                    GetNumaProcessorNodeEx(PROCESSOR_NUMBER &Processor,ushort &NodeNumber);
-int                    GetNumaProximityNode(ulong ProximityId,uchar &NodeNumber);
+int                    GetNumaProximityNode(uint ProximityId,uchar &NodeNumber);
 uint                   GetPrivateProfileIntW(const string app_name,const string key_name,int default_value,const string file_name);
 uint                   GetPrivateProfileSectionNamesW(string return_buffer,uint size,const string file_name);
 uint                   GetPrivateProfileSectionW(const string app_name,string returned_string,uint size,const string file_name);
@@ -697,24 +697,24 @@ int                    PulseEvent(HANDLE event);
 int                    PurgeComm(HANDLE file,uint flags);
 int                    QueryActCtxSettingsW(uint flags,HANDLE act_ctx,const string name_space,const string name,string buffer,ulong buffer,ulong &written_or_required);
 int                    QueryActCtxSettingsW(uint flags,ACTCTXW &act_ctx,const string name_space,const string name,string buffer,ulong buffer,ulong &written_or_required);
-int                    QueryActCtxW(uint flags,HANDLE act_ctx,PVOID sub_instance,ulong info_class,PVOID buffer,ulong buffer,ulong &written_or_required);
-int                    QueryActCtxW(uint flags,ACTCTXW &act_ctx,PVOID sub_instance,ulong info_class,PVOID buffer,ulong buffer,ulong &written_or_required);
+int                    QueryActCtxW(uint flags,HANDLE act_ctx,PVOID sub_instance,uint info_class,PVOID buffer,ulong buffer,ulong &written_or_required);
+int                    QueryActCtxW(uint flags,ACTCTXW &act_ctx,PVOID sub_instance,uint info_class,PVOID buffer,ulong buffer,ulong &written_or_required);
 int                    QueryFullProcessImageNameW(HANDLE process,uint flags,string exe_name,uint &size);
 uint                   QueryThreadProfiling(HANDLE ThreadHandle,uchar &Enabled);
-int                    QueryUmsThreadInformation(PVOID UmsThread,RTL_UMS_THREAD_INFO_CLASS UmsThreadInfoClass,PVOID UmsThreadInformation,ulong UmsThreadInformationLength,ulong &ReturnLength);
+int                    QueryUmsThreadInformation(PVOID UmsThread,RTL_UMS_THREAD_INFO_CLASS UmsThreadInfoClass,PVOID UmsThreadInformation,uint UmsThreadInformationLength,uint &ReturnLength);
 int                    ReadDirectoryChangesExW(HANDLE directory,PVOID buffer,uint buffer_length,int watch_subtree,uint notify_filter,uint &bytes_returned,OVERLAPPED &overlapped,PVOID completion_routine,READ_DIRECTORY_NOTIFY_INFORMATION_CLASS ReadDirectoryNotifyInformationClass);
 int                    ReadDirectoryChangesW(HANDLE directory,PVOID buffer,uint buffer_length,int watch_subtree,uint notify_filter,uint &bytes_returned,OVERLAPPED &overlapped,PVOID completion_routine);
 uint                   ReadThreadProfilingData(HANDLE PerformanceDataHandle,uint Flags,PERFORMANCE_DATA &PerformanceData);
-long                   RegisterApplicationRecoveryCallback(PVOID recovey_callback,PVOID parameter,uint ping_interval,uint flags);
-long                   RegisterApplicationRestart(const string commandline,uint flags);
-int                    RegisterWaitForSingleObject(HANDLE &new_wait_object,HANDLE object,PVOID Callback,PVOID Context,ulong milliseconds,ulong flags);
+int                    RegisterApplicationRecoveryCallback(PVOID recovey_callback,PVOID parameter,uint ping_interval,uint flags);
+int                    RegisterApplicationRestart(const string commandline,uint flags);
+int                    RegisterWaitForSingleObject(HANDLE &new_wait_object,HANDLE object,PVOID Callback,PVOID Context,uint milliseconds,uint flags);
 void                   ReleaseActCtx(HANDLE act_ctx);
 void                   ReleaseActCtx(ACTCTXW &act_ctx);
 int                    RemoveDirectoryTransactedW(const string path_name,HANDLE transaction);
 int                    RemoveSecureMemoryCacheCallback(PVOID call_back);
 HANDLE                 ReOpenFile(HANDLE original_file,uint desired_access,uint share_mode,uint flags_and_attributes);
 int                    ReplaceFileW(const string replaced_file_name,const string replacement_file_name,const string backup_file_name,uint replace_flags,PVOID exclude,PVOID reserved);
-int                    ReplacePartitionUnit(string TargetPartition,string SparePartition,ulong Flags);
+int                    ReplacePartitionUnit(string TargetPartition,string SparePartition,uint Flags);
 int                    RequestDeviceWakeup(HANDLE device);
 int                    RequestWakeupLatency(LATENCY_TIME latency);
 void                   RestoreLastError(uint err_code);
@@ -733,7 +733,7 @@ int                    SetFirmwareEnvironmentVariableExW(const string name,const
 int                    SetFirmwareEnvironmentVariableW(const string name,const string guid,PVOID value,uint size);
 uint                   SetHandleCount(uint number);
 int                    SetMailslotInfo(HANDLE mailslot,uint read_timeout);
-int                    SetMessageWaitingIndicator(HANDLE msg_indicator,ulong msg_count);
+int                    SetMessageWaitingIndicator(HANDLE msg_indicator,uint msg_count);
 int                    SetProcessAffinityMask(HANDLE process,PVOID process_affinity_mask);
 int                    SetProcessDEPPolicy(uint flags);
 int                    SetProcessWorkingSetSize(HANDLE process,ulong minimum_working_set_size,ulong maximum_working_set_size);
@@ -744,7 +744,7 @@ uint                   SetTapePosition(HANDLE device,uint position_method,uint p
 PVOID                  SetThreadAffinityMask(HANDLE thread,PVOID thread_affinity_mask);
 uint                   SetThreadExecutionState(uint flags);
 HANDLE                 SetTimerQueueTimer(HANDLE TimerQueue,PVOID Callback,PVOID Parameter,uint DueTime,uint Period,int PreferIo);
-int                    SetUmsThreadInformation(PVOID UmsThread,RTL_UMS_THREAD_INFO_CLASS UmsThreadInfoClass,PVOID UmsThreadInformation,ulong UmsThreadInformationLength);
+int                    SetUmsThreadInformation(PVOID UmsThread,RTL_UMS_THREAD_INFO_CLASS UmsThreadInfoClass,PVOID UmsThreadInformation,uint UmsThreadInformationLength);
 int                    SetupComm(HANDLE file,uint in_queue,uint out_queue);
 int                    SetVolumeLabelW(const string root_path_name,const string volume_name);
 int                    SetVolumeMountPointW(const string volume_mount_point,const string volume_name);
@@ -753,8 +753,8 @@ uint                   SignalObjectAndWait(HANDLE object_to_signal,HANDLE object
 void                   SwitchToFiber(PVOID fiber);
 int                    TransmitCommChar(HANDLE file,char symbol);
 int                    UmsThreadYield(PVOID SchedulerParam);
-long                   UnregisterApplicationRecoveryCallback(void);
-long                   UnregisterApplicationRestart(void);
+int                    UnregisterApplicationRecoveryCallback(void);
+int                    UnregisterApplicationRestart(void);
 int                    UnregisterWait(HANDLE WaitHandle);
 int                    UpdateResourceW(HANDLE update,const string type,const string name,ushort &language,PVOID data,uint cb);
 int                    VerifyVersionInfoW(OSVERSIONINFOEXW &version_information,uint type_mask,ulong condition_mask);
@@ -801,7 +801,7 @@ int                    LookupPrivilegeNameW(const string system_name,LUID &luid,
 int                    LookupPrivilegeValueW(const string system_name,const string name,LUID &luid);
 int                    NotifyChangeEventLog(HANDLE event_log,HANDLE event);
 HANDLE                 OpenBackupEventLogW(const string lpUNCServerName,const string file_name);
-uint                   OpenEncryptedFileRawW(const string file_name,ulong flags,PVOID &context);
+uint                   OpenEncryptedFileRawW(const string file_name,uint flags,PVOID &context);
 HANDLE                 OpenEventLogW(const string lpUNCServerName,const string source_name);
 int                    OperationEnd(OPERATION_END_PARAMETERS &OperationEndParams);
 int                    OperationStart(OPERATION_START_PARAMETERS &OperationStartParams);

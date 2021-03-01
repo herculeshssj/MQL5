@@ -1,15 +1,15 @@
 //+------------------------------------------------------------------+
 //|                                                    ColorBars.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 
 #property indicator_chart_window
 #property indicator_buffers 5
 #property indicator_plots   1
-//---- plot ColorBars
+//--- plot ColorBars
 #property indicator_label1  "ColorBars"
 #property indicator_type1   DRAW_COLOR_BARS
 #property indicator_color1  Green,Red
@@ -50,11 +50,11 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-//--- auxiliary variables
    int  i=0;
    bool vol_up=true;
 //--- set position for beginning
-   if(i<prev_calculated) i=prev_calculated-1;
+   if(i<prev_calculated)
+      i=prev_calculated-1;
 //--- start calculations
    while(i<rates_total && !IsStopped())
      {
@@ -62,16 +62,18 @@ int OnCalculate(const int rates_total,
       ExtHighBuffer[i]=high[i];
       ExtLowBuffer[i]=low[i];
       ExtCloseBuffer[i]=close[i];
-      //--- define volume change
+      //--- determine volume change
       if(i>0)
         {
-         if(tick_volume[i]>tick_volume[i-1]) vol_up=true;
-         if(tick_volume[i]<tick_volume[i-1]) vol_up=false;
+         if(tick_volume[i]>tick_volume[i-1])
+            vol_up=true;
+         if(tick_volume[i]<tick_volume[i-1])
+            vol_up=false;
         }
-      //--- set color
-      if(vol_up) ExtColorsBuffer[i]=0.0;
-      else       ExtColorsBuffer[i]=1.0;
-      //---
+      if(vol_up)
+         ExtColorsBuffer[i]=0.0;
+      else
+         ExtColorsBuffer[i]=1.0;
       i++;
      }
 //--- return value of prev_calculated for next call

@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                      WinUser.mqh |
-//|                        Copyright 2018, MetaQuotes Software Corp. |
+//|                        Copyright 2020, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <WinAPI\windef.mqh>
@@ -231,7 +231,7 @@ struct COPYDATASTRUCT
    uint              cbData;
   };
 //---
-struct CREATESTRUCTW
+struct CREATESTRUCTW pack(8)
   {
    PVOID             lpCreateParams;
    HANDLE            hInstance;
@@ -241,7 +241,7 @@ struct CREATESTRUCTW
    int               cx;
    int               y;
    int               x;
-   long              style;
+   int               style;
    PVOID             lpszName;
    PVOID             lpszClass;
    uint              dwExStyle;
@@ -675,10 +675,10 @@ struct MOUSEHOOKSTRUCTEX: public MONITORINFO
    uint              mouseData;
   };
 //---
-struct MOUSEINPUT
+struct MOUSEINPUT pack(8)
   {
-   long              dx;
-   long              dy;
+   int               dx;
+   int               dy;
    uint              mouseData;
    uint              dwFlags;
    uint              time;
@@ -793,13 +793,13 @@ struct POINTER_DEVICE_CURSOR_INFO
    POINTER_DEVICE_CURSOR_TYPE cursor;
   };
 //---
-struct POINTER_DEVICE_INFO
+struct POINTER_DEVICE_INFO pack(8)
   {
    uint              displayOrientation;
    HANDLE            device;
    POINTER_DEVICE_TYPE pointerDeviceType;
    HANDLE            monitor;
-   ulong             startingCursorId;
+   uint              startingCursorId;
    ushort            maxActiveContacts;
    short             productString[POINTER_DEVICE_PRODUCT_STRING_MAX];
   };
@@ -1015,8 +1015,8 @@ struct TOUCH_HIT_TESTING_PROXIMITY_EVALUATION
 //---
 struct TOUCHINPUT
   {
-   long              x;
-   long              y;
+   int               x;
+   int               y;
    HANDLE            hSource;
    uint              dwID;
    uint              dwFlags;
@@ -1151,14 +1151,14 @@ struct WTSSESSION_NOTIFICATION
    uint              dwSessionId;
   };
 //---
-struct RAWMOUSE
+struct RAWMOUSE pack(4)
   {
    ushort            usFlags;
-   ulong             ulButtons;
-   ulong             ulRawButtons;
-   long              lLastX;
-   long              lLastY;
-   ulong             ulExtraInformation;
+   uint              ulButtons;
+   uint              ulRawButtons;
+   int               lLastX;
+   int               lLastY;
+   uint              ulExtraInformation;
   };
 //---
 struct RAWKEYBOARD
@@ -1168,7 +1168,7 @@ struct RAWKEYBOARD
    ushort            Reserved;
    ushort            VKey;
    uint              Message;
-   ulong             ExtraInformation;
+   uint              ExtraInformation;
   };
 //---
 struct RAWHID
@@ -1258,9 +1258,9 @@ HANDLE                              BeginDeferWindowPos(int num_windows);
 HANDLE                              BeginPaint(HANDLE wnd,PAINTSTRUCT &paint);
 int                                 BlockInput(int block_it);
 int                                 BringWindowToTop(HANDLE wnd);
-long                                BroadcastSystemMessage(uint flags,uint &info,uint Msg,PVOID param,PVOID param);
-long                                BroadcastSystemMessageExW(uint flags,uint &info,uint Msg,PVOID param,PVOID param,BSMINFO &info);
-long                                BroadcastSystemMessageW(uint flags,uint &info,uint Msg,PVOID param,PVOID param);
+int                                 BroadcastSystemMessage(uint flags,uint &info,uint Msg,PVOID param,PVOID param);
+int                                 BroadcastSystemMessageExW(uint flags,uint &info,uint Msg,PVOID param,PVOID param,BSMINFO &info);
+int                                 BroadcastSystemMessageW(uint flags,uint &info,uint Msg,PVOID param,PVOID param);
 int                                 CalculatePopupWindowPosition(const POINT &point,const SIZE &size,uint flags,RECT &rect,RECT &window_position);
 int                                 CallMsgFilterW(MSG &msg,int code);
 PVOID                               CallNextHookEx(HANDLE hhk,int code,PVOID param,PVOID param);
@@ -1268,8 +1268,8 @@ PVOID                               CallWindowProcW(PVOID prev_wnd_func,HANDLE w
 int                                 CancelShutdown(void);
 ushort                              CascadeWindows(HANDLE parent,uint how,const RECT &rect,uint kids,const HANDLE &kids[]);
 int                                 ChangeClipboardChain(HANDLE wnd_remove,HANDLE wnd_new_next);
-long                                ChangeDisplaySettingsExW(const string device_name,DEVMODEW &dev_mode,HANDLE hwnd,uint dwflags,PVOID param);
-long                                ChangeDisplaySettingsW(DEVMODEW &dev_mode,uint flags);
+int                                 ChangeDisplaySettingsExW(const string device_name,DEVMODEW &dev_mode,HANDLE hwnd,uint dwflags,PVOID param);
+int                                 ChangeDisplaySettingsW(DEVMODEW &dev_mode,uint flags);
 int                                 ChangeMenuW(HANDLE menu,uint cmd,const string new_item,uint insert,uint flags);
 int                                 ChangeWindowMessageFilter(uint message,uint flag);
 int                                 ChangeWindowMessageFilterEx(HANDLE hwnd,uint message,uint action,CHANGEFILTERSTRUCT &change_filter_struct);
@@ -1305,10 +1305,10 @@ int                                 CountClipboardFormats(void);
 HANDLE                              CreateAcceleratorTableW(ACCEL &paccel,int accel);
 int                                 CreateCaret(HANDLE wnd,HANDLE bitmap,int width,int height);
 HANDLE                              CreateCursor(HANDLE inst,int hot_spot,int hot_spot,int width,int height,PVOID pvANDPlane,PVOID pvXORPlane);
-HANDLE                              CreateDesktopExW(const string desktop,const PVOID device,PVOID devmode,uint flags,uint desired_access,PVOID lpsa,ulong heap_size,PVOID pvoid);
-HANDLE                              CreateDesktopExW(const string desktop,const string device,PVOID devmode,uint flags,uint desired_access,PVOID lpsa,ulong heap_size,PVOID pvoid);
-HANDLE                              CreateDesktopExW(const string desktop,const PVOID device,DEVMODEW &devmode,uint flags,uint desired_access,PVOID lpsa,ulong heap_size,PVOID pvoid);
-HANDLE                              CreateDesktopExW(const string desktop,const string device,DEVMODEW &devmode,uint flags,uint desired_access,PVOID lpsa,ulong heap_size,PVOID pvoid);
+HANDLE                              CreateDesktopExW(const string desktop,const PVOID device,PVOID devmode,uint flags,uint desired_access,PVOID lpsa,uint heap_size,PVOID pvoid);
+HANDLE                              CreateDesktopExW(const string desktop,const string device,PVOID devmode,uint flags,uint desired_access,PVOID lpsa,uint heap_size,PVOID pvoid);
+HANDLE                              CreateDesktopExW(const string desktop,const PVOID device,DEVMODEW &devmode,uint flags,uint desired_access,PVOID lpsa,uint heap_size,PVOID pvoid);
+HANDLE                              CreateDesktopExW(const string desktop,const string device,DEVMODEW &devmode,uint flags,uint desired_access,PVOID lpsa,uint heap_size,PVOID pvoid);
 HANDLE                              CreateDesktopW(const string desktop,const PVOID device,PVOID devmode,uint flags,uint desired_access,PVOID lpsa);
 HANDLE                              CreateDesktopW(const string desktop,const string device,PVOID devmode,uint flags,uint desired_access,PVOID lpsa);
 HANDLE                              CreateDesktopW(const string desktop,const PVOID device,DEVMODEW &devmode,uint flags,uint desired_access,PVOID lpsa);
@@ -1343,8 +1343,8 @@ long                                DialogBoxIndirectParamW(HANDLE instance,DLGT
 long                                DialogBoxParamW(HANDLE instance,const string template_name,HANDLE wnd_parent,PVOID dialog_func,PVOID init_param);
 void                                DisableProcessWindowsGhosting(void);
 PVOID                               DispatchMessageW(MSG &msg);
-long                                DisplayConfigGetDeviceInfo(DISPLAYCONFIG_DEVICE_INFO_HEADER &packet);
-long                                DisplayConfigSetDeviceInfo(DISPLAYCONFIG_DEVICE_INFO_HEADER &packet);
+int                                 DisplayConfigGetDeviceInfo(DISPLAYCONFIG_DEVICE_INFO_HEADER &packet);
+int                                 DisplayConfigSetDeviceInfo(DISPLAYCONFIG_DEVICE_INFO_HEADER &packet);
 int                                 DlgDirListComboBoxW(HANDLE dlg,string path_spec,int nIDComboBox,int nIDStaticPath,uint filetype);
 int                                 DlgDirListW(HANDLE dlg,string path_spec,int nIDListBox,int nIDStaticPath,uint file_type);
 int                                 DlgDirSelectComboBoxExW(HANDLE dlg,string str,int out,int combo_box);
@@ -1432,7 +1432,7 @@ int                                 GetDialogBaseUnits(void);
 DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS GetDialogControlDpiChangeBehavior(HANDLE wnd);
 DIALOG_DPI_CHANGE_BEHAVIORS         GetDialogDpiChangeBehavior(HANDLE dlg);
 int                                 GetDisplayAutoRotationPreferences(ORIENTATION_PREFERENCE &orientation);
-long                                GetDisplayConfigBufferSizes(uint flags,uint &path_array_elements,uint &mode_info_array_elements);
+int                                 GetDisplayConfigBufferSizes(uint flags,uint &path_array_elements,uint &mode_info_array_elements);
 int                                 GetDlgCtrlID(HANDLE wnd);
 HANDLE                              GetDlgItem(HANDLE dlg,int nIDDlgItem);
 uint                                GetDlgItemInt(HANDLE dlg,int nIDDlgItem,int &translated,int signed);
@@ -1464,8 +1464,8 @@ int                                 GetLastInputInfo(LASTINPUTINFO &plii);
 int                                 GetLayeredWindowAttributes(HANDLE hwnd,uint &key,uchar &alpha,uint &flags);
 uint                                GetListBoxInfo(HANDLE hwnd);
 HANDLE                              GetMenu(HANDLE wnd);
-int                                 GetMenuBarInfo(HANDLE hwnd,long object,long item,MENUBARINFO &pmbi);
-long                                GetMenuCheckMarkDimensions(void);
+int                                 GetMenuBarInfo(HANDLE hwnd,int object,int item,MENUBARINFO &pmbi);
+int                                 GetMenuCheckMarkDimensions(void);
 uint                                GetMenuContextHelpId(HANDLE);
 uint                                GetMenuDefaultItem(HANDLE menu,uint by_pos,uint flags);
 int                                 GetMenuInfo(HANDLE,MENUINFO &);
@@ -1477,7 +1477,7 @@ uint                                GetMenuState(HANDLE menu,uint id,uint flags)
 int                                 GetMenuStringW(HANDLE menu,uint uIDItem,string str,int max,uint flags);
 PVOID                               GetMessageExtraInfo(void);
 uint                                GetMessagePos(void);
-long                                GetMessageTime(void);
+int                                 GetMessageTime(void);
 int                                 GetMessageW(MSG &msg,HANDLE wnd,uint msg_filter_min,uint msg_filter_max);
 int                                 GetMonitorInfoW(HANDLE monitor,MONITORINFO &lpmi);
 int                                 GetMouseMovePointsEx(uint size,MOUSEMOVEPOINT &lppt,MOUSEMOVEPOINT &buf,int buf_points,uint resolution);
@@ -1515,9 +1515,9 @@ uint                                GetRawInputBuffer(RAWINPUT &data,uint &size,
 uint                                GetRawInputData(HANDLE raw_input,uint command,PVOID data,uint &size,uint size_header);
 uint                                GetRawInputDeviceInfoW(HANDLE device,uint command,PVOID data,uint &size);
 uint                                GetRawInputDeviceList(RAWINPUTDEVICELIST &raw_input_device_list,uint &num_devices,uint size);
-int                                 GetRawPointerDeviceData(uint id,uint count,uint count,POINTER_DEVICE_PROPERTY &properties[],long &values[]);
+int                                 GetRawPointerDeviceData(uint id,uint count,uint count,POINTER_DEVICE_PROPERTY &properties[],int &values[]);
 uint                                GetRegisteredRawInputDevices(RAWINPUTDEVICE &raw_input_devices,uint &num_devices,uint size);
-int                                 GetScrollBarInfo(HANDLE hwnd,long object,SCROLLBARINFO &psbi);
+int                                 GetScrollBarInfo(HANDLE hwnd,int object,SCROLLBARINFO &psbi);
 int                                 GetScrollInfo(HANDLE hwnd,int bar,SCROLLINFO &lpsi);
 int                                 GetScrollPos(HANDLE wnd,int bar);
 int                                 GetScrollRange(HANDLE wnd,int bar,int &min_pos,int &max_pos);
@@ -1551,7 +1551,7 @@ DPI_HOSTING_BEHAVIOR                GetWindowDpiHostingBehavior(HANDLE hwnd);
 int                                 GetWindowFeedbackSetting(HANDLE hwnd,FEEDBACK_TYPE feedback,uint flags,uint size,int &config);
 int                                 GetWindowInfo(HANDLE hwnd,WINDOWINFO &pwi);
 long                                GetWindowLongPtrW(HANDLE wnd,int index);
-long                                GetWindowLongW(HANDLE wnd,int index);
+int                                 GetWindowLongW(HANDLE wnd,int index);
 uint                                GetWindowModuleFileNameW(HANDLE hwnd,ushort &file_name[],uint file_name_max);
 int                                 GetWindowPlacement(HANDLE wnd,WINDOWPLACEMENT &lpwndpl);
 int                                 GetWindowRect(HANDLE wnd,RECT &rect);
@@ -1594,7 +1594,7 @@ int                                 IsMenu(HANDLE menu);
 int                                 IsMouseInPointerEnabled(void);
 int                                 IsProcessDPIAware(void);
 int                                 IsRectEmpty(RECT &lprc);
-int                                 IsTouchWindow(HANDLE hwnd,ulong &flags);
+int                                 IsTouchWindow(HANDLE hwnd,uint &flags);
 int                                 IsValidDpiAwarenessContext(HANDLE value);
 int                                 IsWindow(HANDLE wnd);
 int                                 IsWindowEnabled(HANDLE wnd);
@@ -1639,7 +1639,7 @@ void                                mouse_event(uint flags,uint dx,uint dy,uint 
 int                                 MoveWindow(HANDLE wnd,int X,int Y,int width,int height,int repaint);
 uint                                MsgWaitForMultipleObjects(uint count,const HANDLE &handles[],int wait_all,uint milliseconds,uint wake_mask);
 uint                                MsgWaitForMultipleObjectsEx(uint count,const HANDLE &handles[],uint milliseconds,uint wake_mask,uint flags);
-void                                NotifyWinEvent(uint event,HANDLE hwnd,long object,long child);
+void                                NotifyWinEvent(uint event,HANDLE hwnd,int object,int child);
 uint                                OemKeyScan(ushort oem_char);
 int                                 OemToCharBuffW(const char &src[],ushort &dst[],uint dst_length);
 int                                 OemToCharW(const char &src[],ushort &dst[]);
@@ -1676,8 +1676,8 @@ PVOID                               RegisterPowerSettingNotification(HANDLE reci
 int                                 RegisterRawInputDevices(const RAWINPUTDEVICE &raw_input_devices[],uint num_devices,uint size);
 int                                 RegisterShellHookWindow(HANDLE hwnd);
 PVOID                               RegisterSuspendResumeNotification(HANDLE recipient,uint Flags);
-int                                 RegisterTouchHitTestingWindow(HANDLE hwnd,ulong value);
-int                                 RegisterTouchWindow(HANDLE hwnd,ulong flags);
+int                                 RegisterTouchHitTestingWindow(HANDLE hwnd,uint value);
+int                                 RegisterTouchWindow(HANDLE hwnd,uint flags);
 uint                                RegisterWindowMessageW(const string str);
 int                                 ReleaseCapture(void);
 int                                 ReleaseDC(HANDLE wnd,HANDLE hDC);
@@ -1700,18 +1700,18 @@ HANDLE                              SetCapture(HANDLE wnd);
 int                                 SetCaretBlinkTime(uint uMSeconds);
 int                                 SetCaretPos(int X,int Y);
 ulong                               SetClassLongPtrW(HANDLE wnd,int index,long new_long);
-uint                                SetClassLongW(HANDLE wnd,int index,long new_long);
+uint                                SetClassLongW(HANDLE wnd,int index,int new_long);
 ushort                              SetClassWord(HANDLE wnd,int index,ushort new_word);
 HANDLE                              SetClipboardData(uint format,HANDLE mem);
 HANDLE                              SetClipboardViewer(HANDLE wnd_new_viewer);
-ulong                               SetCoalescableTimer(HANDLE wnd,ulong nIDEvent,uint elapse,PVOID timer_func,ulong tolerance_delay);
+ulong                               SetCoalescableTimer(HANDLE wnd,ulong nIDEvent,uint elapse,PVOID timer_func,uint tolerance_delay);
 HANDLE                              SetCursor(HANDLE cursor);
 int                                 SetCursorPos(int X,int Y);
 void                                SetDebugErrorLevel(uint level);
 int                                 SetDialogControlDpiChangeBehavior(HANDLE wnd,DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS mask,DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS values);
 int                                 SetDialogDpiChangeBehavior(HANDLE dlg,DIALOG_DPI_CHANGE_BEHAVIORS mask,DIALOG_DPI_CHANGE_BEHAVIORS values);
 int                                 SetDisplayAutoRotationPreferences(ORIENTATION_PREFERENCE orientation);
-long                                SetDisplayConfig(uint path_array_elements,DISPLAYCONFIG_PATH_INFO &array,uint mode_info_array_elements,DISPLAYCONFIG_MODE_INFO &info_array[],uint flags);
+int                                 SetDisplayConfig(uint path_array_elements,DISPLAYCONFIG_PATH_INFO &array,uint mode_info_array_elements,DISPLAYCONFIG_MODE_INFO &info_array[],uint flags);
 int                                 SetDlgItemInt(HANDLE dlg,int nIDDlgItem,uint value,int signed);
 int                                 SetDlgItemTextW(HANDLE dlg,int nIDDlgItem,const string str);
 int                                 SetDoubleClickTime(uint);
@@ -1754,7 +1754,7 @@ int                                 SetWindowContextHelpId(HANDLE,uint);
 int                                 SetWindowDisplayAffinity(HANDLE wnd,uint affinity);
 int                                 SetWindowFeedbackSetting(HANDLE hwnd,FEEDBACK_TYPE feedback,uint flags,uint size,PVOID configuration);
 long                                SetWindowLongPtrW(HANDLE wnd,int index,long new_long);
-long                                SetWindowLongW(HANDLE wnd,int index,long new_long);
+int                                 SetWindowLongW(HANDLE wnd,int index,int new_long);
 int                                 SetWindowPlacement(HANDLE wnd,WINDOWPLACEMENT &lpwndpl);
 int                                 SetWindowPos(HANDLE wnd,HANDLE wnd_insert_after,int X,int Y,int cx,int cy,uint flags);
 int                                 SetWindowRgn(HANDLE wnd,HANDLE rgn,int redraw);
@@ -1780,7 +1780,7 @@ int                                 SwitchDesktop(HANDLE desktop);
 void                                SwitchToThisWindow(HANDLE hwnd,int unknown);
 int                                 SystemParametersInfoForDpi(uint action,uint param,PVOID param,uint win_ini,uint dpi);
 int                                 SystemParametersInfoW(uint action,uint param,PVOID param,uint win_ini);
-long                                TabbedTextOutW(HANDLE hdc,int x,int y,const string str,int count,int tab_positions,const int &tab_stop_positions[],int tab_origin);
+int                                 TabbedTextOutW(HANDLE hdc,int x,int y,const string str,int count,int tab_positions,const int &tab_stop_positions[],int tab_origin);
 ushort                              TileWindows(HANDLE parent,uint how,const RECT &rect,uint kids,const HANDLE &kids[]);
 int                                 ToAscii(uint virt_key,uint scan_code,const uchar &key_state[],ushort &symbol,uint flags);
 int                                 ToAsciiEx(uint virt_key,uint scan_code,const uchar &key_state[],ushort &symbol,uint flags,HANDLE dwhkl);

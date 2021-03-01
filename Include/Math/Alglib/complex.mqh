@@ -53,6 +53,7 @@ public:
    complex           Sub(const complex &lhs,const complex &rhs);
    complex           Mul(const complex &lhs,const complex &rhs);
    complex           Div(const complex &lhs,const complex &rhs);
+   complex           Conjugate(void);
    //--- overloading
    void              operator=(const double rhs);
    void              operator=(const complex &rhs);
@@ -115,7 +116,8 @@ void complex::Copy(const complex &rhs)
 bool complex::Eq(const complex &lhs,const complex &rhs)
   {
 //--- comparison
-   if(lhs.re==rhs.re && lhs.im==rhs.im) return(true);
+   if(lhs.re==rhs.re && lhs.im==rhs.im)
+      return(true);
 //--- numbers are not equal
    return(false);
   }
@@ -125,7 +127,8 @@ bool complex::Eq(const complex &lhs,const complex &rhs)
 bool complex::NotEq(const complex &lhs,const complex &rhs)
   {
 //--- comparison
-   if(lhs.re!=rhs.re || lhs.im!=rhs.im) return(true);
+   if(lhs.re!=rhs.re || lhs.im!=rhs.im)
+      return(true);
 //--- numbers are equal
    return(false);
   }
@@ -197,6 +200,16 @@ complex complex::Div(const complex &lhs,const complex &rhs)
    res.im=(-lhs.re+lhs.im*e)/f;
 //--- return result
    return(res);
+  }
+//+------------------------------------------------------------------+
+//| Conjugate                                                        |
+//+------------------------------------------------------------------+
+complex complex::Conjugate(void)
+  {
+//--- conjugate
+   complex res(re,-im);
+//--- return result
+   return res;
   }
 //+------------------------------------------------------------------+
 //| Overloading (=)                                                  |

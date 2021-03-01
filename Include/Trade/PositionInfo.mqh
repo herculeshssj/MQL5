@@ -1,10 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                 PositionInfo.mqh |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <Object.mqh>
-#include "SymbolInfo.mqh"
 //+------------------------------------------------------------------+
 //| Class CPositionInfo.                                             |
 //| Appointment: Class for access to position info.                  |
@@ -237,14 +236,17 @@ bool CPositionInfo::InfoString(const ENUM_POSITION_PROPERTY_STRING prop_id,strin
 //+------------------------------------------------------------------+
 string CPositionInfo::FormatType(string &str,const uint type) const
   {
-//--- clean
-   str="";
 //--- see the type
    switch(type)
      {
-      case POSITION_TYPE_BUY : str="buy";  break;
-      case POSITION_TYPE_SELL: str="sell"; break;
-      default                : str="unknown position type "+(string)type;
+      case POSITION_TYPE_BUY:
+         str="buy";
+         break;
+      case POSITION_TYPE_SELL:
+         str="sell";
+         break;
+      default:
+         str="unknown position type "+(string)type;
      }
 //--- return the result
    return(str);
@@ -254,25 +256,27 @@ string CPositionInfo::FormatType(string &str,const uint type) const
 //+------------------------------------------------------------------+
 string CPositionInfo::FormatPosition(string &str) const
   {
-   string      tmp,type;
-   CSymbolInfo symbol;
+   string tmp,type;
+   long   tmp_long;
    ENUM_ACCOUNT_MARGIN_MODE margin_mode=(ENUM_ACCOUNT_MARGIN_MODE)AccountInfoInteger(ACCOUNT_MARGIN_MODE);
 //--- set up
-   symbol.Name(Symbol());
-   int digits=symbol.Digits();
+   string symbol_name=this.Symbol();
+   int    digits=_Digits;
+   if(SymbolInfoInteger(symbol_name,SYMBOL_DIGITS,tmp_long))
+      digits=(int)tmp_long;
 //--- form the position description
    if(margin_mode==ACCOUNT_MARGIN_MODE_RETAIL_HEDGING)
       str=StringFormat("#%I64u %s %s %s %s",
                        Ticket(),
                        FormatType(type,PositionType()),
                        DoubleToString(Volume(),2),
-                       Symbol(),
+                       symbol_name,
                        DoubleToString(PriceOpen(),digits+3));
    else
       str=StringFormat("%s %s %s %s",
                        FormatType(type,PositionType()),
                        DoubleToString(Volume(),2),
-                       Symbol(),
+                       symbol_name,
                        DoubleToString(PriceOpen(),digits+3));
 //--- add stops if there are any
    double sl=StopLoss();
@@ -348,10 +352,10 @@ void CPositionInfo::StoreState(void)
 //+------------------------------------------------------------------+
 bool CPositionInfo::CheckState(void)
   {
-   if(m_type==PositionType() && 
-      m_volume==Volume() && 
-      m_price==PriceOpen() && 
-      m_stop_loss==StopLoss() && 
+   if(m_type==PositionType()  &&
+      m_volume==Volume()      &&
+      m_price==PriceOpen()    &&
+      m_stop_loss==StopLoss() &&
       m_take_profit==TakeProfit())
       return(false);
 //---

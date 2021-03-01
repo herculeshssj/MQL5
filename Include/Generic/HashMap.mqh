@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                      HashMap.mqh |
-//|                   Copyright 2016-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2016-2021, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <Generic\Interfaces\IMap.mqh>
@@ -18,7 +18,7 @@ struct Entry: public Slot<TValue>
   {
 public:
    TKey              key;
-                     Entry(void): key(NULL) {}
+                     Entry(void): key((TKey)NULL) {}
   };
 //+------------------------------------------------------------------+
 //| Class CKeyValuePair<TKey, TValue>.                               |
@@ -459,8 +459,8 @@ bool CHashMap::Remove(TKey key)
             //--- remove pair
             m_entries[i].hash_code=-1;
             m_entries[i].next=m_free_list;
-            m_entries[i].key=NULL;
-            m_entries[i].value=NULL;
+            m_entries[i].key=(TKey)NULL;
+            m_entries[i].value=(TValue)NULL;
             //--- incremet free count
             m_free_list=i;
             m_free_count++;

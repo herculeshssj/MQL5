@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                        Gator.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Gator Oscillator"
 #property description "based on 3 non-shifted moving averages"
@@ -44,11 +44,10 @@ double                   ExtLoColorsBuffer[];
 double                   ExtJawsBuffer[];
 double                   ExtTeethBuffer[];
 double                   ExtLipsBuffer[];
-//--- handles
+
 int                      ExtJawsHandle;
 int                      ExtTeethHandle;
 int                      ExtLipsHandle;
-//--- global variables
 int                      ExtUpperShift;
 int                      ExtLowerShift;
 bool                     ExtFlag;
@@ -79,10 +78,8 @@ int OnInit()
    PlotIndexSetInteger(0,PLOT_SHIFT,InpTeethShift);
    PlotIndexSetInteger(1,PLOT_SHIFT,InpLipsShift);
 //--- name for indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"Gator("+
-                      string(InpJawsPeriod)+","+
-                      string(InpTeethPeriod)+","+
-                      string(InpLipsPeriod)+")");
+   string short_name=StringFormat("Gator(%d,%d,%d)",InpJawsPeriod,InpTeethPeriod,InpLipsPeriod);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
 //--- sets drawing line empty value
    PlotIndexSetDouble(0,PLOT_EMPTY_VALUE,0.0);
    PlotIndexSetDouble(1,PLOT_EMPTY_VALUE,0.0);
@@ -91,7 +88,8 @@ int OnInit()
    ExtLowerShift=InpTeethShift-InpLipsShift;
 //--- check for input parameters
    ExtFlag=CheckForInput();
-   if(!ExtFlag) Print("Wrong input parameters. Indicator won't work.");
+   if(!ExtFlag)
+      Print("Wrong input parameters. Indicator won't work.");
 //--- initialization done. 0 returned if ExtFlag is true
    return(!ExtFlag);
   }
@@ -109,62 +107,67 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int    pos,shift;
-   double dCurr,dPrev;
+   int shift;
 //--- check for rules and bars count
    if(ExtUpperShift>ExtLowerShift)
       shift=ExtUpperShift;
-   else shift=ExtLowerShift;
+   else
+      shift=ExtLowerShift;
    if(!ExtFlag || shift>rates_total)
       return(0);
 //--- not all data may be calculated
    int calculated=BarsCalculated(ExtJawsHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtJawsHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtJawsHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
    calculated=BarsCalculated(ExtTeethHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtTeethHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtTeethHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
    calculated=BarsCalculated(ExtLipsHandle);
    if(calculated<rates_total)
      {
-      Print("Not all data of ExtLipsHandle is calculated (",calculated,"bars ). Error",GetLastError());
+      Print("Not all data of ExtLipsHandle is calculated (",calculated," bars). Error ",GetLastError());
       return(0);
      }
 //--- we can copy not all data
    int to_copy;
-   if(prev_calculated>rates_total || prev_calculated<0) to_copy=rates_total;
+   if(prev_calculated>rates_total || prev_calculated<0)
+      to_copy=rates_total;
    else
      {
       to_copy=rates_total-prev_calculated;
-      if(prev_calculated>0) to_copy++;
+      if(prev_calculated>0)
+         to_copy++;
      }
-//---- get ma buffers
-   if(IsStopped()) return(0); //Checking for stop flag
+//--- get ma buffers
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtJawsHandle,0,0,to_copy,ExtJawsBuffer)<=0)
      {
       Print("getting ExtJawsHandle is failed! Error",GetLastError());
       return(0);
      }
-   if(IsStopped()) return(0); //Checking for stop flag
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtTeethHandle,0,0,to_copy,ExtTeethBuffer)<=0)
      {
       Print("getting ExtTeethHandle is failed! Error",GetLastError());
       return(0);
      }
-   if(IsStopped()) return(0); //Checking for stop flag
+   if(IsStopped()) // checking for stop flag
+      return(0);
    if(CopyBuffer(ExtLipsHandle,0,0,to_copy,ExtLipsBuffer)<=0)
      {
       Print("getting ExtLipsHandle is failed! Error",GetLastError());
       return(0);
      }
 //--- last 2 counted bars will be recounted
-   pos=prev_calculated-2;
+   int pos=prev_calculated-2;
    if(pos<shift)
      {
       for(int i=0; i<shift; i++)
@@ -177,22 +180,23 @@ int OnCalculate(const int rates_total,
       pos=shift;
      }
 //--- main cycle
-   int lower_limit=ExtLowerShift+InpLipsShift+InpLipsPeriod;
-   int upper_limit=ExtUpperShift+InpTeethShift+InpTeethPeriod;
-   for(int i=pos;i<rates_total && !IsStopped();i++)
+   double cur_value,prev_value;
+   int    lower_limit=ExtLowerShift+InpLipsShift+InpLipsPeriod;
+   int    upper_limit=ExtUpperShift+InpTeethShift+InpTeethPeriod;
+   for(int i=pos; i<rates_total && !IsStopped(); i++)
      {
       if(i>=lower_limit)
         {
          //--- calculate down buffer value
-         dCurr=-fabs(ExtTeethBuffer[i-ExtLowerShift]-ExtLipsBuffer[i]);
-         dPrev=ExtLowerBuffer[i-1];
-         ExtLowerBuffer[i]=dCurr;
+         cur_value=-MathAbs(ExtTeethBuffer[i-ExtLowerShift]-ExtLipsBuffer[i]);
+         prev_value=ExtLowerBuffer[i-1];
+         ExtLowerBuffer[i]=cur_value;
          //--- set down buffer color
-         if(dPrev==dCurr)
+         if(prev_value==cur_value)
             ExtLoColorsBuffer[i]=ExtLoColorsBuffer[i-1];
          else
            {
-            if(dPrev<dCurr)
+            if(prev_value<cur_value)
                ExtLoColorsBuffer[i]=1.0;
             else
                ExtLoColorsBuffer[i]=0.0;
@@ -206,15 +210,15 @@ int OnCalculate(const int rates_total,
       if(i>=upper_limit)
         {
          //--- calculate up buffer value
-         dCurr=fabs(ExtJawsBuffer[i-ExtUpperShift]-ExtTeethBuffer[i]);
-         ExtUpperBuffer[i]=dCurr;
-         dPrev=ExtUpperBuffer[i-1];
+         cur_value=MathAbs(ExtJawsBuffer[i-ExtUpperShift]-ExtTeethBuffer[i]);
+         ExtUpperBuffer[i]=cur_value;
+         prev_value=ExtUpperBuffer[i-1];
          //--- set up buffer color
-         if(dPrev==dCurr)
+         if(prev_value==cur_value)
             ExtUpColorsBuffer[i]=ExtUpColorsBuffer[i-1];
          else
            {
-            if(dPrev<dCurr)
+            if(prev_value<cur_value)
                ExtUpColorsBuffer[i]=0.0;
             else
                ExtUpColorsBuffer[i]=1.0;

@@ -52,41 +52,10 @@ void OnInit()
 //--- lines shifts when drawing
    PlotIndexSetInteger(2,PLOT_SHIFT,InpKijun);
    PlotIndexSetInteger(3,PLOT_SHIFT,-InpKijun);
-//--- change labels for DataWindow 
+//--- change labels for DataWindow
    PlotIndexSetString(0,PLOT_LABEL,"Tenkan-sen("+string(InpTenkan)+")");
    PlotIndexSetString(1,PLOT_LABEL,"Kijun-sen("+string(InpKijun)+")");
    PlotIndexSetString(2,PLOT_LABEL,"Senkou Span A;Senkou Span B("+string(InpSenkou)+")");
-//--- initialization done
-  }
-//+------------------------------------------------------------------+
-//| get highest value for range                                      |
-//+------------------------------------------------------------------+
-double Highest(const double&array[],int range,int fromIndex)
-  {
-   double res=0;
-//---
-   res=array[fromIndex];
-   for(int i=fromIndex;i>fromIndex-range && i>=0;i--)
-     {
-      if(res<array[i]) res=array[i];
-     }
-//---
-   return(res);
-  }
-//+------------------------------------------------------------------+
-//| get lowest value for range                                       |
-//+------------------------------------------------------------------+
-double Lowest(const double&array[],int range,int fromIndex)
-  {
-   double res=0;
-//---
-   res=array[fromIndex];
-   for(int i=fromIndex;i>fromIndex-range && i>=0;i--)
-     {
-      if(res>array[i]) res=array[i];
-     }
-//---
-   return(res);
   }
 //+------------------------------------------------------------------+
 //| Ichimoku Kinko Hyo                                               |
@@ -102,30 +71,60 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int limit;
+   int start;
 //---
-   if(prev_calculated==0) limit=0;
-   else                   limit=prev_calculated-1;
-//---
-   for(int i=limit;i<rates_total && !IsStopped();i++)
+   if(prev_calculated==0)
+      start=0;
+   else
+      start=prev_calculated-1;
+//--- main loop
+   for(int i=start; i<rates_total && !IsStopped(); i++)
      {
       ExtChikouBuffer[i]=close[i];
       //--- tenkan sen
-      double _high=Highest(high,InpTenkan,i);
-      double _low=Lowest(low,InpTenkan,i);
-      ExtTenkanBuffer[i]=(_high+_low)/2.0;
+      double price_max=Highest(high,InpTenkan,i);
+      double price_min=Lowest(low,InpTenkan,i);
+      ExtTenkanBuffer[i]=(price_max+price_min)/2.0;
       //--- kijun sen
-      _high=Highest(high,InpKijun,i);
-      _low=Lowest(low,InpKijun,i);
-      ExtKijunBuffer[i]=(_high+_low)/2.0;
+      price_max=Highest(high,InpKijun,i);
+      price_min=Lowest(low,InpKijun,i);
+      ExtKijunBuffer[i]=(price_max+price_min)/2.0;
       //--- senkou span a
       ExtSpanABuffer[i]=(ExtTenkanBuffer[i]+ExtKijunBuffer[i])/2.0;
       //--- senkou span b
-      _high=Highest(high,InpSenkou,i);
-      _low=Lowest(low,InpSenkou,i);
-      ExtSpanBBuffer[i]=(_high+_low)/2.0;
+      price_max=Highest(high,InpSenkou,i);
+      price_min=Lowest(low,InpSenkou,i);
+      ExtSpanBBuffer[i]=(price_max+price_min)/2.0;
      }
-//--- done
+//---
    return(rates_total);
+  }
+//+------------------------------------------------------------------+
+//| get price_max value for range                                      |
+//+------------------------------------------------------------------+
+double Highest(const double& array[],const int range,int from_index)
+  {
+   double res=0;
+//---
+   res=array[from_index];
+   for(int i=from_index; i>from_index-range && i>=0; i--)
+      if(res<array[i])
+         res=array[i];
+//---
+   return(res);
+  }
+//+------------------------------------------------------------------+
+//| get price_min value for range                                       |
+//+------------------------------------------------------------------+
+double Lowest(const double& array[],const int range,int from_index)
+  {
+   double res=0;
+//---
+   res=array[from_index];
+   for(int i=from_index; i>from_index-range && i>=0; i--)
+      if(res>array[i])
+         res=array[i];
+//---
+   return(res);
   }
 //+------------------------------------------------------------------+

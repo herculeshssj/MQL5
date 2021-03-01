@@ -1,12 +1,12 @@
 //+------------------------------------------------------------------+
 //|                                                          MFI.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright   "2009-2017, MetaQuotes Software Corp."
+#property copyright   "2009-2020, MetaQuotes Software Corp."
 #property link        "http://www.mql5.com"
 #property description "Money Flow Index"
-//---- indicator settings
+//--- indicator settings
 #property indicator_separate_window
 #property indicator_buffers    1
 #property indicator_plots      1
@@ -19,13 +19,13 @@
 #property indicator_levelcolor Silver
 #property indicator_levelstyle 2
 #property indicator_levelwidth 1
-//---- input parameters
+//--- input parameters
 input int                 InpMFIPeriod=14;            // Period
 input ENUM_APPLIED_VOLUME InpVolumeType=VOLUME_TICK;  // Volumes
-//---- buffers
-double                    ExtMFIBuffer[];
-//--- global variable
-int                       ExtMFIPeriod;
+//--- indicator buffer
+double ExtMFIBuffer[];
+
+int    ExtMFIPeriod;
 //+------------------------------------------------------------------+
 //| Money Flow Index initialization function                         |
 //+------------------------------------------------------------------+
@@ -37,16 +37,16 @@ void OnInit()
       ExtMFIPeriod=14;
       Print("Parameter InpMFIPeriod has wrong value. Indicator will use value ",ExtMFIPeriod);
      }
-   else ExtMFIPeriod=InpMFIPeriod;
-//---- indicator buffer   
+   else
+      ExtMFIPeriod=InpMFIPeriod;
+//--- indicator buffer
    SetIndexBuffer(0,ExtMFIBuffer);
-//---- name for DataWindow and indicator subwindow label
-   IndicatorSetString(INDICATOR_SHORTNAME,"MFI"+"("+string(ExtMFIPeriod)+")");
+//--- name for DataWindow and indicator subwindow label
+   IndicatorSetString(INDICATOR_SHORTNAME,"MFI("+string(ExtMFIPeriod)+")");
 //--- set draw begin
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,ExtMFIPeriod);
-//--- set indicator digits   
+//--- set indicator digits
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
-//---- end of initialization function
   }
 //+------------------------------------------------------------------+
 //| Money Flow Index                                                 |
@@ -62,56 +62,59 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-//--- variables of indicator
-   int    CalcPosition;
-//---- insufficient data
    if(rates_total<ExtMFIPeriod)
       return(0);
+
+   int start_position;
 //--- start working
    if(prev_calculated<ExtMFIPeriod)
-      CalcPosition=ExtMFIPeriod;
+      start_position=ExtMFIPeriod;
    else
-      CalcPosition=prev_calculated-1;
+      start_position=prev_calculated-1;
 //--- calculate MFI by volume
    if(InpVolumeType==VOLUME_TICK)
-      CalculateMFI(CalcPosition,rates_total,high,low,close,tick_volume);
+      CalculateMFI(start_position,rates_total,high,low,close,tick_volume);
    else
-      CalculateMFI(CalcPosition,rates_total,high,low,close,volume);
+      CalculateMFI(start_position,rates_total,high,low,close,volume);
 //--- OnCalculate done. Return new prev_calculated
    return(rates_total);
   }
 //+------------------------------------------------------------------+
 //| Calculate MFI by volume from argument                            |
 //+------------------------------------------------------------------+
-void CalculateMFI(const int nPosition,
-                  const int nRatesCount,
-                  const double &HiBuffer[],
-                  const double &LoBuffer[],
-                  const double &ClBuffer[],
-                  const long &VolBuffer[])
+void CalculateMFI(const int start_position,
+                  const int rates_total,
+                  const double &high[],
+                  const double &low[],
+                  const double &close[],
+                  const long &volume[])
   {
-   for(int i=nPosition;i<nRatesCount && !IsStopped();i++)
+   for(int i=start_position; i<rates_total && !IsStopped(); i++)
      {
-      double dPositiveMF=0.0;
-      double dNegativeMF=0.0;
-      double dCurrentTP=TypicalPrice(HiBuffer[i],LoBuffer[i],ClBuffer[i]);
-      for(int j=1;j<=ExtMFIPeriod;j++)
+      double positive=0.0;
+      double negative=0.0;
+      double current_tp=TypicalPrice(high[i],low[i],close[i]);
+      for(int j=1; j<=ExtMFIPeriod; j++)
         {
          int    index=i-j;
-         double dPreviousTP=TypicalPrice(HiBuffer[index],LoBuffer[index],ClBuffer[index]);
-         if(dCurrentTP>dPreviousTP) dPositiveMF+=VolBuffer[index+1]*dCurrentTP;
-         if(dCurrentTP<dPreviousTP) dNegativeMF+=VolBuffer[index+1]*dCurrentTP;
-         dCurrentTP=dPreviousTP;
+         double previous_tp=TypicalPrice(high[index],low[index],close[index]);
+         if(current_tp>previous_tp)
+            positive+=volume[index+1]*current_tp;
+         if(current_tp<previous_tp)
+            negative+=volume[index+1]*current_tp;
+         current_tp=previous_tp;
         }
-      if(dNegativeMF!=0.0) ExtMFIBuffer[i]=100.0-100.0/(1+dPositiveMF/dNegativeMF);
-      else                 ExtMFIBuffer[i]=100.0;
+      if(negative!=0.0)
+         ExtMFIBuffer[i]=100.0-100.0/(1+positive/negative);
+      else
+         ExtMFIBuffer[i]=100.0;
      }
   }
 //+------------------------------------------------------------------+
 //| Calculate typical price                                          |
 //+------------------------------------------------------------------+
-double TypicalPrice(const double dHi,const double dLo,const double dCl)
+double TypicalPrice(const double high_price,const double low_price,const double close_price)
   {
-   return (dHi+dLo+dCl)/3;
+   return((high_price+low_price+close_price)/3.0);
   }
 //+------------------------------------------------------------------+

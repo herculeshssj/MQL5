@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                 ParabolicSAR.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 //--- indicator settings
 #property indicator_chart_window
@@ -11,18 +11,18 @@
 #property indicator_plots   1
 #property indicator_type1   DRAW_ARROW
 #property indicator_color1  DodgerBlue
-//--- External parametrs
-input double         InpSARStep=0.02;    // Step
-input double         InpSARMaximum=0.2;  // Maximum
-//---- buffers
-double               ExtSARBuffer[];
-double               ExtEPBuffer[];
-double               ExtAFBuffer[];
-//--- global variables
-int                  ExtLastRevPos;
-bool                 ExtDirectionLong;
-double               ExtSarStep;
-double               ExtSarMaximum;
+//--- input parametrs
+input double InpSARStep=0.02;    // Step
+input double InpSARMaximum=0.2;  // Maximum
+//--- indicator buffers
+double ExtSARBuffer[];
+double ExtEPBuffer[];
+double ExtAFBuffer[];
+
+int    ExtLastRevPos;
+bool   ExtDirectionLong;
+double ExtSarStep;
+double ExtSarMaximum;
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
@@ -32,18 +32,20 @@ void OnInit()
    if(InpSARStep<0.0)
      {
       ExtSarStep=0.02;
-      Print("Input parametr InpSARStep has incorrect value. Indicator will use value",
-            ExtSarStep,"for calculations.");
+      PrintFormat("Input parametr InpSARStep has incorrect value. Indicator will use value %d for calculations.",
+                  ExtSarStep);
      }
-   else ExtSarStep=InpSARStep;
+   else
+      ExtSarStep=InpSARStep;
    if(InpSARMaximum<0.0)
      {
       ExtSarMaximum=0.2;
-      Print("Input parametr InpSARMaximum has incorrect value. Indicator will use value",
-            ExtSarMaximum,"for calculations.");
+      PrintFormat("Input parametr InpSARMaximum has incorrect value. Indicator will use value %d for calculations.",
+                  ExtSarMaximum);
      }
-   else ExtSarMaximum=InpSARMaximum;
-//---- indicator buffers
+   else
+      ExtSarMaximum=InpSARMaximum;
+//--- indicator buffers
    SetIndexBuffer(0,ExtSARBuffer);
    SetIndexBuffer(1,ExtEPBuffer,INDICATOR_CALCULATIONS);
    SetIndexBuffer(2,ExtAFBuffer,INDICATOR_CALCULATIONS);
@@ -52,13 +54,11 @@ void OnInit()
 //--- set indicator digits
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
 //--- set label name
-   PlotIndexSetString(0,PLOT_LABEL,"SAR("+
-                      DoubleToString(ExtSarStep,2)+","+
-                      DoubleToString(ExtSarMaximum,2)+")");
-//--- set global variables
+   string short_name=StringFormat("SAR(%.2f,%.2f)",ExtSarStep,ExtSarMaximum);
+   PlotIndexSetString(0,PLOT_LABEL,short_name);
+
    ExtLastRevPos=0;
    ExtDirectionLong=false;
-//----
   }
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
@@ -74,10 +74,9 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-//--- check for minimum rates count
    if(rates_total<3)
       return(0);
-//--- detect current position 
+//--- detect current position
    int pos=prev_calculated-1;
 //--- correct position
    if(pos<1)
@@ -94,7 +93,7 @@ int OnCalculate(const int rates_total,
       ExtEPBuffer[1]=low[pos];
      }
 //---main cycle
-   for(int i=pos;i<rates_total-1 && !IsStopped();i++)
+   for(int i=pos; i<rates_total-1 && !IsStopped(); i++)
      {
       //--- check for reverse
       if(ExtDirectionLong)
@@ -173,27 +172,33 @@ int OnCalculate(const int rates_total,
             ExtSARBuffer[i+1]=MathMax(high[i],high[i-1]);
         }
      }
-//---- OnCalculate done. Return new prev_calculated.
+//--- OnCalculate done. Return new prev_calculated.
    return(rates_total);
   }
 //+------------------------------------------------------------------+
 //| Find highest price from start to current position                |
 //+------------------------------------------------------------------+
-double GetHigh(int nPosition,int nStartPeriod,const double &HiData[])
+double GetHigh(int curr_pos,int start,const double& high[])
   {
-//--- calculate
-   double result=HiData[nStartPeriod];
-   for(int i=nStartPeriod;i<=nPosition;i++) if(result<HiData[i]) result=HiData[i];
+   double result=high[start];
+//---
+   for(int i=start+1; i<=curr_pos; i++)
+      if(result<high[i])
+         result=high[i];
+//---
    return(result);
   }
 //+------------------------------------------------------------------+
 //| Find lowest price from start to current position                 |
 //+------------------------------------------------------------------+
-double GetLow(int nPosition,int nStartPeriod,const double &LoData[])
+double GetLow(int curr_pos,int start,const double& low[])
   {
-//--- calculate
-   double result=LoData[nStartPeriod];
-   for(int i=nStartPeriod;i<=nPosition;i++) if(result>LoData[i]) result=LoData[i];
+   double result=low[start];
+//---
+   for(int i=start+1; i<=curr_pos; i++)
+      if(result>low[i])
+         result=low[i];
+//---
    return(result);
   }
 //+------------------------------------------------------------------+

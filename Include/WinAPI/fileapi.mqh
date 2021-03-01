@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                                      fileapi.mqh |
-//|                        Copyright 2018, MetaQuotes Software Corp. |
+//|                        Copyright 2020, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include <WinAPI\windef.mqh>
@@ -131,7 +131,7 @@ void   SetFileApisToANSI(void);
 void   SetFileApisToOEM(void);
 int    SetFileAttributesW(const string file_name,uint file_attributes);
 int    SetFileInformationByHandle(HANDLE file,FILE_INFO_BY_HANDLE_CLASS FileInformationClass,FILE_INFO &file_information,uint buffer_size);
-int    SetFileIoOverlappedRange(HANDLE FileHandle,uchar &OverlappedRangeStart,ulong Length);
+int    SetFileIoOverlappedRange(HANDLE FileHandle,uchar &OverlappedRangeStart,uint Length);
 uint   SetFilePointer(HANDLE file,long distance_to_move,long &distance_to_move_high,uint move_method);
 int    SetFilePointerEx(HANDLE file,long distance_to_move,long &new_file_pointer,uint move_method);
 int    SetFileTime(HANDLE file,FILETIME &creation_time,FILETIME &last_access_time,FILETIME &last_write_time);

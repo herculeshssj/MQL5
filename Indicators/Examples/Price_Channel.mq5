@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                               Price_Channell.mq5 |
-//|                   Copyright 2009-2017, MetaQuotes Software Corp. |
+//|                   Copyright 2009-2020, MetaQuotes Software Corp. |
 //|                                              http://www.mql5.com |
 //+------------------------------------------------------------------+
-#property copyright "2009-2017, MetaQuotes Software Corp."
+#property copyright "2009-2020, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
 //--- indicator settings
 #property indicator_chart_window
@@ -34,49 +34,19 @@ void OnInit()
    IndicatorSetInteger(INDICATOR_DIGITS,_Digits);
 //--- set first bar from what index will be drawn
    PlotIndexSetInteger(0,PLOT_DRAW_BEGIN,InpChannelPeriod);
-//---- line shifts when drawing
+//--- line shifts when drawing
    PlotIndexSetInteger(0,PLOT_SHIFT,1);
    PlotIndexSetInteger(1,PLOT_SHIFT,1);
 //--- name for DataWindow and indicator label
-   IndicatorSetString(INDICATOR_SHORTNAME,"Price Channel("+string(InpChannelPeriod)+")");
-   PlotIndexSetString(0,PLOT_LABEL,"Channel("+string(InpChannelPeriod)+") upper;Channel("+string(InpChannelPeriod)+") lower");
-   PlotIndexSetString(1,PLOT_LABEL,"Median("+string(InpChannelPeriod)+")");
+   string short_name=StringFormat("Price Channel(%d)",InpChannelPeriod);
+   IndicatorSetString(INDICATOR_SHORTNAME,short_name);
+   short_name=StringFormat("Channel(%d) upper;Channel(%d) lower",InpChannelPeriod,InpChannelPeriod);
+   PlotIndexSetString(0,PLOT_LABEL,short_name);
+   short_name=StringFormat("Median(%d)",InpChannelPeriod);
+   PlotIndexSetString(1,PLOT_LABEL,short_name);
 //--- set drawing line empty value
    PlotIndexSetDouble(0,PLOT_EMPTY_VALUE,0.0);
    PlotIndexSetDouble(1,PLOT_EMPTY_VALUE,0.0);
-//--- initialization done
-  }
-//+------------------------------------------------------------------+
-//| get highest value for range                                      |
-//+------------------------------------------------------------------+
-double Highest(const double &array[],int range,int fromIndex)
-  {
-   double res;
-   int i;
-//---
-   res=array[fromIndex];
-   for(i=fromIndex;i>fromIndex-range && i>=0;i--)
-     {
-      if(res<array[i]) res=array[i];
-     }
-//---
-   return(res);
-  }
-//+------------------------------------------------------------------+
-//| get lowest value for range                                       |
-//+------------------------------------------------------------------+
-double Lowest(const double &array[],int range,int fromIndex)
-  {
-   double res;
-   int i;
-//---
-   res=array[fromIndex];
-   for(i=fromIndex;i>fromIndex-range && i>=0;i--)
-     {
-      if(res>array[i]) res=array[i];
-     }
-//---
-   return(res);
   }
 //+------------------------------------------------------------------+
 //| Price Channell                                                   |
@@ -92,16 +62,17 @@ int OnCalculate(const int rates_total,
                 const long &volume[],
                 const int &spread[])
   {
-   int i,limit;
-//--- check for rates
    if(rates_total<InpChannelPeriod)
       return(0);
+
+   int start;
 //--- preliminary calculations
    if(prev_calculated==0)
-      limit=InpChannelPeriod;
-   else limit=prev_calculated-1;
+      start=InpChannelPeriod;
+   else
+      start=prev_calculated-1;
 //--- the main loop of calculations
-   for(i=limit;i<rates_total && !IsStopped();i++)
+   for(int i=start; i<rates_total && !IsStopped(); i++)
      {
       ExtHighBuffer[i]=Highest(high,InpChannelPeriod,i);
       ExtLowBuffer[i]=Lowest(low,InpChannelPeriod,i);
@@ -109,5 +80,27 @@ int OnCalculate(const int rates_total,
      }
 //--- OnCalculate done. Return new prev_calculated.
    return(rates_total);
+  }
+//+------------------------------------------------------------------+
+//| get highest value for range                                      |
+//+------------------------------------------------------------------+
+double Highest(const double& array[],const int range,const int from_index)
+  {
+   double res=array[from_index];
+   for(int i=from_index-1; i>from_index-range && i>=0; i--)
+      if(res<array[i])
+         res=array[i];
+   return(res);
+  }
+//+------------------------------------------------------------------+
+//| get lowest value for range                                       |
+//+------------------------------------------------------------------+
+double Lowest(const double& array[],const int range,const int from_index)
+  {
+   double res=array[from_index];
+   for(int i=from_index-1; i>from_index-range && i>=0; i--)
+      if(res>array[i])
+         res=array[i];
+   return(res);
   }
 //+------------------------------------------------------------------+
