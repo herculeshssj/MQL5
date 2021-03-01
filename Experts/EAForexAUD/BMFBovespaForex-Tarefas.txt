@@ -1,0 +1,526 @@
+BMFBovespaForex - Lista de tarefas
+
+========== Tarefas em andamento ==========
+
+#84 - Integração com Telegram
+      Implementar a integração com Telegram para que eu possa interagir com o EA remotamente. Artigo: "https://www.mql5.com/en/articles/2355".
+
+#85 - Mais estratégias de negociação
+      Implementar estratégias com todos os indicadores mostrados nesse artigo: "https:/ /www.mql5.com/pt/articles/1518".
+
+========== Novas tarefas ==========
+      
+#86 - Criar struct para parâmetros do EA
+      Criar um struct para poder setar os parâmetros definidos no EA, a fim de recuperá-los via arquivo.
+      O struct será estruturado da seguinte forma:
+      struct EAParams
+      - ENUM_TIPO_PARAMETRO
+      - valorChar;
+      - valorShort;
+      - valorInt;
+      ...
+      A estrutura terá os seguintes tipos de dados: char, short, int, long, uchar, ushort, uint, ulong, bool, string, double, float e datetime.
+      O arquivo irá salvar um array de EAParams.
+      
+#88 - Parar de operar ao alcançar lucro/prejuízos máximos
+      Usando as ideias contidas no tópico do fórum "https://www.mql5.com/pt/forum/273536", implementar um método em HMoney que retorne o valor máximo de lucro/perda obtido pelo EA para que o mesmo pare de operar. No caso da BM&FBovespa,
+      o stop ocorre diariamente. Para o Forex o stop ocorre semanalmente.
+      
+#89 -       
+
+
+https://www.mql5.com/en/forum/215628 <- analisar melhor
+https://www.mql5.com/pt/forum/23409 <- transformar em tarefas
+https://www.mql5.com/pt/articles/358 <- avaliar os indicadores semáforos
+https://www.mql5.com/pt/forum/16503 <- estudar mais a fundo
+https://www.mql5.com/pt/articles/2599 <- somente guardar os exemplos na pasta MQL5
+https://forexsucessodigital.com/2015/09/viver-de-forex-ganhar-dinheiro-internet.html
+https://forexsucessodigital.com/2013/02/aprenda-como-dominar-o-price-action-para-forex.html
+https://www.mql5.com/pt/forum/32454/unread#unread
+https://www.mql5.com/en/blogs/post/713658
+https://www.mql5.com/pt/articles/69
+https://www.mql5.com/en/blogs/post/675611
+Artigos:
+https://www.mql5.com/pt/articles/442
+https://www.mql5.com/pt/articles/171
+https://www.mql5.com/pt/articles/134
+https://www.mql5.com/pt/articles/2717
+https://www.mql5.com/pt/articles/2411
+http://expertadvisorbook.com/expert-advisor-programming-for-metatrader-5/
+https://dicionariodoinvestidor.com.br/content/o-que-e-media-movel-aritmetica-simples-mma-mms/
+https://www.mql5.com/pt/articles/1334
+https://www.mql5.com/pt/articles/101
+https://www.mql5.com/pt/code/327
+https://www.mql5.com/pt/articles/1367
+https://www.mql5.com/pt/articles/1971
+https://www.mql5.com/pt/articles/2355
+https://www.mql5.com/pt/forum/316464 <- informações sobre uma negociação
+https://www.mql5.com/pt/docs/calendar <- funções do calendário econômico
+https://www.mql5.com/pt/articles/5008
+
+
+========== Tarefas concluídas ==========
+
+v1.15:
+Liberação: 01/09/2019
+Número de linhas de código: 10.000
+
+#87 - Stop loss e take profit padrão
+      Colocar uma implementação padrão para stop loss e take profit no HStrategy. Caso a estratégia não queira definir, ela é obrigada a sobrescrever os dois métodos.      
+
+v1.14:
+Liberação: 10/08/2019
+Número de linhas de código: 7.011
+
+#26 - Reversão da tendência
+      Ver um indicador que permita identifica quando ocorre uma reversão de uma tendência, ou consiga com o máximo de precisão possível determinar que aquela posição precisa ser fechado em virtude de uma reversão na tendência. O indicador
+      mais cotado para isso é o próprio NRTR, pois ele indica sinais de tendência em alta (pontos azuis) e tendência em baixa (pontos vermelhos).      
+      Solução adotada: pode-se chamar direto na confirmação do sinal um método em COrder para fechar todas as posições abertas para o símbolo selecionado. Não é o melhor local para realizar tal chamada, mas para a estrutura atual do EA
+      funciona adequadamente. Para que a reversão ocorra é necessário uma atributo de instância que guarda qual foi o sinal anterior, e compare com o sinal que está sendo confirmado. Se forem diferente, as posições abertas são
+      encerradas para uma nova posição da direção contrária possa ser aberta.
+
+#27 - Otimizar o EA com o profile
+      Os testes com o EA estão demorando muito e consumindo muita memória. Creio que seja por conta da quantidade de cálculo que precisa ver feita para o trailing stop. Rodar o EA em modo profile para identificar quais são os pontos de 
+      gargalo. Esse teste é importante para o EA não consumir muita memória e CPU no VPS na Amazon AWS.
+      Solução adotada: o conselho é não operar com muitos gráficos no VPS, para não consumir muita memória. A nível de processamento está bom, mesmo para um Core.
+
+#33 - Estudo: mais proteções financeiras para a conta
+      Baseado nas informações constantes no artigo "https://www.mql5.com/pt/articles/22", implementar mais proteções financeiras para não zerar a conta e não trabalhar no limite da margem disponível para negociação. Esse artigo pode ajudar
+      também a determinar o nível adequado de stop loss após o cálculo do trailing stop.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+      
+#34 - Notificação do ambiente de produção
+      Implementar sinais de alerta quando o EA identificar que as condições do terminal ou do SO não são favoráveis para operar, como por exemplo falta de espaço em disco e pouco memória RAM.
+      Quando as condições do ambiente não forem favoráveis para operar, verificar se todas as posições pendentes estão com stop loss e take profit, encerrar as ordens pendentes, desligar o trailing stop, e ignorar os ticks que são
+      recebidos pelo EA, até que o ambiente tenha novamente condições favoráveis para operar.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+
+#43 - Estratégia com osciladores
+      Fazer testes com sinais de negociação usando os osciladores RVI e Williams' Percent Range para cenários onde o ativo não segue uma tendência definida. Testar também o RSI, o Estocástico e demais osciladores disponíveis no
+      MetaTrader 5.
+      Usar o conteúdo deste artigo para ajudar: "https://www.mql5.com/pt/articles/288"
+      Obs1: os indicadores do artigo foram implementados.
+      Obs2: contratos cheios de índice funcionam bem com osciladores, mais especificamente o INDQ19 no timeframe M5 com estocástico nas configurações padrão.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+
+#54 - Artigo: negociação com inside bar
+      Artigo que explica os padrões inside bar e elabora um EA para trabalhar com esta estratégia. Link: "https://www.mql5.com/pt/articles/1771". Atenção: o código do EA foi escrito usando MQL4, será necessário adaptar o código.
+      Solução adotada: foram feitas modificações no EA para poder suportar a estratégia que precisava abrir suas próprias ordens stop. Nos testes preliminares a estratégia fica no zero a zero quando executado no AUSUSD-H4. É necessário
+      mais backtesting para poder identificar oportunidades com esta estratégia.
+
+#55 - Estratégias nos seus respectivos MQH
+      Implementar os 20 sinais de negociação ("https://www.mql5.com/pt/articles/130"), identificar os sinais e depois colocá-los nos seus respectivos arquivos MQH para testes no futuro.
+      Obs: todos os sinais citados no artigo foram implementados como estratégias.
+
+#56 - Estratégia Indicador Tabajara
+      Implementar uma estratégia de negociação com o indicador Tabajara.
+      Solução adotada: implementado a estratégia com o indicador tabajara.
+
+#57 - Estratégia Buying-Selling Pressure
+      Implementar uma estratégia de negociação com o indicador Buying-Selling Pressure.
+      Solução adotada: implementado uma estratégia de negociação usando o indicador. É necessário fazer vários backtestings para identificar qual cenário ele é lucrativo ou gera prejuízos. Nos testes preliminares, um mercado em tendência
+      a estratégia gera posições lucrativas. Em mercados que possuem muita reversão a estratégia gera muitos stop loss.
+
+#58 - Estratégias indicadores adaptativos
+      Implementar estratégias para os indicadores adaptativos.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs  
+
+#60 - Estratégia padrão
+      Nos casos de não haver uma estratégia definida para um ativo, usar uma estratégia padrão baseada nos sinais de Moving Average.
+      Obs: a estratégia BMFBovespaForex já é minha estratégia padrão.
+
+#66 - Artigo "Como, na MetaTrader 5, desenvolver e depurar rapidamente sua estratégia de negociação"      
+      Desenvolver as técnicas apresentadas no artigo "https://www.mql5.com/pt/articles/2661". São interessantes para aprimorar a análise das estratégias de negociação.
+      Obs: as dicas não foram estudadas por conta de descontinuidade de operar com daytrade usando robôs.
+
+#67 - Avaliar o desempenho do EA
+      Usando as dicas e sugestões apresentadas no artigo "https://www.mql5.com/pt/articles/2555", avaliar o desempenho do EA, e fazer todos os ajustes necessários como se ele fosse ir para a publicação no Mercado MetaQuote.
+      Solução adotada: o EA trabalha bem no VPS na Amazon AWS, desde que não opere com muitos gráficos por conta da quantidade de memória disponível (1 GB).
+
+#68 - Estratégia dinâmica
+      Usar o conhecimento de orientação a objetos apresentado nos artigos "https://www.mql5.com/pt/articles/36" e "https://www.mql5.com/pt/articles/28" para implementar estratégia dinâmica.
+      Estratégia dinâmica seria uma forma do EA mudar sua estratégia atual por outra mais lucrativa baseado no histórico de negociações e na tendência do ativo, de forma e minimizar as perdas e manter o ritmo dos lucros.
+      Solução adotada: seria necessário fazer cache das informações do história de negociações para fazer a mudança dinâmica das estratégias, fora que todos os indicadores utilizados precisariam ser instanciados. Seria necessário estudar
+      mais a fundo a criação dinâmica de indicadores para viabilizar uma mudança dinâmica das estratégias.
+
+#74 - Comparar RSI com MACD e Estocástico com XAUAUD
+      Comparar o desempenho do oscilador RSI com o MACD e Estocástico no XAUAUD para saber qual tem o melhor desempenho. Dependendo dos resultados, pode-se criar uma estratégia para o sinal RSI operar com XAUAUD.
+      Solução adotada: foi decidido utilizar o XAUUSD e XAUEUR pois eles mantêm ao longo de 2019 um movimento de preços mais bem definidos, seja seguindo uma tendência, seja acompanhando um ritmo constante de oscilação. O ativo XAUAUD
+      foi descartado e não será mais foco de análise.
+
+#75 - Estratégia GBPAUD com CCI
+      Avaliar o oscilador CCI no ativo GBPAUD a fim de identificar oportunidades para operar com o ativo. Nos backtesting iniciais o ativo teve um bom desempenho quando executou no 1º semestre de 2019, não sendo tão lucrativo no bimestre
+      Junho-Julho/2019.
+      Observação: o indicador funcionou bem no 1º semestre. No meu de julho começou a acumular perdas, indicando que o ciclo de alta acabou. Realizando o backtesting com o ativo no período de Junho-Agosto, a estratégia que se saiu melhor 
+      foi Price Channel.
+
+#76 - Oscilador Williams (%) como sinal de permanência
+      Avaliar o oscilador William's Percent Range (%) como sinal de permanência nas posições. Nos backtesting iniciais o oscilador não gera bons sinais de negociação, mas indica momentos para manter ou reverter a posição aberta. Assim,
+      pode ser útil para indicar pontos de saída ou de permanência na negociação de acordo com a tendência.
+      Avaliar o oscilador junto com o ADX+MA e MACD com os pares XAU. Nos testes foram os que deram bons resultados ao longo de 2019.
+      Solução adotada a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+
+#80 - Cálculo de margem para criptomoeda
+      Na Pepperstone os CFDs para criptomoedas estão em USD, e não em AUD. Quando é feito o cálculo de margem, a função entende que está trabalhando com par reverso, quando na verdade não está, realizado o cálculo para Forex:
+      "Margin:  Lots * Contract_Size / Leverage * Margin_Rate"
+      Quando na verdade, a fórmula deveria ser esta:
+      "Margin: Lots * ContractSize * MarketPrice * Margin_Rate"
+      Além disso os contratos para criptomoeda tem tamanho 1.0, e não 100, 1000 ou 100.000 como os demais ativos, fazendo com que a fórmula saia errado. 
+      Tentar fazer estas correções para operar criptomoedas, e testar outros CFDs para saber se as correções irão valer para eles também.
+      Solução adotada: a estratégia com osciladores não foi adiante em virtude da descontinuidade de realizar daytrade com robôs
+
+#81 - BUG - problema com stop loss
+      Quando ocorre uma alta ou queda muitíssimo acentuada, os valores do stop loss praticamente ficam iguais aos preços de compra/venda no momento, e gerando assim um stop muito antecipado. Analisar e corrigir o erro em questão.
+      Solução adotada: stop loss e take profit fixos. Não será usado o NRTR para definição do stop loss inicial.
+
+#82 - Aprimorar a estratégia atual
+      No backtesting de comparação da estratégia atual com as demais implementadas, o cruzamento MA Curta-Ágil é bem mais lucrativa. Modificar a estratégia atual para ficar mais próximo dos ganhos do cruzamento MA Curta-Ágil.
+      Solução adotada: definir take profit fixo, ordens sem stop loss inicial, limite máximo de perda em 50, estratégia unicamente baseada em Cruzamento MA Curta-Ágil com confirmação NRTR. Estas mudanças permitiram outros símbolos se
+      destacassem e mostrassem excelente desempenho ao longo do ano, podendo seguir com a tendência de altos ganhos até o fim do ano.      
+
+#83 - Implementação de estratégia
+      Preciso de um robô que opere quando vários fatores se alinharem, WMA, MACD, RVI, ATR e algumas outras condições. Mais detalhes estão no PDF.
+      Obs: o freelance de exemplo foi denominado "Job".
+      Solução adotada: a estratégia foi implementada conforma as orientações do PDF. Contudo, a estratégia não é lucrativa quando se aplica nos ativos informados, mas por conta do valor do ATR que é muito pequeno para o stop loss e take 
+      profit.      
+
+v1.13:
+Liberação: 04/08/2019
+Linhas de código: 5249
+
+#40 - Aumentar o volume de novas ordens automaticamente
+      Implementar o aumento do valor das ordens toda vez que o saldo da conta atingir o capital inicial. O EA irá armazenar o valor do capital inicial da conta ao iniciar, e irá verificar se o saldo da conta superou o capital inicial. Se 
+      sim, aumenta em 0.1 (Forex) ou 1 (Bovespa). Por exemplo: capital de $ 500 chegou em $ 1000, o volume sai de 0.1 para 0.2; no caso da Bovespa, o volume de contratos sai de 1 e vai para 2 contratos por ordem. E toda vez que o saldo da
+      conta superar o capital inicial multiplicado pelo tamanho do lote, aumento em 1 ou 0.1 o tamanho do lote.      
+      Obs: trabalhar melhor no valor do prejuízo máximo aceitável, pois ele foi o principal responsável por gerar muitos fechamentos, e desperdiçar boas oportunidades de ganho.
+      Solução adotada: implementado aumento e redução do volume baseado no valor da margem e no saldo disponível na conta. Implementado também a proteção do saldo, onde a cada 100 de saldo adicional da conta o EA garante que o tamanho do 
+      lote das próximas posições não comprometa o valor obtido.
+
+#72 - Estratégias específicas para XAU
+      Após análise dos backtesting com XAUAUD, XAUUSD e XAUEUR, e avaliar um desempenho satisfatório com os osciladores, decidiu-se criar estratégias bem específicas para cada um dos três pares. Então será implementado as seguintes
+      estratégias em um arquivo MQH separado:
+      - Estratégia XAUAUD com estocástico - Sinais do estocástico com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUAUD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUEUR com MACD - Sinais do MACD com notificação de perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de perda maior que 35, para gráfico de 1 hora (H1).
+      Solução adotada:
+      - Estratégia XAUAUD com estocástico - Sinais do estocástico com notificação de lucro/perda maior que 35, para gráfico de 1 hora (H1);
+      - Estratégia XAUUSD com MACD - Sinais do MACD com notificação de lucro/perda maior que 35, para gráfico de 30 minutos (M30);
+      - Estratégia XAUEUR com ADX+MA exponencial - Sinal ADX com confirmação de MA exponencial, com notificação de lucro/perda maior que 35, para gráfico de 1 hora (H1).
+      As três estratégias foram implementadas no arquivo HForexXAU.
+
+#77 - Avaliar estratégia com AMA
+      Avaliar uma estratégia de negociação usando AMA para o ativo AUDUSD. Este ativo possui ciclos de tendência, e seria ideal para trabalhar com AMA.
+      Avaliar também com outros indicadores para poder gerar sinais de negociação ou sinais de confirmação.
+      E ver se o AMA pode ser usado como sinal de permanência e saída das negociações.
+      Solução adotada: foi criado a estratégia Forex-AMA e nos backtestings a estratégia se saiu melhor (a nível de perdas financeiras) do que a estratégia atual, sendo uma boa alternativa pra quando a estratégia atual deixar de ser
+      lucrativa ou o ativo AUDUSD se tornar muito volátil. É necessário estudar meios de reversão da posição, pois esse é uma das causas das perdas por stop loss.
+
+#78 - Aumentar o ganho garantido
+      Aumentar em 5% o ganho garantido e o percentual de aumento para a estratégia BMFBovespaForex. Pode-se obter um lucro adicional fazendo estes aumento nos valores.
+      Solução adotada: foi aumentado em 5% o ganho garantido e o percentual de garantia. O percentual de garantia foi mantido em 20%, e o ganho garantido em 90%.
+
+#79 - Diminiur a perda máxima permitida
+      Atualmente a perda máxima está definida para 50. Acontece que até o presente momento as posições encerradas em virtude de stop loss não deram perdas superiores a 20. Portanto, faz sentido diminuir para 25 a perda máxima, protegendo
+      ainda mais o capital e permitindo operar por mais tempo.
+
+v1.12:
+Liberação: 21/07/2019
+
+#62 - Montar ambiente de testes
+      Atualmente quando eu implemento uma nova estratégia, ou faço atualizações significativas na estrutura do EA, os testes de validação ocorrem praticamente em ambiente de produção, culminando em perdas financeiras não esperadas. A
+      partir de agora, usar a conta de demonstração como testes, e montar uma conta/servidor para testes, para validar as alterações realizadas, e assim minimizar as perdas financeiras.
+      Ideia de fluxo:
+      1º - fazer todos os testes em ambiente local, para validar as implementações realizadas;
+      2º - subir as mudanças em uma instância local para rodar de 24h a 72h (Forex), de 1 a 3 pregões (B3) para identificar possíveis erros não vistos em ambiente de desenvolvimento. Rodar em conta de demonstração;
+      3º - subir as mudanças para uma instância remota (AWS) e deixar rodando 1 semana initerrupta;
+      4º - por fim, subir para a instância remota (AWS) rodando nas contas de produção.
+      Solução adotada: será usado uma conta de usuário diferente na instância para poder rodar a estrátegia na conta de demonstração. Estando tudo ok, a estratégia passará a rodar na conta de usuário onde a conta real da Pepperstone está
+      configurada.
+      
+#69 - Notificação ao usuário na estratégia
+      Melhorar a classe CStrategy para oferecer o recurso de notificação ao usuário. Cada estratégia de negociação implementará sua própria forma de informar o andamento das negociações ao usuário.            
+
+#70 - Estratégia do EAIniciante
+      Implementar uma estratégia que use os mesmos sinais de negociação do ArtigoEAIniciantes. O EA usa o indicador ADX com confirmação de média móvel.      
+      
+#71 - Estratégia do TradeByATR
+      Implementar uma estratégia que use os mesmos sinais de negociação do TradeByATR, EA obtido da documentação do MQL5. O EA gera os sinais de negociação a partir do indicador ATR.            
+
+#73 - Excluir estratégia ForexXAU
+      Não será mais necessária, uma vez que haverá uma estratégia para cada par XAU.           
+
+v1.11:
+Liberação: 13/07/2019
+
+#59 - Estratégia Dunnigan
+      Recuperar no código fonte dos demais EAs o código de sinal de negociação do Dunnigan. 
+
+#61 - Rever os horários de negociação
+      Com a inclusão do Bitcoin operando no timeframe H4, é necessário rever o método que controla os horários das negociações, para poder garantir que as novas posições sejam abertas na segunda após a 1h da manhã, e encerradas às 23h de 
+      sexta, independente do timeframe que o ativo está operando.
+
+#63 - Ativos que funcionam com BMFBovespaForex
+      Dentre todos os pares disponíveis para as moedas USD, CAD, AUD, EUR, GBP, NZD, CHF e JPY, vê quais pares funcionam bem com a estratégia BMFBovespaForex, de modo a gerar poucos perdas e algum lucro ao longo do tempo.
+      Solução adotada: todos os pares das moedas citadas serão usadas para avaliar novas estratégias daqui pra frente.
+
+#64 - BMFBovespaForex - limitar perdas
+      O ativo XAUAUD trabalham bem com a estratégia BMFBovespaForex, contudo gera muitas perdas. Implementar um limite de perdas máximas para poder gerar o sinal de saída das posições. Avaliar quais valores ficam legais: 
+      20, 25, 30, 35, 40, 45 ou 50.
+      Solução adotada: as perdas foram fixadas em 50. Ainda não se chegou a uma conclusão para XAUAUD.      
+      
+#65 - Estratégia Dunnigan + NRTR + MA (20 ou 50)      
+      Estratégia de negociação onde os sinais de negociação são disparados por Dunnigan e confirmados pelo NRTR. A média móvel exponencial de 20 e 50 períodos será usada como guia, para poder avaliar a tendência atual do ativo.
+      Avaliar a melhor saída de negociação: quando o candle cruzar a MA de 20 ou 50 períodos, ou por lucro/prejuízos máximos alcançados.
+      Avaliar também se vale a pena gerar sinais de negociação com o NRTR e a MA. À princípio não será necessário pois Dunnigan é um indicador muito rápido, e sempre tentará abrir novas posições após a formação de uma nova barra.
+      Solução adotada: implementado uma estratégia somente para Dunnigan, e implementado uma estratégia com Dunnigan com confirmação do NRTRvolatile.
+ 
+v1.10:
+Liberação: 07/07/2019
+
+#47 - Testar a estratégiao BMFBovespaForex com outros ativos
+      Testar a estratégiao BMFBovespaForex com outros ativos, e fazer os ajustes necessários para evitar grandes perdas financeiras.
+      Avaliar também quais ativos seguem tendência ao longo do tempo, e quais aqueles que oscilam muito.
+      Solução adotada: a estratégia funciona bem com ativos que seguem tendências definidas. Os ativos que oscilam muito ou são muito laterais geram muitos sinais falsos. Conclusão, a estratégia só funciona com ativos que estão em tendência.
+
+#49 - Redução de perdas
+      Avaliar uma forma de reduzir as perdas financeiras quando novas posições são abertas na direção contrárias a tendência, ou numa eventual mudança de tendência. Aplicar os resultados da análise na estratégia ForexXAU, que nos 
+      backtestings está gerando perdas financeiras acima de AU$ 100.      
+      Obs1: Para minicontratos foi estabelecido via código um limite de R$ 50 para perdas. Nos backtesting realizados até o momento o resultado foi satisfatório.
+      Solução adotada: toda as estratégias constante no HBMFBovespaForex tem estratégias de saída baseado no lucro e/ou prejuízos máximos.
+
+#50 - Gestão financeira para minicontrato
+      Implementar recursos de gestão financeira adequados para operar com minicontrato de índice. Verificar se a estratégia de gestão financeira funciona bem com contratos cheios.      
+      Obs: por hora foi incluído uma verificação para poder garantir parte do lucro em minicontrato e contrato cheio.
+      Obs2: para minicontratos foi estabelecido via código um limite de R$ 50 para perdas. Nos backtesting realizados até o momento o resultado foi satisfatório.
+
+#51 - Habilitar operar com CFD
+      Ao tentar operar com CFD de criptomoedas não é gerado nenhum sinal de negociação. Fazer os ajustes necessários para poder operar adequadamente esta categoria de ativos.
+      
+#52 - BUG - Invalid prices ao fechar posições
+      Tem momentos que as classes nativas do MetaTrader não conseguem encerrar as posições abertas pois o preço de mercado está incorreto. O problema ocorre especificamente com minicontratos e contratos cheios de índice. Tentar encontrar
+      uma alternativa para este problema.
+      Solução adotada: implementado um método em COrder para fechar as posições abertas.            
+      
+#53 - Estratégia para ouro (XAU)
+      Fazer os ajustes necessários na estratégia ForexXAU para trabalhar com XAUAUD, XAUUSD e XAUEUR.
+      Solução adotada: Nos backtestings feitos com os dados de 2019 (Jan a Jun) mostraram que sem o controle de lucro garantido as negociações são bem mais lucrativas. Contudo, é necessário ter saldo na conta, uma vez que pode haver 
+      perdas consecutivas em virtude do stop loss. XAUUSD e XAUEUR se saíram melhores com esta estratégia montada.
+      O controle de lucro garantido foi removido da estratégia, ficando somente o controle de perdas.      
+
+v1.09:
+Liberação: 30/06/2019
+
+#41 - Avaliar ponto de abertura para novas posições
+      Avaliar qual é o melhor ponto para realizar a abertura de novas posições usando o cruzamento de MA: nova barra, OnTick ou OnTimer. Esta avaliação e eventual mudança é exclusiva para Forex.
+      Solução adotada: nos testes feitos realizar a abertura de novas posições após a formação de uma nova barra é a melhor opção. Abrir de outras formas não é tão efetivo. Foi definido que cada estratégia possuirá seu ponto de abertura
+      de posições.
+
+#45 - Interface para estratégias
+      Elaborar uma interface para implementar as estratégias de negociação. A interface terá os seguintes métodos:
+      - init() -> inicializa as variáveis e indicadores utilizado pela estratégia
+      - release() -> desaloca todas as variáveis e indicadores utilizado pela estratégia
+      - sinalNegociacao() -> sinal para efetuar a compra/venda
+      - sinalConfirmacao() -> sinal que confirma o sinal de compra/venda
+      - sinalSaidaNegociacao() -> sinal que é disparado quando uma condição de fechamento da posição é satisfeita
+      No código do EA tem que prever que a estratégia pode ser disparada no evento OnTick() ou no OnTimer(), e também na abertura de novas barras.      
+      
+#46 - Estratégia conjunta MA + oscilador
+      Implementar uma estratégia conjunta com cruzamento de MA e o oscilador estocástico, onde tanto as MAs quanto o estocástico geram sinais de negociação, mais um consulta ao outro para as novas posições fiquem sempre a favor da
+      tendência. Testar a estratégia em todos os ativos operados até o presente momento.      
+      Solução adotada: implementação estratégia onde obtém o sinal de confirmação do cruzamento de MA, estocástico e do NRTR, com confirmação do NRTR e posição da barra anterior em relação a MA 20, de modo que nos testes preliminares
+      foi possível obter uma grande quantidade de operações com lucro no AUDUSD.      
+      
+#48 - Acerto na confirmação do sinal do NRTR
+      O sinal do NRTR não é confirmado a partir da posição da barra anterior em relação a MA 20. Atualmente essa confirmação está ocorrendo para todos os sinais.
+      Solução adotada: introduzido um novo sinal de negociação específico para o NRTR.            
+
+v1.08:
+Liberação: 26/06/2019
+      
+#44 - Criar limite para perda financeira
+      Na rotina que realiza o cálculo dos ganhos, incluir uma restrição para as perdas, limitando da mesma forma que o cálculo inicial do limite garantido.      
+
+v1.07:
+Liberação: 21/06/2019
+
+#13 - BUG - abrindo mais de uma posição para o mesmo símbolo
+      Analisar o código de verificação de posições e de fechamento porque o EA está permitindo abrir mais de uma posição para o mesmo ativo, tanto de compra quanto de venda.
+      Solução adotada: depois das últimas mudanças realizadas, não foi mais detectado esse bug.
+      
+#36 - Definir um stop loss ao abrir posição
+      Hoje em dia o EA abre novas posições sem stop loss definido. A ideia é usar o valor do NRTR e definir um stop loss para a posição que foi aberta, assim evitando grandes perdas financeiras.      
+      
+#37 - Salvar os parâmetros do EA em arquivo
+      Usando as funções disponíveis em "https://www.mql5.com/pt/docs/files", salvar os parâmetros do EA em arquivo, mais especificamente o magic number do EA, pois o mesmo precisa ser único por ativo.
+      Lembrar de versionar a pasta MQL5\Files, onde ficará as configurações para cada gráfico.
+      O magic number deverá ser gerado a partir da data atual que ele foi carregado pela primeira vez no gráfico, no formato YYYYMMDD.
+      O nome do arquivo será: MAGICNUMBER_SIMBOLO.bin
+
+#38 - Determinar stop loss e take profit automaticamente
+      Usar os valores fornecidos pelo NRTR para setar os stop loss e take profit das ordens automaticamente. A ideia é obter os valores de suporte e resistência do indicador, e setar esses valores na ordem, garantindo assim pontos de 
+      parada caso o EA perca a conexão com o servidor da corretora.      
+      
+#39 - Trailing gain para garantir ganhos
+      Implementar a seguinte estratégia para gain móvel: toda vez que se obter o lucro alvo (implementado no trecho de código que envia as notificações de mensagens), é definito um take profit de 80% do valor na posição. Por exemplo: o 
+      lucro chegou em $ 10, é setado na posição um take profit correspondente ao lucro de $ 8; caso suba $ 20, é garantido 80% ($ 16), e assim por diante.
+      Após de implementado o trailing gain, avaliar qual o melhor lugar para adicioná-lo: a cada minuto, no método OnTimer(), ou a cada tick, no método OnTick().
+      Dar uma lida neste artigo para ajudar: "https://www.mql5.com/pt/articles/3621"      
+      Observação: o contador criado foi substituído por porcentagem. O incremento ocorre a cada 20% do lucro garantido.
+      
+#42 - Identificar automaticamente o mercado que estou operando
+      Identificar qual o mercado que estou operando (Bovespa ou Forex) a partir do ativo selecionado.            
+
+v1.06:
+Liberação: 18/06/2019
+
+#35 - BUG - posições sendo fechadas às 23h
+      Corrigir bug na lógica de verificação do horário do pregão Forex, pois todas as ordens continuam fechando às 23h todos os dias, e não somentes às sextas 23h.
+
+v1.05:
+Liberação: 16/06/2019
+
+#4 - Testar o EA em todas as contas abertas
+     Fazer um teste de execução do EA em todas as contas MetaTrader abertas (Clear, ModalMais, XM, Pepperstone e ICMarkets), e identificar quais ajustes adicionais precisam ser realizados para o EA ser o mais compatível possível pelo menos
+     para as contas que foram abertas.
+     Solução adotada: foi escolhido os ativos AUDUSD (Forex) e WINM19 (BM&FBovespa), para o período de 01/05/2019 até 31/05/2019, latência aleatória para cada tick, saldo de $ 10.000 e usando as configurações de parâmetros já constantes no
+     projeto. Tirando o problema com o invalid stop, todos os ajustes necessários foram realizados e constarão na versão 1.03.
+     Solução adotada: o EA está funcionando corretamente em todas as contas abertas. Agora é testar o EA com símbolos diferentes e mercados diferentes, e realizar as devidas adaptações.
+
+#7 - Entrada errada no início do pregão
+     O EA se baseia nos sinais da MA simples de 20 períodos do indicador Tabajara. Ocorre que na abertura do pregão quase sempre temos um gap que gera um sinal errado de compra/venda para o EA, assim gerando um grande prejuízo nas
+     primeiras horas do dia. É necessário esperar a formação de algumas barras para se determinar com mais clareza a tendência ou oscilação do mercado.
+     A ideia é criar um mecanismo que consiga operar nessas primeiras horas do pregão, evite que o EA se baseie nos sinais do indicador Tabajara, até obter um número razoável de barras (entre 6 e 24 barras).
+     Solução adotada: a estrutura de confirmação de sinal com NRTR, o uso do stop móvel usando o mesmo indicado, e a adoção do cruzamento de MA exponencial de 5 e 20 períodos reduziu os problemas com entradas contrárias a tendência.
+
+#17 - Delay de acordo com o status do ping do terminal
+      Usar as informações contidas nesta página do manual ("https://www.mql5.com/pt/docs/constants/environment_state/terminalstatus") para poder gerar o delay entre as negociações de acordo com o delay do terminal com o servidor de
+      negocição da corretora. Assim, o delay fica de acordo com a qualidade da rede a qual o terminal está conectado.
+      Solução adotada: com a adoção de cruzamento de MA como estratégia de negociação, não há necessidade de grandes preocupações com conectividade. Além disso será implementado um conjunto de verificações para garantir o EA operar em uma
+      infraestrutura estável, evitando assim perdas financeiras.
+
+#21 - Exibir detalhes da conta ao carregar
+      Exibir todos os detalhes da conta ao carregar o EA. Usar o código já pronto no script SInfoemacoesConta.
+      
+#22 - Estudo de gerenciamento financeiro
+      Implementar as dicas úteis contidas no artigo "https://www.mql5.com/pt/articles/113". A parte de verificação de saldo disponível para abrir a ordem é extremamente importante, e precisa estar na rotina que realiza a abertura de novas
+      posições.
+      Solução adotada: incluído uma verificação de margem livre antes da abertura de novas posições, conforme orientado no artigo.           
+
+#28 - Incluir novamente controle de prejuízo máximo
+      Para evitar acabar com toda a margem disponível, voltar com o parâmetro para estabelecer o prejuízo máximo permitido para as posições abertas. Tentar determinar quão distante a posição se encontra do seu stop loss: se estiver muito
+      distante, fecha logo as posições; caso esteja próximo, deixar alcançar o stop loss. Esse controle só deve ser acionado quando os sinais de tendência indicarem que a posição realmente está contrária a tendência, e não há sinais de 
+      imediatos de reversão da tendência.
+      Solução adotada: não há necessidade, pois o stop móvel está funcionando adequadamente, e no futuro será implementado mais proteções contra perdas financeiras.
+
+#31 - Implementar o sinal de confirmação
+      Usando as ideias do artigo "https://www.mql5.com/pt/articles/136", usar o ADX e médias móveis para obter os sinais de confirmação da tendência para abertura de novas posições.
+      Solução adotada: será usado a confirmação de 3 médias móveis. 
+      
+#32 - Não deixar o stop loss vazio
+      Após realizar backtesting com o EA identificou que caso uma posição seja aberta em período de grande agressividade do mercado, pode ocorrer grandes perdas financeiras por conta da auseência de um stop loss. Ver uma rotina que insira
+      um ponto de parada para as posições abertas, mesmo que o parâmetro seja setado como zero. Caso o cálculo do stop loss seja automatizado, remover o parâmetro, e também o take profit, que ultimamente está sendo pouco usado.
+      Uma alternativa viável é definir o valor da média móvel de 20 ou 50 períodos para a ordem que não tiver stop loss. Identificar quais das duas médias é a menor e atribuir para a ordem.
+      Uma segunda alternativa é verificar a perda financeira para as posições sem stop loss. Com o timer posso analisar minuto a minuto as condições da posição, e encerrá-la se ela não for mais favorável. Para esta estratégia preciso de
+      um indicador que me diga a pressão de compra/venda do mercado para sinalizar uma possível saída da posição.      
+      Solução adotada: foi substituído o sinal de confirmação de média móvel para os sinais de tendência do NRTR. Os problemas com o stop loss zerado foram minimizados consideravelmente.      
+
+v1.04:
+Liberação: 13/06/2019
+
+#29 - Mercado a operar
+      Remover a definição de horário de operação, e mudar para um parâmetro que defina qual mercado o EA está operando. Mercado BM&FBovespa o horário padrão é de 10h às 17h. Para o mercado Forex, o horário padrão é 01h de segunda até 23h 
+      de sexta. Estas definições são para poder aproveitar ao máximo o período aberto dos pregões.      
+      
+#30 - Obter o tipo de preenchimento do símbolo
+      Cada símbolo possui seu tipo de preenchimento (tudo/nada, retornar, tudo/parcial). Remover esse parâmetro do EA e obter esta informação direto do símbolo que o EA está trabalhando.        
+
+v1.03:
+Liberação: 09/06/2019
+
+#5 - Corrigir problema com invalid stops
+     Para corrigir os erros de invalid stop, estudar a fundo este artigo: "https://www.mql5.com/pt/articles/2555". Neste artigo há dicas valiosas de verificação do ativo antes de permitir operar com o mesmo. Estas verificações complementam
+     as verificações da conta.
+     Solução adotada: foi usado a minha classe HTrailingStop que já faz algumas verificações citadas no artigo
+
+#8 - Separar as lógicas de nova abertura, trailing stop e checagem de prejuízo
+     Atualmente as lógicas para abertura de novas posições, efetuar o trailing stop, e a verificação do prejuízo acumulado estão todas misturadas dentro do mesmo if no método OnTick(). Separar essas lógicas de modo que as três possam
+     trabalhar de forma harmônica, sem poluir muito o código.
+     
+#9 - Separar a lógica de nova abertura de posições
+     Baseado nas informações da tarefa #8, colocar a lógica de abertura de posições (verificação de barra, sinal a confirmar) a parte.
+     Solução adotada: a lógica de negociação encontra-se no meu próprio método, não poluindo o método OnTick().
+
+#10 - Separar a lógica de trailing stop
+      Baseado nas informações da tarefa #8, colocar a lógica de trailing stop separada do método OnTick().
+      Solução adotada: foi usada a minha classe HTrailingStop, e o NRTR para realizar o stop móvel.
+
+#11 - Separar a lógica de cálculo de lucro/prejuízo
+      Baseado nas informações da tarefa #8, colocar a lógica de verificação de lucro/prejuízo separado do método OnTick().
+      Solução adotada: a lógica do cálculo do lucro foi desmembrada e foi incluído no método OnTimer() uma notificação do lucro obtido com todas as posições abertas. Em momento posterior será criado uma lógica para determinar o prejuízo
+      máximo, junto com uma medida preventiva para evitar estouro da margem.
+      
+#12 - Estudo de artigo
+      Estudar o artigo "https://www.mql5.com/pt/articles/2555" para poder fazer as verificações necessárias ao realizar um trailing stop.      
+      Solução adotada: foi usada minha classe HTrailingStop.      
+
+#16 - Envio de notificações via push
+      Usar o recurso de notificação via push descrito na seguinte página do manual: "https://www.mql5.com/pt/docs/network/sendnotification". Realizar a notificação push somente de itens que são realmente importantes, como lucro e prejuízo
+      máximos atingidos. As informações mais importantes para enviar via push são informações sobre o saldo da conta quando uma posição aberta está preste a zerá-la.
+
+#18 - Reduzir as mensagens de log
+      Reduzir o número de mensagens que vai para o log do terminal e também para o log do EA. Os logs que são incluídos no código são interessantes em ambiente de desenvolvimento e testes, mas nem um pouco úteis em ambiente de produção.
+      Tentar criar um método onde centralize todas as mensagens do código, e só exiba se o EA estiver em modo debugger.
+      Solução adotada: a exibição das mensagens do EA foram redirecionadas para um método que mostra somente quando o terminal está em modo de teste e debug.
+      
+#19 - Estratégia Tendência MA Longa com rompimento
+      Implementar a seguinte estratégia: quando se estiver usando a tendência da MA longa com 15 períodos simples, criar um ponto de saída para as posições lucrativas. Assim que o método para obtenção de sinal é chamado, verifica-se se a
+      posição aberta está gerando lucro. Caso esteja, verifica se o close da barra atual é menor que a MA (tendência de alta reverteu) ou é maior que MA (tendência de baixa reverteu). Ao identificar esse rompimento (a MA está servindo de
+      linha de suporte/resistência), a posição lucrativa atualmente aberta é fechada, para preservar o lucro obtido até aquele momento, mesmo havendo take profit, stop loss e stop móvel em operação.
+      Solução adotada: parametrizar o período e o tipo de suavização da MA para poder trabalhar melhor com o rompimento. Foi parametrizado também o fechamento quando o rompimento ocorrer.      
+      
+#20 - Reimplementar a classe para trailing stop
+      Reimplementar a classe para stop móvel de acordo com o artigo "https://www.mql5.com/pt/articles/134". Desta vez esta classe ficará vinculada ao EA, não sendo compartilhada para outros EAs, e também sem os recursos para trabalhar com
+      objetos nos gráficos.      
+      Solução adotada: a classe já estava pronta, só precisei usar.      
+      
+#23 - Implementar o sinal de negociação baseado no indicador Tabajara
+      Detalhes de como obter os sinais do indicador, olhar no código fonte do mesmo. O indicador foi implementado por outro desenvolvedor, portanto não posso mudar o nome do arquivo e nem mexer nos créditos. O indicador encontra-se na
+      pasta Indicators\Downloads      
+      
+#24 - Revisar os parâmetros do EA
+      Dar uma revisada nos parâmetros do EA para evitar ter uma lista muito extensa de configuração.      
+      Solução adotada: somente os parâmetros que são classificados como definitivos estão indo para o set de configurações do EA. Um comentário foi incluído no código para marcar o trecho dos parâmetros defitividos.      
+      
+#25 - Notificar quando não houver mais margem livre
+      Notificar via PUSH (obrigatoriamente) a falta de margem para operar. Útil quando se estiver operando com mais de um gráfico e com um lote alto.      
+
+v1.02:
+Liberação: 02/06/2019
+
+#6 - Operar em mais de um gráfico
+     Testar e validar a execução do EA em mais de um gráfico, fazendo todos os ajustes necessários para não haver equívocos no fechamento das ordens.     
+     
+#14 - Introduzir delay entre negociações
+      Introduzir um delay entre os envios de ordem de compra e venda, a fim de diminuir a possibilidade de abertura de uma posição sem antes a anterior ter sido fechada.     
+      
+#15 - Dupla verificação ao abrir novas ordens
+      Ao solicitar o fechamento das posições, verificar depois de um certo delay se ainda existe posições abertas. Pode ter ocorrido um erro na operação anterior e se não for verificado uma nova ordem é aberta sem necessidade.      
+
+v1.01:
+Liberação: 28/05/2019
+
+#1 - Parametrizar o timeframe do método temNovaBarra()
+     Atualmente o método está com um timeframe fixo de M1. Parametrizar este timeframes de modo a poder escolher um mais adequado para o gráfico selecionado.
+     Colocar o enum de períodos para o usuário poder selecionar.
+     
+#2 - Encapsulamento de estratégias
+     Encapsular a lógica contida no método sinalNegociacao() em um método em particular, ou até mesmo em uma classe no arquivo HStrategy, e também implementar os sinais de mudança de tendência da MA longa e encapsular em HStrategy. Incluir
+     um parâmetro no EA para poder escolher qual estratégia será usada para aquele ativo.     
+     
+#3 - Obter dinamicamente o tipo de preenchimento da ordem
+     Na Bovespa BM&F e no servidor Forex da MetaQuote o ORDER_FILLING_FOK funciona sem problemas. Já na XM, Pepperstore e ICMarkets só aceita o ORDER_FILLING_IOC. Tentar detectar automaticamente o tipo de preenchimento para evitar criar
+     mais um parâmetro no EA.
+     Solução adotada: incluir um novo parâmetro, pois a mensagem de erro é registrada direto no diário de log do terminal pois é um erro de execução enviado pelo servidor, e não pelo terminal. Para pegar detalhes sobre esse erro preciso
+                      abrir o diário e ver qual foi a última mensagem de falha. É impraticável quando tem vários EAs rodando em gráficos diferentes.     
